@@ -6,6 +6,7 @@ import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.Employee;
 import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.domain.repository.EmployeeRepository;
+import softuni.aggregator.service.api.EmployeeService;
 import softuni.aggregator.utils.excelreader.ExcelReader;
 import softuni.aggregator.utils.excelreader.model.EmployeesExcelDto;
 import softuni.aggregator.utils.excelreader.readers.EmployeesExcelReader;

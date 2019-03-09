@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "minor_industries")
-public class MinorIndustry extends BaseEntity{
+public class MinorIndustry extends BaseEntity {
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;

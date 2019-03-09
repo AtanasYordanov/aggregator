@@ -8,6 +8,7 @@ import softuni.aggregator.domain.entities.MinorIndustry;
 import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.domain.repository.MajorIndustryRepository;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
+import softuni.aggregator.service.api.CompanyService;
 import softuni.aggregator.utils.excelreader.ExcelReader;
 import softuni.aggregator.utils.excelreader.model.OrbisCompanyDto;
 import softuni.aggregator.utils.excelreader.readers.OrbisExcelReader;

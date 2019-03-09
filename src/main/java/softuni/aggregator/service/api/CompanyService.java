@@ -1,4 +1,4 @@
-package softuni.aggregator.service;
+package softuni.aggregator.service.api;
 
 public interface CompanyService {
 
