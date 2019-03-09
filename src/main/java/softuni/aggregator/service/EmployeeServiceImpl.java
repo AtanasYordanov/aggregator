@@ -32,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void saveEmployeesFromExcel() {
         ExcelReader reader = new EmployeesExcelReader();
 
-        String excelFilePath = "D:\\SoftUni\\#Java Web\\Spring Framework\\Project\\aggregator\\src\\main\\resources\\static\\Employees sample.xlsx";
+        String excelFilePath = "src\\main\\resources\\static\\Employees sample.xlsx";
 
         List<EmployeesExcelDto> data = reader.readExcel(excelFilePath);
         List<Employee> employees = new ArrayList<>();

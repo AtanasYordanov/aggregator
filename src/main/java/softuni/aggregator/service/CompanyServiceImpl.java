@@ -40,7 +40,7 @@ public class CompanyServiceImpl implements CompanyService {
     public void saveCompanyFromXing() {
         ExcelReader reader = new XingExcelReader();
 
-        String excelFilePath = "D:\\SoftUni\\#Java Web\\Spring Framework\\Project\\apache-poi-test\\src\\main\\resources\\XING sample.xlsx";
+        String excelFilePath = "src\\main\\resources\\static\\XING sample.xlsx";
 
         List<XingCompanyDto> data = reader.readExcel(excelFilePath);
         List<Company> companies = new ArrayList<>();
@@ -63,7 +63,7 @@ public class CompanyServiceImpl implements CompanyService {
     public void saveCompanyFromOrbis() {
         ExcelReader reader = new OrbisExcelReader();
 
-        String excelFilePath = "D:\\SoftUni\\#Java Web\\Spring Framework\\Project\\aggregator\\src\\main\\resources\\static\\ORBIS sample.xlsx";
+        String excelFilePath = "src\\main\\resources\\static\\ORBIS sample.xlsx";
 
         List<OrbisCompanyDto> data = reader.readExcel(excelFilePath);
         System.out.println();
