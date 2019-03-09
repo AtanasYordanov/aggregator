@@ -21,8 +21,8 @@ public class Tester {
 
     @PostConstruct
     public void init() {
-//        companyService.saveCompanyFromXing();
+        companyService.saveCompanyFromXing();
         companyService.saveCompanyFromOrbis();
-//        employeeService.saveEmployeesFromExcel();
+        employeeService.saveEmployeesFromExcel();
     }
 }

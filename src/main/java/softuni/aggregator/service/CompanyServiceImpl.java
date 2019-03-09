@@ -30,7 +30,8 @@ public class CompanyServiceImpl implements CompanyService {
     private final MajorIndustryRepository majorIndustryRepository;
 
     @Autowired
-    public CompanyServiceImpl(CompanyRepository companyRepository, MinorIndustryRepository minorIndustryRepository, MajorIndustryRepository majorIndustryRepository) {
+    public CompanyServiceImpl(CompanyRepository companyRepository, MinorIndustryRepository minorIndustryRepository,
+                              MajorIndustryRepository majorIndustryRepository) {
         this.companyRepository = companyRepository;
         this.minorIndustryRepository = minorIndustryRepository;
         this.majorIndustryRepository = majorIndustryRepository;
@@ -70,7 +71,8 @@ public class CompanyServiceImpl implements CompanyService {
         System.out.println();
     }
 
-    private void setProperties(XingCompanyDto companyDto, Company company, Map<String, MajorIndustry> majorIndustryMap, Map<String, MinorIndustry> minorIndustryMap) {
+    private void setProperties(XingCompanyDto companyDto, Company company, Map<String,
+            MajorIndustry> majorIndustryMap, Map<String, MinorIndustry> minorIndustryMap) {
         company.setName(companyDto.getName());
         company.setWebsite(companyDto.getWebsite());
         company.setEmployeesRange(companyDto.getEmployeesRange());

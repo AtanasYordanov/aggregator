@@ -17,7 +17,7 @@ public class Company extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "website")
+    @Column(name = "website", unique = true)
     private String website;
 
     @Column(name = "employees_range")
@@ -38,10 +38,10 @@ public class Company extends BaseEntity {
     @Column(name = "company_phone")
     private String companyPhone;
 
-    @Column(name = "fax")
+    @Column(name = "fax", unique = true)
     private String fax;
 
-    @Column(name = "company_email")
+    @Column(name = "company_email", unique = true)
     private String companyEmail;
 
     @Column(name = "company_profile_link")
