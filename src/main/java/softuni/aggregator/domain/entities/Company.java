@@ -20,38 +20,8 @@ public class Company extends BaseEntity {
     @Column(name = "website", unique = true)
     private String website;
 
-    @Column(name = "employees_range")
-    private String employeesRange;
-
-    @Column(name = "street")
-    private String street;
-
-    @Column(name = "postcode")
-    private Integer postcode;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "company_phone")
-    private String companyPhone;
-
-    @Column(name = "fax", unique = true)
-    private String fax;
-
     @Column(name = "company_email", unique = true)
     private String companyEmail;
-
-    @Column(name = "company_profile_link")
-    private String companyProfileLink;
-
-    @Column(name = "year_found")
-    private Integer yearFound;
-
-    @Column(name = "information", columnDefinition = "text")
-    private String information;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "industry_id", referencedColumnName = "id")
@@ -59,4 +29,8 @@ public class Company extends BaseEntity {
 
     @OneToMany(mappedBy = "company")
     private List<Employee> employees;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "company_details", referencedColumnName = "id")
+    private CompanyDetails companyDetails;
 }

@@ -10,7 +10,7 @@ public class OrbisCompanyDto extends BaseExcelDto {
     private String name;
     private String website;
     private String VATNumber;
-    private String BVDIdNumber;
+    private String BvDIdNumber;
     private String ISOCountryCode;
     private String naceRevMainSection;
     private String naceRevCoreCode;

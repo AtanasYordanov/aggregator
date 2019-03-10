@@ -9,7 +9,7 @@ public enum OrbisColumn implements ExcelColumn<OrbisCompanyDto> {
     COMPANY_NAME(OrbisCompanyDto::setName),
     WEBSITE(OrbisCompanyDto::setWebsite),
     VAT_NUMBER(OrbisCompanyDto::setVATNumber),
-    BVD_ID_NUMBER(OrbisCompanyDto::setBVDIdNumber),
+    BVD_ID_NUMBER(OrbisCompanyDto::setBvDIdNumber),
     ISO_COUNTRY_CODE(OrbisCompanyDto::setISOCountryCode),
     NACE_REV_MAIN_SECTION(OrbisCompanyDto::setNaceRevMainSection),
     NACE_REV_CORE_CODE(OrbisCompanyDto::setNaceRevCoreCode),
