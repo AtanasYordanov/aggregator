@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import softuni.aggregator.utils.excelreader.columns.ExcelColumn;
 import softuni.aggregator.utils.excelreader.model.BaseExcelDto;
-import softuni.aggregator.utils.excelreader.model.EmployeesExcelDto;
+import softuni.aggregator.utils.excelreader.model.EmployeeExcelDto;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -19,7 +19,7 @@ public abstract class BaseExcelReader<T extends BaseExcelDto> implements ExcelRe
         Iterator<Cell> cellIterator = row.cellIterator();
         while (cellIterator.hasNext()) {
             Cell cell = cellIterator.next();
-            ExcelColumn<EmployeesExcelDto> column = columns.get(cell.getColumnIndex());
+            ExcelColumn<EmployeeExcelDto> column = columns.get(cell.getColumnIndex());
             if (column == null) {
                 log.warning(String.format("Unexpected column index: %s", cell.getColumnIndex()));
                 continue;

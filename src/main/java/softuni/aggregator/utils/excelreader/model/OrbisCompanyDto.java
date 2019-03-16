@@ -5,10 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrbisCompanyDto extends BaseExcelDto {
+public class OrbisCompanyDto extends CompanyExcelDto {
 
-    private String name;
-    private String website;
     private String VATNumber;
     private String BvDIdNumber;
     private String ISOCountryCode;
@@ -18,11 +16,6 @@ public class OrbisCompanyDto extends BaseExcelDto {
     private String operatingIncome;
     private String employeesCount;
     private String address;
-    private String postcode;
-    private String location;
-    private String country;
-    private String phoneNumber;
-    private String companyEmail;
     private String jobDescription;
     private String standardizedLegalForm;
     private String managersCount;

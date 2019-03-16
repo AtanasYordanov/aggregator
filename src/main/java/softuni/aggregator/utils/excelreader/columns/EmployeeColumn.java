@@ -1,25 +1,25 @@
 package softuni.aggregator.utils.excelreader.columns;
 
-import softuni.aggregator.utils.excelreader.model.EmployeesExcelDto;
+import softuni.aggregator.utils.excelreader.model.EmployeeExcelDto;
 
 import java.util.function.BiConsumer;
 
-public enum EmployeeColumn implements ExcelColumn<EmployeesExcelDto> {
+public enum EmployeeColumn implements ExcelColumn<EmployeeExcelDto> {
 
-    COMPANY_NAME(EmployeesExcelDto::setCompanyName),
-    FULL_NAME(EmployeesExcelDto::setFullName),
-    POSITION(EmployeesExcelDto::setPosition),
-    EMAIL(EmployeesExcelDto::setEmail),
-    HUNTER_IO_SCORE(EmployeesExcelDto::setHunterIoScore);
+    COMPANY_NAME(EmployeeExcelDto::setCompanyName),
+    FULL_NAME(EmployeeExcelDto::setFullName),
+    POSITION(EmployeeExcelDto::setPosition),
+    EMAIL(EmployeeExcelDto::setEmail),
+    HUNTER_IO_SCORE(EmployeeExcelDto::setHunterIoScore);
 
-    EmployeeColumn(BiConsumer<EmployeesExcelDto, String> setter) {
+    EmployeeColumn(BiConsumer<EmployeeExcelDto, String> setter) {
         this.setter = setter;
     }
 
-    private BiConsumer<EmployeesExcelDto, String> setter;
+    private BiConsumer<EmployeeExcelDto, String> setter;
 
     @Override
-    public BiConsumer<EmployeesExcelDto, String> getSetter() {
+    public BiConsumer<EmployeeExcelDto, String> getSetter() {
         return setter;
     }
 }

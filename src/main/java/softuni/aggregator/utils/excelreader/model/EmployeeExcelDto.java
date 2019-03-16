@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmployeesExcelDto extends BaseExcelDto {
+public class EmployeeExcelDto extends BaseExcelDto {
 
     private String companyName;
     private String fullName;

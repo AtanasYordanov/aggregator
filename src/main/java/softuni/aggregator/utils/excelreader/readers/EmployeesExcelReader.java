@@ -7,7 +7,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import softuni.aggregator.utils.excelreader.BaseExcelReader;
 import softuni.aggregator.utils.excelreader.columns.EmployeeColumn;
-import softuni.aggregator.utils.excelreader.model.EmployeesExcelDto;
+import softuni.aggregator.utils.excelreader.model.EmployeeExcelDto;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,10 +16,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Log
-public class EmployeesExcelReader extends BaseExcelReader<EmployeesExcelDto> {
+public class EmployeesExcelReader extends BaseExcelReader<EmployeeExcelDto> {
 
     @Override
-    public List<EmployeesExcelDto> readExcel(String path) {
+    public List<EmployeeExcelDto> readExcel(String path) {
         try (FileInputStream inputStream = new FileInputStream(new File(path));
              Workbook workbook = new XSSFWorkbook(inputStream)) {
 
@@ -28,13 +28,13 @@ public class EmployeesExcelReader extends BaseExcelReader<EmployeesExcelDto> {
             Map<Integer, EmployeeColumn> columns = Arrays.stream(EmployeeColumn.values())
                     .collect(Collectors.toMap(Enum::ordinal, e -> e));
 
-            List<EmployeesExcelDto> employees = new ArrayList<>();
+            List<EmployeeExcelDto> employees = new ArrayList<>();
 
             for (Row row : sheet) {
                 if (row.getRowNum() == 0) {
                     continue;
                 }
-                EmployeesExcelDto employee = new EmployeesExcelDto();
+                EmployeeExcelDto employee = new EmployeeExcelDto();
 
                 parseRow(row, employee, columns);
                 if (employee.getEmail() != null && !employee.getEmail().isBlank()) {
