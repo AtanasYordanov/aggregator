@@ -28,4 +28,28 @@ public class Employee extends BaseEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     private Company company;
+
+    public void setFullName(String fullName) {
+        if (fullName != null) {
+            this.fullName = fullName;
+        }
+    }
+
+    public void setPosition(String position) {
+        if (position != null) {
+            this.position = position;
+        }
+    }
+
+    public void setEmail(String email) {
+        if (email != null) {
+            this.email = email;
+        }
+    }
+
+    public void setHunterIoScore(Integer hunterIoScore) {
+        if (hunterIoScore != null) {
+            this.hunterIoScore = hunterIoScore;
+        }
+    }
 }

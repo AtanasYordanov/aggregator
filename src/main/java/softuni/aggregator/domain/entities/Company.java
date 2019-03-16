@@ -38,11 +38,33 @@ public class Company extends BaseEntity {
         companyEmails = new ArrayList<>();
     }
 
-    public void addEmail(String email) {
-        companyEmails.add(email);
+    public void setName(String name) {
+        if (name != null) {
+            this.name = name;
+        }
     }
 
-    public boolean containsEmail(String email) {
+    public void setWebsite(String website) {
+        if (website != null) {
+            this.website = website;
+        }
+    }
+
+    public void setIndustry(MinorIndustry industry) {
+        if (industry != null) {
+            this.industry = industry;
+        }
+    }
+
+    public void addEmail(String email) {
+        if (!containsEmail(email)) {
+            if (email != null) {
+                companyEmails.add(email);
+            }
+        }
+    }
+
+    private boolean containsEmail(String email) {
         for (String companyEmail : companyEmails) {
             if (companyEmail.equals(email)) {
                 return true;

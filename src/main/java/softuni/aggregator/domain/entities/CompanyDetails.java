@@ -90,4 +90,148 @@ public class CompanyDetails extends BaseEntity {
 
     @OneToOne(mappedBy = "companyDetails")
     private Company company;
+
+    public void setEmployeesRange(String employeesRange) {
+        if (employeesRange != null) {
+            this.employeesRange = employeesRange;
+        }
+    }
+
+    public void setStreet(String street) {
+        if (street != null) {
+            this.street = street;
+        }
+    }
+
+    public void setPostcode(Integer postcode) {
+        if (postcode != null) {
+            this.postcode = postcode;
+        }
+    }
+
+    public void setCountry(String country) {
+        if (country != null) {
+            this.country = country;
+        }
+    }
+
+    public void setCity(String city) {
+        if (city != null) {
+            this.city = city;
+        }
+    }
+
+    public void setCompanyPhone(String companyPhone) {
+        if (companyPhone != null) {
+            this.companyPhone = companyPhone;
+        }
+    }
+
+    public void setFax(String fax) {
+        if (fax != null) {
+            this.fax = fax;
+        }
+    }
+
+    public void setCompanyProfileLink(String companyProfileLink) {
+        if (companyProfileLink != null) {
+            this.companyProfileLink = companyProfileLink;
+        }
+    }
+
+    public void setYearFound(Integer yearFound) {
+        if (yearFound != null) {
+            this.yearFound = yearFound;
+        }
+    }
+
+    public void setInformation(String information) {
+        if (information != null) {
+            this.information = information;
+        }
+    }
+
+    public void setVATNumber(String VATNumber) {
+        if (VATNumber != null) {
+            this.VATNumber = VATNumber;
+        }
+    }
+
+    public void setBvDIdNumber(String bvDIdNumber) {
+        if (bvDIdNumber != null) {
+            this.BvDIdNumber = bvDIdNumber;
+        }
+    }
+
+    public void setISOCountryCode(String ISOCountryCode) {
+        if (ISOCountryCode != null) {
+            this.ISOCountryCode = ISOCountryCode;
+        }
+    }
+
+    public void setNaceRevMainSection(String naceRevMainSection) {
+        if (naceRevMainSection != null) {
+            this.naceRevMainSection = naceRevMainSection;
+        }
+    }
+
+    public void setNaceRevCoreCode(Integer naceRevCoreCode) {
+        if (naceRevCoreCode != null) {
+            this.naceRevCoreCode = naceRevCoreCode;
+        }
+    }
+
+    public void setConsolidationCode(String consolidationCode) {
+        if (consolidationCode != null) {
+            this.consolidationCode = consolidationCode;
+        }
+    }
+
+    public void setOperatingIncome(String operatingIncome) {
+        if (operatingIncome != null) {
+            this.operatingIncome = operatingIncome;
+        }
+    }
+
+    public void setEmployeesCount(Integer employeesCount) {
+        if (employeesCount != null) {
+            this.employeesCount = employeesCount;
+        }
+    }
+
+    public void setAddress(String address) {
+        if (address != null) {
+            this.address = address;
+        }
+    }
+
+    public void setJobDescription(String jobDescription) {
+        if (jobDescription != null) {
+            this.jobDescription = jobDescription;
+        }
+    }
+
+    public void setStandardizedLegalForm(String standardizedLegalForm) {
+        if (standardizedLegalForm != null) {
+            this.standardizedLegalForm = standardizedLegalForm;
+        }
+    }
+
+    public void setManagersCount(Integer managersCount) {
+        if (managersCount != null) {
+            this.managersCount = managersCount;
+        }
+    }
+
+    public void setCorporationCompaniesCount(Integer corporationCompaniesCount) {
+        if (corporationCompaniesCount != null) {
+            this.corporationCompaniesCount = corporationCompaniesCount;
+        }
+    }
+
+    public void setSubsidiariesCount(Integer subsidiariesCount) {
+        if (subsidiariesCount != null) {
+            this.subsidiariesCount = subsidiariesCount;
+        }
+    }
 }

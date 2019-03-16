@@ -53,11 +53,11 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         Map<String, MinorIndustry> minorIndustriesMap = minorIndustryRepository.findAll().stream()
                 .collect(Collectors.toMap(MinorIndustry::getName, i -> i));
 
-        List<String> companyWebistes = data.stream()
+        List<String> companyWebsites = data.stream()
                 .map(XingCompanyDto::getWebsite)
                 .collect(Collectors.toList());
 
-        Map<String, Company> companies = getCompaniesMap(companyWebistes);
+        Map<String, Company> companies = getCompaniesMap(companyWebsites);
 
         for (XingCompanyDto companyDto : data) {
             Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
@@ -170,10 +170,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     }
 
     private void setCommonCompanyProperties(Company company, CompanyDetails companyDetails, CompanyExcelDto companyDto) {
-        if (companyDto.getCompanyEmail() != null && !company.containsEmail(companyDto.getCompanyEmail())) {
-            company.addEmail(companyDto.getCompanyEmail());
-        }
-
+        company.addEmail(companyDto.getCompanyEmail());
         company.setName(companyDto.getName());
         company.setWebsite(companyDto.getWebsite());
         companyDetails.setPostcode(getPropertyValueAsInteger(companyDto.getPostcode()));
@@ -183,8 +180,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     }
 
     private void setEmployeeProperties(EmployeeExcelDto employeeDto, Employee employee) {
-        Company company = companyRepository.findByName(employeeDto.getCompanyName())
-                .orElse(null);
+        Company company = companyRepository.findByName(employeeDto.getCompanyName()).orElse(null);
 
         employee.setCompany(company);
         employee.setEmail(employeeDto.getEmail());
