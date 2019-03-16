@@ -18,6 +18,7 @@ import softuni.aggregator.utils.excelreader.model.XingCompanyDto;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -45,13 +46,13 @@ public class CompanyServiceImpl implements CompanyService {
         List<XingCompanyDto> data = reader.readExcel(excelFilePath);
         Map<String, Company> companies = new HashMap<>();
 
-        Map<String, MajorIndustry> majorIndustryMap = new HashMap<>();
-        Map<String, MinorIndustry> minorIndustryMap = new HashMap<>();
+        Map<String, MajorIndustry> majorIndustriesMap = new HashMap<>();
+        Map<String, MinorIndustry> minorIndustriesMap = new HashMap<>();
 
         for (XingCompanyDto companyDto : data) {
             Company company = companyRepository.findByWebsite(companyDto.getWebsite())
                     .orElse(new Company());
-            setProperties(companyDto, company, majorIndustryMap, minorIndustryMap);
+            setProperties(companyDto, company, majorIndustriesMap, minorIndustriesMap);
             companies.putIfAbsent(company.getWebsite(), company);
         }
 
@@ -66,11 +67,17 @@ public class CompanyServiceImpl implements CompanyService {
         String excelFilePath = "src\\main\\resources\\static\\ORBIS sample.xlsx";
 
         List<OrbisCompanyDto> data = reader.readExcel(excelFilePath);
-        Map<String, Company> companies = new LinkedHashMap<>();
+
+        List<String> companyWebistes = data.stream()
+                .map(OrbisCompanyDto::getWebsite)
+                .collect(Collectors.toList());
+
+        Map<String, Company> companies = companyRepository.findAllByWebsiteIn(companyWebistes)
+                .stream()
+                .collect(Collectors.toMap(Company::getWebsite, c -> c));
 
         for (OrbisCompanyDto companyDto : data) {
-            Company company = companyRepository.findByWebsite(companyDto.getWebsite())
-                    .orElse(new Company());
+            Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
             setProperties(companyDto, company);
             companies.putIfAbsent(company.getWebsite(), company);
         }

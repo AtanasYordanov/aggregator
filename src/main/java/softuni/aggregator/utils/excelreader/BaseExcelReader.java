@@ -14,12 +14,6 @@ import java.util.Map;
 @Log
 public abstract class BaseExcelReader<T extends BaseExcelDto> implements ExcelReader<T> {
 
-    protected String getCellValueAsString(Cell cell) {
-        return cell.getCellType() == CellType.NUMERIC
-                ? String.valueOf(cell.getNumericCellValue())
-                : cell.getStringCellValue();
-    }
-
     @SuppressWarnings("unchecked")
     protected void parseRow(Row row, BaseExcelDto employee, Map<Integer, ? extends ExcelColumn> columns) {
         Iterator<Cell> cellIterator = row.cellIterator();
@@ -32,5 +26,11 @@ public abstract class BaseExcelReader<T extends BaseExcelDto> implements ExcelRe
             }
             employee.setProperty(column, getCellValueAsString(cell));
         }
+    }
+
+    private String getCellValueAsString(Cell cell) {
+        return cell.getCellType() == CellType.NUMERIC
+                ? String.valueOf(cell.getNumericCellValue())
+                : cell.getStringCellValue();
     }
 }

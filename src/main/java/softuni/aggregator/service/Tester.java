@@ -21,8 +21,17 @@ public class Tester {
 
     @PostConstruct
     public void init() {
+        long start = System.currentTimeMillis();
         companyService.saveCompanyFromXing();
+        long end = System.currentTimeMillis();
+        System.out.println("Xing: " + (end - start));
+        start = System.currentTimeMillis();
         companyService.saveCompanyFromOrbis();
+        end = System.currentTimeMillis();
+        System.out.println("Orbis: " + (end - start));
+        start = System.currentTimeMillis();
         employeeService.saveEmployeesFromExcel();
+        end = System.currentTimeMillis();
+        System.out.println("Employees: " + (end - start));
     }
 }
