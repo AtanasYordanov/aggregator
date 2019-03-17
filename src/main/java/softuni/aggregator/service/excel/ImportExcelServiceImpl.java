@@ -75,8 +75,10 @@ public class ImportExcelServiceImpl implements ImportExcelService {
 
         for (XingCompanyDto companyDto : data) {
             Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
-            setXingCompanyProperties(company, companyDto, majorIndustriesMap, minorIndustriesMap);
-            companies.putIfAbsent(company.getWebsite(), company);
+            if (company.getWebsite() != null && !company.getWebsite().isBlank()) {
+                setXingCompanyProperties(company, companyDto, majorIndustriesMap, minorIndustriesMap);
+                companies.putIfAbsent(company.getWebsite(), company);
+            }
         }
 
         companyRepository.saveAll(companies.values());
@@ -97,8 +99,10 @@ public class ImportExcelServiceImpl implements ImportExcelService {
 
         for (OrbisCompanyDto companyDto : data) {
             Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
-            setOrbisCompanyProperties(company, companyDto);
-            companies.putIfAbsent(company.getWebsite(), company);
+            if (company.getWebsite() != null && !company.getWebsite().isBlank()) {
+                setOrbisCompanyProperties(company, companyDto);
+                companies.putIfAbsent(company.getWebsite(), company);
+            }
         }
         companyRepository.saveAll(companies.values());
         log.info(String.format("Successfully imported %s companies from Orbis.", companies.size()));

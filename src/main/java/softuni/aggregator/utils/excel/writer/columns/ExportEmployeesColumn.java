@@ -15,7 +15,7 @@ public enum ExportEmployeesColumn implements WriteExcelColumn<WriteEmployeesExce
     private String columnName;
     private Function<WriteEmployeesExcelDto, ?> getter;
 
-    ExportEmployeesColumn(String columnName, Function<WriteEmployeesExcelDto, ?>  getter) {
+    ExportEmployeesColumn(String columnName, Function<WriteEmployeesExcelDto, ?> getter) {
         this.columnName = columnName;
         this.getter = getter;
     }

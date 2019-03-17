@@ -1,12 +1,18 @@
 package softuni.aggregator.web.controller;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 import softuni.aggregator.service.excel.ExportExcelService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Log
 @Controller
 @RequestMapping("/export")
 public class ExportExcelController {
@@ -18,10 +24,9 @@ public class ExportExcelController {
         this.exportExcelService = exportExcelService;
     }
 
-    @GetMapping
-    public ModelAndView exportEmployees(ModelAndView model) {
-        exportExcelService.exportEmployees();
-        model.setViewName("redirect:/");
-        return model;
+    @GetMapping(produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody
+    byte[] exportEmployees(HttpServletResponse response) throws IOException {
+        return exportExcelService.exportEmployees(response);
     }
 }
