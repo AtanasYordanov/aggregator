@@ -1,6 +1,5 @@
 package softuni.aggregator.web.controller;
 
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,6 @@ import softuni.aggregator.service.api.ExportExcelService;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Log
 @Controller
 @RequestMapping("/export")
 public class ExportExcelController {

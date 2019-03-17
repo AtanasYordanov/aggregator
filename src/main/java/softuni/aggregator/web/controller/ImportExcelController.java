@@ -22,36 +22,36 @@ public class ImportExcelController {
     }
 
     @PostMapping("/xing")
-    public ModelAndView uploadXingFile(ModelAndView model,
-                                       @RequestParam("file") MultipartFile file) {
+    public ModelAndView importXingFile(ModelAndView model,
+                                                 @RequestParam("file") MultipartFile file) {
 
         PerformanceUtils.logExecutionTime(() -> {
             importExcelService.importCompaniesFromXing(file);
-        }, "XING upload");
+        }, "XING import");
 
         model.setViewName("redirect:/");
         return model;
     }
 
     @PostMapping("/orbis")
-    public ModelAndView uploadOrbisFile(ModelAndView model,
+    public ModelAndView importOrbisFile(ModelAndView model,
                                         @RequestParam("file") MultipartFile file) {
 
         PerformanceUtils.logExecutionTime(() -> {
             importExcelService.importCompaniesFromOrbis(file);
-        }, "Orbis upload");
+        }, "Orbis import");
 
         model.setViewName("redirect:/");
         return model;
     }
 
     @PostMapping("/employees")
-    public ModelAndView uploadEmployeesFile(ModelAndView model,
+    public ModelAndView importEmployeesFile(ModelAndView model,
                                             @RequestParam("file") MultipartFile file) {
 
         PerformanceUtils.logExecutionTime(() -> {
             importExcelService.importEmployees(file);
-        }, "Employees upload");
+        }, "Employees import");
 
         model.setViewName("redirect:/");
         return model;

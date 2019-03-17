@@ -137,11 +137,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
 
     private void setXingCompanyProperties(Company company, XingCompanyDto companyDto, Map<String,
             MajorIndustry> majorIndustryMap, Map<String, MinorIndustry> minorIndustryMap) {
-        CompanyDetails companyDetails = company.getCompanyDetails();
-        if (companyDetails == null) {
-            companyDetails = new CompanyDetails();
-        }
-
+        CompanyDetails companyDetails = getCompanyDetails(company);
         setCommonCompanyProperties(company, companyDetails, companyDto);
 
         companyDetails.setEmployeesRange(companyDto.getEmployeesRange());
@@ -152,8 +148,6 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         companyDetails.setInformation(companyDto.getInformation());
         companyDetails.setProductsAndServices(companyDto.getProductsAndServices());
         companyDetails.setCompanyProfileLink(companyDto.getCompanyProfileLink());
-
-        company.setCompanyDetails(companyDetails);
 
         String majorIndustryName = companyDto.getXingIndustry1();
         MajorIndustry majorIndustry = majorIndustryMap
@@ -171,10 +165,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     }
 
     private void setOrbisCompanyProperties(Company company, OrbisCompanyDto companyDto) {
-        CompanyDetails companyDetails = company.getCompanyDetails();
-        if (companyDetails == null) {
-            companyDetails = new CompanyDetails();
-        }
+        CompanyDetails companyDetails = getCompanyDetails(company);
         setCommonCompanyProperties(company, companyDetails, companyDto);
 
         companyDetails.setVATNumber(companyDto.getVATNumber());
@@ -191,8 +182,6 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         companyDetails.setManagersCount(getPropertyValueAsInteger(companyDto.getManagersCount()));
         companyDetails.setCorporationCompaniesCount(getPropertyValueAsInteger(companyDto.getCorporationCompaniesCount()));
         companyDetails.setSubsidiariesCount(getPropertyValueAsInteger(companyDto.getSubsidiariesCount()));
-
-        company.setCompanyDetails(companyDetails);
     }
 
     private void setCommonCompanyProperties(Company company, CompanyDetails companyDetails, CompanyExcelDto companyDto) {
@@ -203,6 +192,15 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         companyDetails.setCity(companyDto.getCity());
         companyDetails.setCountry(companyDto.getCountry());
         companyDetails.setCompanyPhone(companyDto.getCompanyPhone());
+    }
+
+    private CompanyDetails getCompanyDetails(Company company) {
+        CompanyDetails companyDetails = company.getCompanyDetails();
+        if (companyDetails == null) {
+            companyDetails = new CompanyDetails();
+            company.setCompanyDetails(companyDetails);
+        }
+        return companyDetails;
     }
 
     private void setEmployeeProperties(EmployeeExcelDto employeeDto, Employee employee) {
@@ -233,9 +231,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     }
 
     private void deleteFile(File file) {
-        if (file.delete()) {
-            log.info(String.format("Successfully deleted %s", file.getName()));
-        } else {
+        if (!file.delete()) {
             log.warning(String.format("Failed to delete %s", file.getName()));
         }
     }
