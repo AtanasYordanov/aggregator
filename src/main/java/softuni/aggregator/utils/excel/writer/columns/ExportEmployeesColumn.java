@@ -20,8 +20,9 @@ public enum ExportEmployeesColumn implements WriteExcelColumn<WriteEmployeesExce
         this.getter = getter;
     }
 
+    @Override
     public String getColumnName() {
-        return this.columnName;
+        return columnName;
     }
 
     @Override

@@ -80,6 +80,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         }
 
         companyRepository.saveAll(companies.values());
+        log.info(String.format("Successfully imported %s companies from XING.", companies.size()));
     }
 
     @Override
@@ -100,6 +101,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
             companies.putIfAbsent(company.getWebsite(), company);
         }
         companyRepository.saveAll(companies.values());
+        log.info(String.format("Successfully imported %s companies from Orbis.", companies.size()));
     }
 
     @Override
@@ -118,6 +120,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         }
 
         employeeRepository.saveAll(employees);
+        log.info(String.format("Successfully imported %s employees.", employees.size()));
     }
 
     private void setXingCompanyProperties(Company company, XingCompanyDto companyDto, Map<String,

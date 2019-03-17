@@ -11,7 +11,7 @@
         <div class="row mt-4">
             <div class="col-lg-4"></div>
             <div class="col-lg-4">
-                <form th:action="@{/upload/xing}" method="post" enctype="multipart/form-data" class="row">
+                <form th:action="@{/import/xing}" method="post" enctype="multipart/form-data" class="row">
                     <div class="custom-file col-lg-8 mr-4">
                         <input type="file" name="file" readonly class="custom-file-input" id="xing-input"
                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
@@ -19,7 +19,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
                 </form>
-                <form th:action="@{/upload/orbis}" method="post" enctype="multipart/form-data" class="row">
+                <form th:action="@{/import/orbis}" method="post" enctype="multipart/form-data" class="row">
                     <div class="custom-file col-lg-8 mr-4">
                         <input type="file" name="file" readonly class="custom-file-input" id="orbis-input"
                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
@@ -27,14 +27,19 @@
                     </div>
                     <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
                 </form>
-                <form th:action="@{/upload/employees}" method="post" enctype="multipart/form-data" class="row">
+                <form th:action="@{/import/employees}" method="post" enctype="multipart/form-data" class="row">
                     <div class="custom-file col-lg-8 mr-4">
-                    <input type="file" name="file" readonly class="custom-file-input" id="employees-input"
-                           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-                    <label class="custom-file-label" for="employees-input">Choose Employees file</label>
-                </div>
+                        <input type="file" name="file" readonly class="custom-file-input" id="employees-input"
+                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                        <label class="custom-file-label" for="employees-input">Choose Employees file</label>
+                    </div>
                     <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
                 </form>
+                <div class="row mt-4">
+                    <div class="col-lg-4"></div>
+                    <a th:href="@{/export}" class="btn btn-success mb-2 col-lg-4">Export Employees</a>
+                    <div class="col-lg-4"></div>
+                </div>
             </div>
             <div class="col-lg-4"></div>
         </div>

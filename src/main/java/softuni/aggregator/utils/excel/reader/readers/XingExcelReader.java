@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import softuni.aggregator.utils.excel.reader.BaseExcelReader;
+import softuni.aggregator.utils.excel.reader.columns.ReadExcelColumn;
 import softuni.aggregator.utils.excel.reader.columns.XingColumn;
 import softuni.aggregator.utils.excel.reader.model.XingCompanyDto;
 
@@ -25,8 +26,10 @@ public class XingExcelReader extends BaseExcelReader<XingCompanyDto> {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            Map<Integer, XingColumn> columns = Arrays.stream(XingColumn.values())
-                    .collect(Collectors.toMap(Enum::ordinal, c -> c));
+            Map<String, XingColumn> columns = Arrays.stream(XingColumn.values())
+                    .collect(Collectors.toMap(XingColumn::getColumnName, c -> c));
+
+            ReadExcelColumn[] columnsByIndex = getColumnsByIndex(sheet, columns);
 
             List<XingCompanyDto> companies = new ArrayList<>();
 
@@ -35,8 +38,8 @@ public class XingExcelReader extends BaseExcelReader<XingCompanyDto> {
                     continue;
                 }
                 XingCompanyDto company = new XingCompanyDto();
+                parseRow(row, company, columnsByIndex);
 
-                parseRow(row, company, columns);
                 if (company.getWebsite() != null && !company.getWebsite().isBlank()) {
                     companies.add(company);
                 }

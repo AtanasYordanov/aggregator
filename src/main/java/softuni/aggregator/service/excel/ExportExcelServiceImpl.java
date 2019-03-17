@@ -1,5 +1,6 @@
 package softuni.aggregator.service.excel;
 
+import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log
 @Service
 @Transactional
 public class ExportExcelServiceImpl implements ExportExcelService {
@@ -33,5 +35,6 @@ public class ExportExcelServiceImpl implements ExportExcelService {
                 .collect(Collectors.toList());
 
         employeesExcelWriter.writeExcel(allEmployees);
+        log.info(String.format("Successfully exported %s", allEmployees.size()));
     }
 }

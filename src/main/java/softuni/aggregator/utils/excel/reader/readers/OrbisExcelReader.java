@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import softuni.aggregator.utils.excel.reader.BaseExcelReader;
 import softuni.aggregator.utils.excel.reader.columns.OrbisColumn;
+import softuni.aggregator.utils.excel.reader.columns.ReadExcelColumn;
 import softuni.aggregator.utils.excel.reader.model.OrbisCompanyDto;
 
 import java.io.File;
@@ -25,8 +26,10 @@ public class OrbisExcelReader extends BaseExcelReader<OrbisCompanyDto> {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            Map<Integer, OrbisColumn> columns = Arrays.stream(OrbisColumn.values())
-                    .collect(Collectors.toMap(Enum::ordinal, c -> c));
+            Map<String, OrbisColumn> columns = Arrays.stream(OrbisColumn.values())
+                    .collect(Collectors.toMap(OrbisColumn::getColumnName, c -> c));
+
+            ReadExcelColumn[] columnsByIndex = getColumnsByIndex(sheet, columns);
 
             List<OrbisCompanyDto> companies = new ArrayList<>();
 
@@ -35,8 +38,8 @@ public class OrbisExcelReader extends BaseExcelReader<OrbisCompanyDto> {
                     continue;
                 }
                 OrbisCompanyDto company = new OrbisCompanyDto();
+                parseRow(row, company, columnsByIndex);
 
-                parseRow(row, company, columns);
                 if (company.getWebsite() != null && !company.getWebsite().isBlank()) {
                     companies.add(company);
                 }

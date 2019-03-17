@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import softuni.aggregator.utils.excel.reader.BaseExcelReader;
 import softuni.aggregator.utils.excel.reader.columns.EmployeeColumn;
+import softuni.aggregator.utils.excel.reader.columns.ReadExcelColumn;
 import softuni.aggregator.utils.excel.reader.model.EmployeeExcelDto;
 
 import java.io.File;
@@ -27,8 +28,10 @@ public class EmployeesExcelReader extends BaseExcelReader<EmployeeExcelDto> {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            Map<Integer, EmployeeColumn> columns = Arrays.stream(EmployeeColumn.values())
-                    .collect(Collectors.toMap(Enum::ordinal, e -> e));
+            Map<String, EmployeeColumn> columns = Arrays.stream(EmployeeColumn.values())
+                    .collect(Collectors.toMap(EmployeeColumn::getColumnName, e -> e));
+
+            ReadExcelColumn[] columnsByIndex = getColumnsByIndex(sheet, columns);
 
             List<EmployeeExcelDto> employees = new ArrayList<>();
 
@@ -37,8 +40,8 @@ public class EmployeesExcelReader extends BaseExcelReader<EmployeeExcelDto> {
                     continue;
                 }
                 EmployeeExcelDto employee = new EmployeeExcelDto();
+                parseRow(row, employee, columnsByIndex);
 
-                parseRow(row, employee, columns);
                 if (employee.getEmail() != null && !employee.getEmail().isBlank()) {
                     employees.add(employee);
                 }
