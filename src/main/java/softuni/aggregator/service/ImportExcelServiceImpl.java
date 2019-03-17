@@ -1,4 +1,4 @@
-package softuni.aggregator.service.excel;
+package softuni.aggregator.service;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.domain.repository.EmployeeRepository;
 import softuni.aggregator.domain.repository.MajorIndustryRepository;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
+import softuni.aggregator.service.api.ImportExcelService;
 import softuni.aggregator.utils.excel.reader.ExcelReader;
 import softuni.aggregator.utils.excel.reader.model.CompanyExcelDto;
 import softuni.aggregator.utils.excel.reader.model.EmployeeExcelDto;

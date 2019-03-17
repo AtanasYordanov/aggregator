@@ -1,4 +1,4 @@
-package softuni.aggregator.service.excel;
+package softuni.aggregator.service;
 
 import lombok.extern.java.Log;
 import org.apache.commons.compress.utils.IOUtils;
@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.service.api.EmployeeService;
+import softuni.aggregator.service.api.ExportExcelService;
 import softuni.aggregator.utils.excel.writer.model.WriteEmployeesExcelDto;
 import softuni.aggregator.utils.excel.writer.writers.EmployeesExcelWriter;
 

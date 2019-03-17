@@ -3,7 +3,7 @@ package softuni.aggregator.utils.excel.writer.writers;
 import lombok.extern.java.Log;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import softuni.aggregator.constants.ExcelConstants;
+import softuni.aggregator.utils.excel.constants.ExcelConstants;
 import softuni.aggregator.utils.excel.writer.ExcelWriter;
 import softuni.aggregator.utils.excel.writer.columns.WriteExcelColumn;
 import softuni.aggregator.utils.excel.writer.model.WriteExcelDto;

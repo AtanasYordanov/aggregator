@@ -1,4 +1,4 @@
-package softuni.aggregator.constants;
+package softuni.aggregator.utils.excel.constants;
 
 public class ExcelConstants {
 
