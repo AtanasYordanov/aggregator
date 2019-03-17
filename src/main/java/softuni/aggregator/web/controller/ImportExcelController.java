@@ -10,8 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.service.api.ImportExcelService;
 import softuni.aggregator.utils.performance.PerformanceUtils;
 
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/import")
 public class ImportExcelController {
@@ -25,9 +23,9 @@ public class ImportExcelController {
 
     @PostMapping("/xing")
     public ModelAndView uploadXingFile(ModelAndView model,
-                                       @RequestParam("file") MultipartFile file) throws IOException {
+                                       @RequestParam("file") MultipartFile file) {
 
-        PerformanceUtils.logExecutionSpeed(() -> {
+        PerformanceUtils.logExecutionTime(() -> {
             importExcelService.importCompaniesFromXing(file);
         }, "XING upload");
 
@@ -37,9 +35,9 @@ public class ImportExcelController {
 
     @PostMapping("/orbis")
     public ModelAndView uploadOrbisFile(ModelAndView model,
-                                        @RequestParam("file") MultipartFile file) throws IOException {
+                                        @RequestParam("file") MultipartFile file) {
 
-        PerformanceUtils.logExecutionSpeed(() -> {
+        PerformanceUtils.logExecutionTime(() -> {
             importExcelService.importCompaniesFromOrbis(file);
         }, "Orbis upload");
 
@@ -49,9 +47,9 @@ public class ImportExcelController {
 
     @PostMapping("/employees")
     public ModelAndView uploadEmployeesFile(ModelAndView model,
-                                            @RequestParam("file") MultipartFile file) throws IOException {
+                                            @RequestParam("file") MultipartFile file) {
 
-        PerformanceUtils.logExecutionSpeed(() -> {
+        PerformanceUtils.logExecutionTime(() -> {
             importExcelService.importEmployees(file);
         }, "Employees upload");
 
