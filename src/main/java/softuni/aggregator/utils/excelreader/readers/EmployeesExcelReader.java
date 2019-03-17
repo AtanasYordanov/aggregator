@@ -5,6 +5,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import softuni.aggregator.utils.excelreader.BaseExcelReader;
 import softuni.aggregator.utils.excelreader.columns.EmployeeColumn;
 import softuni.aggregator.utils.excelreader.model.EmployeeExcelDto;
@@ -15,7 +17,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Log
+@Component
+@Qualifier("employees")
 public class EmployeesExcelReader extends BaseExcelReader<EmployeeExcelDto> {
 
     @Override

@@ -2,6 +2,8 @@ package softuni.aggregator.utils.excelreader.readers;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import softuni.aggregator.utils.excelreader.BaseExcelReader;
 import softuni.aggregator.utils.excelreader.columns.XingColumn;
 import softuni.aggregator.utils.excelreader.model.XingCompanyDto;
@@ -12,6 +14,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
+@Qualifier("xing")
 public class XingExcelReader extends BaseExcelReader<XingCompanyDto> {
 
     @Override

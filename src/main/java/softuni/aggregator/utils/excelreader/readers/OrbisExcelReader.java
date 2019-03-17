@@ -2,6 +2,8 @@ package softuni.aggregator.utils.excelreader.readers;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import softuni.aggregator.utils.excelreader.BaseExcelReader;
 import softuni.aggregator.utils.excelreader.columns.OrbisColumn;
 import softuni.aggregator.utils.excelreader.model.OrbisCompanyDto;
@@ -12,6 +14,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
+@Qualifier("orbis")
 public class OrbisExcelReader extends BaseExcelReader<OrbisCompanyDto> {
 
     @Override

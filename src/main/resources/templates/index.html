@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:include="~{fragments/head}">
+    </th:block>
 </head>
 <body>
-    <h1>Test</h1>
+<main>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <form th:action="@{/upload/xing}" method="post" enctype="multipart/form-data" class="row">
+                    <div class="custom-file col-lg-8 mr-4">
+                        <input type="file" name="file" readonly class="custom-file-input" id="xing-input"
+                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                        <label class="custom-file-label" for="xing-input">Choose XING file</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
+                </form>
+                <form th:action="@{/upload/orbis}" method="post" enctype="multipart/form-data" class="row">
+                    <div class="custom-file col-lg-8 mr-4">
+                        <input type="file" name="file" readonly class="custom-file-input" id="orbis-input"
+                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                        <label class="custom-file-label" for="orbis-input">Choose Orbis file</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
+                </form>
+                <form th:action="@{/upload/employees}" method="post" enctype="multipart/form-data" class="row">
+                    <div class="custom-file col-lg-8 mr-4">
+                    <input type="file" name="file" readonly class="custom-file-input" id="employees-input"
+                           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                    <label class="custom-file-label" for="employees-input">Choose Employees file</label>
+                </div>
+                    <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
+                </form>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

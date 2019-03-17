@@ -1,7 +1,10 @@
 package softuni.aggregator.service.excel;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import softuni.aggregator.domain.entities.*;
 import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.domain.repository.EmployeeRepository;
@@ -11,15 +14,16 @@ import softuni.aggregator.utils.excelreader.ExcelReader;
 import softuni.aggregator.utils.excelreader.model.CompanyExcelDto;
 import softuni.aggregator.utils.excelreader.model.EmployeeExcelDto;
 import softuni.aggregator.utils.excelreader.model.OrbisCompanyDto;
-import softuni.aggregator.utils.excelreader.readers.EmployeesExcelReader;
-import softuni.aggregator.utils.excelreader.readers.OrbisExcelReader;
-import softuni.aggregator.utils.excelreader.readers.XingExcelReader;
 import softuni.aggregator.utils.excelreader.model.XingCompanyDto;
 
+import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Log
 @Service
 @Transactional
 @SuppressWarnings("unchecked")
@@ -29,23 +33,33 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     private final EmployeeRepository employeeRepository;
     private final MinorIndustryRepository minorIndustryRepository;
     private final MajorIndustryRepository majorIndustryRepository;
+    private final ServletContext servletContext;
+    private final ExcelReader xingReader;
+    private final ExcelReader orbisReader;
+    private final ExcelReader employeesReader;
 
     @Autowired
-    public ImportExcelServiceImpl(CompanyRepository companyRepository, EmployeeRepository employeeRepository, MinorIndustryRepository minorIndustryRepository,
-                                  MajorIndustryRepository majorIndustryRepository) {
+    public ImportExcelServiceImpl(CompanyRepository companyRepository, EmployeeRepository employeeRepository,
+                                  MinorIndustryRepository minorIndustryRepository,
+                                  MajorIndustryRepository majorIndustryRepository, ServletContext servletContext,
+                                  @Qualifier("xing") ExcelReader xingReader,
+                                  @Qualifier("orbis") ExcelReader orbisReader,
+                                  @Qualifier("employees") ExcelReader employeesReader) {
         this.companyRepository = companyRepository;
         this.employeeRepository = employeeRepository;
         this.minorIndustryRepository = minorIndustryRepository;
         this.majorIndustryRepository = majorIndustryRepository;
+        this.servletContext = servletContext;
+        this.xingReader = xingReader;
+        this.orbisReader = orbisReader;
+        this.employeesReader = employeesReader;
     }
 
     @Override
-    public void importCompaniesFromXing() {
-        ExcelReader reader = new XingExcelReader();
-
-        String excelFilePath = "src\\main\\resources\\static\\XING sample.xlsx";
-
-        List<XingCompanyDto> data = reader.readExcel(excelFilePath);
+    public void importCompaniesFromXing(MultipartFile multipartFile) {
+        File file = saveTempFile(multipartFile);
+        List<XingCompanyDto> data = xingReader.readExcel(file.getAbsolutePath());
+        deleteFile(file);
 
         Map<String, MajorIndustry> majorIndustriesMap = majorIndustryRepository.findAll().stream()
                 .collect(Collectors.toMap(MajorIndustry::getName, i -> i));
@@ -69,12 +83,10 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     }
 
     @Override
-    public void importCompaniesFromOrbis() {
-        ExcelReader reader = new OrbisExcelReader();
-
-        String excelFilePath = "src\\main\\resources\\static\\ORBIS sample.xlsx";
-
-        List<OrbisCompanyDto> data = reader.readExcel(excelFilePath);
+    public void importCompaniesFromOrbis(MultipartFile multipartFile) {
+        File file = saveTempFile(multipartFile);
+        List<OrbisCompanyDto> data = orbisReader.readExcel(file.getAbsolutePath());
+        deleteFile(file);
 
         List<String> companyWebistes = data.stream()
                 .map(OrbisCompanyDto::getWebsite)
@@ -91,12 +103,11 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     }
 
     @Override
-    public void importEmployees() {
-        ExcelReader reader = new EmployeesExcelReader();
+    public void importEmployees(MultipartFile multipartFile) {
+        File file = saveTempFile(multipartFile);
+        List<EmployeeExcelDto> data = employeesReader.readExcel(file.getAbsolutePath());
+        deleteFile(file);
 
-        String excelFilePath = "src\\main\\resources\\static\\Employees sample.xlsx";
-
-        List<EmployeeExcelDto> data = reader.readExcel(excelFilePath);
         List<Employee> employees = new ArrayList<>();
 
         for (EmployeeExcelDto employeeDto : data) {
@@ -187,6 +198,31 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         employee.setFullName(employeeDto.getFullName());
         employee.setHunterIoScore(getPropertyValueAsInteger(employeeDto.getHunterIoScore()));
         employee.setPosition(employeeDto.getPosition());
+    }
+
+    private File saveTempFile(MultipartFile multipartFile) {
+        String basePath = servletContext.getRealPath("\\");
+        String uuid = UUID.randomUUID().toString();
+        String filePath = String.format("%s\\%s-%s", basePath, uuid, multipartFile.getOriginalFilename());
+
+        // TODO -> handle
+        File file;
+        try {
+            file = new File(filePath);
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+        return file;
+    }
+
+    private void deleteFile(File file) {
+        if (file.delete()) {
+            log.info(String.format("Successfully deleted %s", file.getName()));
+        } else {
+            log.warning(String.format("Failed to delete %s", file.getName()));
+        }
     }
 
     private Map<String, Company> getCompaniesMap(List<String> companyWebsites) {
