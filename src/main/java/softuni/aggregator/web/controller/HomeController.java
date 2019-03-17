@@ -7,25 +7,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import softuni.aggregator.service.excel.ExportExcelService;
 import softuni.aggregator.service.excel.ImportExcelService;
 
-import javax.servlet.ServletContext;
 import java.io.IOException;
 
 @Controller
 public class HomeController {
 
-    private final ServletContext servletContext;
     private final ImportExcelService importExcelService;
+    private final ExportExcelService exportExcelService;
 
     @Autowired
-    public HomeController(ServletContext servletContext, ImportExcelService importExcelService) {
-        this.servletContext = servletContext;
+    public HomeController(ImportExcelService importExcelService, ExportExcelService exportExcelService) {
         this.importExcelService = importExcelService;
+        this.exportExcelService = exportExcelService;
     }
 
     @GetMapping("/")
     public ModelAndView index(ModelAndView model) {
+        model.setViewName("index");
+        return model;
+    }
+
+    @GetMapping("/write")
+    public ModelAndView write(ModelAndView model) {
+        exportExcelService.exportEmployees();
         model.setViewName("index");
         return model;
     }

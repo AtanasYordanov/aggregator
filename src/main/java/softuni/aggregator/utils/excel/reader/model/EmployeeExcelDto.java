@@ -1,11 +1,11 @@
-package softuni.aggregator.utils.excelreader.model;
+package softuni.aggregator.utils.excel.reader.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class EmployeeExcelDto extends BaseExcelDto {
+public class EmployeeExcelDto extends ReadExcelDto {
 
     private String companyName;
     private String fullName;

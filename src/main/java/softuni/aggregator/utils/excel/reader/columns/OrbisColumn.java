@@ -1,10 +1,10 @@
-package softuni.aggregator.utils.excelreader.columns;
+package softuni.aggregator.utils.excel.reader.columns;
 
-import softuni.aggregator.utils.excelreader.model.OrbisCompanyDto;
+import softuni.aggregator.utils.excel.reader.model.OrbisCompanyDto;
 
 import java.util.function.BiConsumer;
 
-public enum OrbisColumn implements ExcelColumn<OrbisCompanyDto> {
+public enum OrbisColumn implements ReadExcelColumn<OrbisCompanyDto> {
 
     COMPANY_NAME(OrbisCompanyDto::setName),
     WEBSITE(OrbisCompanyDto::setWebsite),
@@ -29,11 +29,11 @@ public enum OrbisColumn implements ExcelColumn<OrbisCompanyDto> {
     EMPLOYEES_COUNT_SKIP(OrbisCompanyDto::setEmployeesCount),
     SUBSIDIARIES_COUNT(OrbisCompanyDto::setSubsidiariesCount);
 
+    private BiConsumer<OrbisCompanyDto, String> setter;
+
     OrbisColumn(BiConsumer<OrbisCompanyDto, String> setter) {
         this.setter = setter;
     }
-
-    private BiConsumer<OrbisCompanyDto, String> setter;
 
     @Override
     public BiConsumer<OrbisCompanyDto, String> getSetter() {

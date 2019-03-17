@@ -1,10 +1,10 @@
-package softuni.aggregator.utils.excelreader.columns;
+package softuni.aggregator.utils.excel.reader.columns;
 
-import softuni.aggregator.utils.excelreader.model.XingCompanyDto;
+import softuni.aggregator.utils.excel.reader.model.XingCompanyDto;
 
 import java.util.function.BiConsumer;
 
-public enum XingColumn implements ExcelColumn<XingCompanyDto> {
+public enum XingColumn implements ReadExcelColumn<XingCompanyDto> {
 
     XING_INDUSTRY_1(XingCompanyDto::setXingIndustry1),
     XING_INDUSTRY_2(XingCompanyDto::setXingIndustry2),
@@ -24,11 +24,11 @@ public enum XingColumn implements ExcelColumn<XingCompanyDto> {
     COMPANY_PROFILE_LINK(XingCompanyDto::setCompanyProfileLink),
     YEAR_FOUND(XingCompanyDto::setYearFound);
 
+    private BiConsumer<XingCompanyDto, String> setter;
+
     XingColumn(BiConsumer<XingCompanyDto, String> setter) {
         this.setter = setter;
     }
-
-    private BiConsumer<XingCompanyDto, String> setter;
 
     @Override
     public BiConsumer<XingCompanyDto, String> getSetter() {

@@ -10,11 +10,11 @@ import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.domain.repository.EmployeeRepository;
 import softuni.aggregator.domain.repository.MajorIndustryRepository;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
-import softuni.aggregator.utils.excelreader.ExcelReader;
-import softuni.aggregator.utils.excelreader.model.CompanyExcelDto;
-import softuni.aggregator.utils.excelreader.model.EmployeeExcelDto;
-import softuni.aggregator.utils.excelreader.model.OrbisCompanyDto;
-import softuni.aggregator.utils.excelreader.model.XingCompanyDto;
+import softuni.aggregator.utils.excel.reader.ExcelReader;
+import softuni.aggregator.utils.excel.reader.model.CompanyExcelDto;
+import softuni.aggregator.utils.excel.reader.model.EmployeeExcelDto;
+import softuni.aggregator.utils.excel.reader.model.OrbisCompanyDto;
+import softuni.aggregator.utils.excel.reader.model.XingCompanyDto;
 
 import javax.servlet.ServletContext;
 import javax.transaction.Transactional;

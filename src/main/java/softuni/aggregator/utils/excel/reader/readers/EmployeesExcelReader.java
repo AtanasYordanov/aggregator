@@ -1,15 +1,14 @@
-package softuni.aggregator.utils.excelreader.readers;
+package softuni.aggregator.utils.excel.reader.readers;
 
-import lombok.extern.java.Log;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import softuni.aggregator.utils.excelreader.BaseExcelReader;
-import softuni.aggregator.utils.excelreader.columns.EmployeeColumn;
-import softuni.aggregator.utils.excelreader.model.EmployeeExcelDto;
+import softuni.aggregator.utils.excel.reader.BaseExcelReader;
+import softuni.aggregator.utils.excel.reader.columns.EmployeeColumn;
+import softuni.aggregator.utils.excel.reader.model.EmployeeExcelDto;
 
 import java.io.File;
 import java.io.FileInputStream;

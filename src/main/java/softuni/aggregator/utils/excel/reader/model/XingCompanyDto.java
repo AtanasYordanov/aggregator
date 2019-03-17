@@ -1,4 +1,4 @@
-package softuni.aggregator.utils.excelreader.model;
+package softuni.aggregator.utils.excel.reader.model;
 
 import lombok.Getter;
 import lombok.Setter;
