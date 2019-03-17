@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.service.api.ImportExcelService;
+import softuni.aggregator.utils.performance.PerformanceUtils;
 
 import java.io.IOException;
 
@@ -26,10 +27,9 @@ public class ImportExcelController {
     public ModelAndView uploadXingFile(ModelAndView model,
                                        @RequestParam("file") MultipartFile file) throws IOException {
 
-        long start = System.currentTimeMillis();
-        importExcelService.importCompaniesFromXing(file);
-        long end = System.currentTimeMillis();
-        System.out.println("Xing: " + (end - start));
+        PerformanceUtils.logExecutionSpeed(() -> {
+            importExcelService.importCompaniesFromXing(file);
+        }, "XING upload");
 
         model.setViewName("redirect:/");
         return model;
@@ -39,10 +39,9 @@ public class ImportExcelController {
     public ModelAndView uploadOrbisFile(ModelAndView model,
                                         @RequestParam("file") MultipartFile file) throws IOException {
 
-        long start = System.currentTimeMillis();
-        importExcelService.importCompaniesFromOrbis(file);
-        long end = System.currentTimeMillis();
-        System.out.println("Orbis: " + (end - start));
+        PerformanceUtils.logExecutionSpeed(() -> {
+            importExcelService.importCompaniesFromOrbis(file);
+        }, "Orbis upload");
 
         model.setViewName("redirect:/");
         return model;
@@ -52,10 +51,9 @@ public class ImportExcelController {
     public ModelAndView uploadEmployeesFile(ModelAndView model,
                                             @RequestParam("file") MultipartFile file) throws IOException {
 
-        long start = System.currentTimeMillis();
-        importExcelService.importEmployees(file);
-        long end = System.currentTimeMillis();
-        System.out.println("Employees: " + (end - start));
+        PerformanceUtils.logExecutionSpeed(() -> {
+            importExcelService.importEmployees(file);
+        }, "Employees upload");
 
         model.setViewName("redirect:/");
         return model;

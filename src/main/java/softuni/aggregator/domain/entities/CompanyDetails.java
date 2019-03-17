@@ -34,7 +34,7 @@ public class CompanyDetails extends BaseEntity {
     @Column(name = "company_phone")
     private String companyPhone;
 
-    @Column(name = "fax", unique = true)
+    @Column(name = "fax")
     private String fax;
 
     @Column(name = "company_profile_link")
@@ -45,6 +45,9 @@ public class CompanyDetails extends BaseEntity {
 
     @Column(name = "information", columnDefinition = "text")
     private String information;
+
+    @Column(name = "products_and_services", columnDefinition = "text")
+    private String productsAndServices;
 
     @Column(name = "vat_number")
     private String VATNumber;
@@ -148,6 +151,12 @@ public class CompanyDetails extends BaseEntity {
     public void setInformation(String information) {
         if (information != null) {
             this.information = information;
+        }
+    }
+
+    public void setProductsAndServices(String productsAndServices) {
+        if (productsAndServices != null) {
+            this.productsAndServices = productsAndServices;
         }
     }
 

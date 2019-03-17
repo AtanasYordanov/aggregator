@@ -22,7 +22,8 @@ public enum XingColumn implements ReadExcelColumn<XingCompanyDto> {
     EMPLOYEES_LISTED("Employees listed", XingCompanyDto::setEmployeesListed),
     EMPLOYEES_PAGE("Employees page", XingCompanyDto::setEmployeesPage),
     COMPANY_PROFILE_LINK("Company profile link", XingCompanyDto::setCompanyProfileLink),
-    YEAR_FOUND("Year found", XingCompanyDto::setYearFound);
+    YEAR_FOUND("Year found", XingCompanyDto::setYearFound),
+    PRODUCTS_AND_SERVICES("Products and services", XingCompanyDto::setProductsAndServices);
 
     private String columnName;
     private BiConsumer<XingCompanyDto, String> setter;

@@ -21,4 +21,5 @@ public class XingCompanyDto extends CompanyExcelDto {
 
     private String companyProfileLink;
     private String yearFound;
+    private String productsAndServices;
 }

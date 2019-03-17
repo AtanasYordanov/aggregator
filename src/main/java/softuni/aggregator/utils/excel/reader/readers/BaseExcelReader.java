@@ -52,7 +52,6 @@ public abstract class BaseExcelReader<T extends ReadExcelDto> implements ExcelRe
             ReadExcelColumn column = columns[cell.getColumnIndex()];
 
             if (column == null) {
-                log.warning(String.format("Unexpected column index: %s", cell.getColumnIndex()));
                 continue;
             }
 

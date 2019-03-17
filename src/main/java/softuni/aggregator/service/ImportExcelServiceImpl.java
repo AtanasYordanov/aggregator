@@ -11,6 +11,7 @@ import softuni.aggregator.domain.repository.EmployeeRepository;
 import softuni.aggregator.domain.repository.MajorIndustryRepository;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
 import softuni.aggregator.service.api.ImportExcelService;
+import softuni.aggregator.utils.excel.constants.ExcelConstants;
 import softuni.aggregator.utils.excel.reader.ExcelReader;
 import softuni.aggregator.utils.excel.reader.model.CompanyExcelDto;
 import softuni.aggregator.utils.excel.reader.model.EmployeeExcelDto;
@@ -21,7 +22,12 @@ import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Log
@@ -105,6 +111,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
                 companies.putIfAbsent(company.getWebsite(), company);
             }
         }
+
         companyRepository.saveAll(companies.values());
         log.info(String.format("Successfully imported %s companies from Orbis.", companies.size()));
     }
@@ -130,7 +137,6 @@ public class ImportExcelServiceImpl implements ImportExcelService {
 
     private void setXingCompanyProperties(Company company, XingCompanyDto companyDto, Map<String,
             MajorIndustry> majorIndustryMap, Map<String, MinorIndustry> minorIndustryMap) {
-
         CompanyDetails companyDetails = company.getCompanyDetails();
         if (companyDetails == null) {
             companyDetails = new CompanyDetails();
@@ -144,6 +150,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         companyDetails.setCompanyProfileLink(companyDto.getCompanyProfileLink());
         companyDetails.setYearFound(getPropertyValueAsInteger(companyDto.getYearFound()));
         companyDetails.setInformation(companyDto.getInformation());
+        companyDetails.setProductsAndServices(companyDto.getProductsAndServices());
         companyDetails.setCompanyProfileLink(companyDto.getCompanyProfileLink());
 
         company.setCompanyDetails(companyDetails);
@@ -239,6 +246,15 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     }
 
     private Integer getPropertyValueAsInteger(String property) {
-        return property != null ? Double.valueOf(property).intValue() : null;
+        if (property == null) {
+            return null;
+        }
+        try {
+            return Double.valueOf(property).intValue();
+        } catch (NumberFormatException e) {
+            Pattern pattern = Pattern.compile(ExcelConstants.EXTRACT_INTEGER_REGEX);
+            Matcher matcher = pattern.matcher(property);
+            return matcher.find() ? Double.valueOf(matcher.group(0)).intValue() : null;
+        }
     }
 }
