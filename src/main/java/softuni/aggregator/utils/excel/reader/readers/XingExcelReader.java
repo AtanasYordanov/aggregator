@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
 public class XingExcelReader extends BaseExcelReader<XingCompanyDto> {
 
     @Override
-    public List<XingCompanyDto> readExcel(String path) {
-        Map<String, ReadExcelColumn> columns = Arrays.stream(XingColumn.values())
+    protected Map<String, ReadExcelColumn> getColumns() {
+        return Arrays.stream(XingColumn.values())
                 .collect(Collectors.toMap(XingColumn::getColumnName, c -> c));
-
-        return super.readExcel(path, columns);
     }
 
     @Override

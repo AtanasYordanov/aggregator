@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
 public class EmployeesExcelReader extends BaseExcelReader<EmployeeExcelDto> {
 
     @Override
-    public List<EmployeeExcelDto> readExcel(String path) {
-        Map<String, ReadExcelColumn> columns = Arrays.stream(EmployeeColumn.values())
+    protected Map<String, ReadExcelColumn> getColumns() {
+        return Arrays.stream(EmployeeColumn.values())
                 .collect(Collectors.toMap(EmployeeColumn::getColumnName, e -> e));
-
-        return super.readExcel(path, columns);
     }
 
     @Override

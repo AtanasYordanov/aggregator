@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
 public class OrbisExcelReader extends BaseExcelReader<OrbisCompanyDto> {
 
     @Override
-    public List<OrbisCompanyDto> readExcel(String path) {
-        Map<String, ReadExcelColumn> columns = Arrays.stream(OrbisColumn.values())
+    protected Map<String, ReadExcelColumn> getColumns() {
+        return Arrays.stream(OrbisColumn.values())
                 .collect(Collectors.toMap(OrbisColumn::getColumnName, c -> c));
-
-        return super.readExcel(path, columns);
     }
 
     @Override

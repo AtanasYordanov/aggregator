@@ -13,13 +13,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Log
 public abstract class BaseExcelWriter<T extends WriteExcelDto> implements ExcelWriter<T> {
 
-    protected File writeExcel(List<T> excelDto, Map<Integer, WriteExcelColumn> columns) {
+    @Override
+    public File writeExcel(List<T> excelDtos) {
         String filePath = ExcelConstants.EXPORT_BASE_PATH + generateFileName();
+
+        WriteExcelColumn[] columns = getColumns();
 
         try (FileOutputStream fileOut = new FileOutputStream(filePath);
              Workbook workbook = new XSSFWorkbook()) {
@@ -30,11 +32,11 @@ public abstract class BaseExcelWriter<T extends WriteExcelDto> implements ExcelW
             createHeaderRow(columns, workbook, headerRow);
 
             int columnIndex = 0;
-            for (T data : excelDto) {
+            for (T data : excelDtos) {
                 Row row = sheet.createRow(rowIndex++);
 
                 columnIndex = 0;
-                for (WriteExcelColumn column : columns.values()) {
+                for (WriteExcelColumn column : columns) {
                     Cell cell = row.createCell(columnIndex++);
                     setCellValue(cell, data.getProperty(column));
                 }
@@ -52,11 +54,13 @@ public abstract class BaseExcelWriter<T extends WriteExcelDto> implements ExcelW
         }
     }
 
+    protected abstract WriteExcelColumn[] getColumns();
+
     protected abstract String getExportType();
 
-    private void createHeaderRow(Map<Integer, WriteExcelColumn> columns, Workbook workbook, Row headerRow) {
+    private void createHeaderRow(WriteExcelColumn[] columns, Workbook workbook, Row headerRow) {
         int columnIndex = 0;
-        for (WriteExcelColumn column : columns.values()) {
+        for (WriteExcelColumn column : columns) {
             Font font = workbook.createFont();
             font.setColor(IndexedColors.WHITE.getIndex());
             font.setBold(true);

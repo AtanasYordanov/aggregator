@@ -15,13 +15,14 @@ import java.util.*;
 @Log
 public abstract class BaseExcelReader<T extends ReadExcelDto> implements ExcelReader<T> {
 
-    protected List<T> readExcel(String path, Map<String, ReadExcelColumn> columns) {
+    @Override
+    public List<T> readExcel(String path) {
         try (FileInputStream inputStream = new FileInputStream(new File(path));
              Workbook workbook = new XSSFWorkbook(inputStream)) {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            ReadExcelColumn[] columnsByIndex = getColumnsByIndex(sheet, columns);
+            ReadExcelColumn[] columnsByIndex = getColumnsByIndex(sheet, getColumns());
 
             List<T> data = new ArrayList<>();
 
@@ -42,6 +43,8 @@ public abstract class BaseExcelReader<T extends ReadExcelDto> implements ExcelRe
             return new ArrayList<>();
         }
     }
+
+    protected abstract Map<String, ReadExcelColumn> getColumns();
 
     protected abstract T createInstance();
 
