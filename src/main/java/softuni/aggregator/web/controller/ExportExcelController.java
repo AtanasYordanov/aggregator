@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import softuni.aggregator.service.api.ExportExcelService;
+import softuni.aggregator.service.excel.ExportExcelService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,9 +22,15 @@ public class ExportExcelController {
         this.exportExcelService = exportExcelService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/employees", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody
     byte[] exportEmployees(HttpServletResponse response) throws IOException {
         return exportExcelService.exportEmployees(response);
+    }
+
+    @GetMapping(value = "/companies", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody
+    byte[] exportCompanies(HttpServletResponse response) throws IOException {
+        return exportExcelService.exportCompanies(response);
     }
 }

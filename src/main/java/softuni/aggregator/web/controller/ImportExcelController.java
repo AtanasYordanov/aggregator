@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.aggregator.service.api.ImportExcelService;
+import softuni.aggregator.service.excel.ImportExcelService;
 import softuni.aggregator.utils.performance.PerformanceUtils;
 
 @Controller
