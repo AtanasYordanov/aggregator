@@ -18,9 +18,8 @@ import java.util.List;
 @Service
 public class ExcelWriterImpl implements ExcelWriter {
 
-    private static final String NO_INFORMATION = "n/a";
     private static final String EXPORT_BASE_PATH = "src\\main\\resources\\exports\\";
-    private static final String FILE_EXTENSION = ".xlsx";
+    private static final String EXPORT_FILE_EXTENSION = ".xlsx";
 
     @Override
     public File writeExcel(List<ExcelExportDto> excelDtos, Export export) {
@@ -84,8 +83,6 @@ public class ExcelWriterImpl implements ExcelWriter {
             cell.setCellValue(Double.valueOf((Integer) property));
         } else if (property instanceof String) {
             cell.setCellValue((String) property);
-        } else if (cell.getCellType() == CellType.BLANK) {
-            cell.setCellValue(NO_INFORMATION);
         }
     }
 
@@ -99,6 +96,6 @@ public class ExcelWriterImpl implements ExcelWriter {
                 now.getHour(),
                 now.getMinute(),
                 now.getSecond(),
-                FILE_EXTENSION);
+                EXPORT_FILE_EXTENSION);
     }
 }

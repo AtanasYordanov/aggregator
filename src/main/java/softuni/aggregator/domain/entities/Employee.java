@@ -25,7 +25,7 @@ public class Employee extends BaseEntity {
     @Column(name = "hunter_io_score")
     private Integer hunterIoScore;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     private Company company;
 

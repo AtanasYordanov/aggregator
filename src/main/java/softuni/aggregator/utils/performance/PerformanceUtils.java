@@ -1,8 +1,11 @@
 package softuni.aggregator.utils.performance;
 
+import lombok.extern.java.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Log
 public class PerformanceUtils {
 
     private static Map<String, Long> timers = new HashMap<>();
@@ -27,7 +30,7 @@ public class PerformanceUtils {
     public static void stopTimer(String timerName) {
         long start = timers.remove(timerName);
         long end = System.currentTimeMillis();
-        System.out.println(String.format("%s - Execution time: %.2f seconds.", timerName, getSeconds(start, end)));
+        log.info(String.format("%s - Execution time: %.2f seconds.", timerName, getSeconds(start, end)));
     }
 
     private static double getSeconds(long start, long end) {

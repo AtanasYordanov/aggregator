@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.service.excel.ImportExcelService;
-import softuni.aggregator.utils.performance.PerformanceUtils;
 
 @Controller
 @RequestMapping("/import")
@@ -23,12 +22,8 @@ public class ImportExcelController {
 
     @PostMapping("/xing")
     public ModelAndView importXingFile(ModelAndView model,
-                                                 @RequestParam("file") MultipartFile file) {
-
-        PerformanceUtils.logExecutionTime(() -> {
-            importExcelService.importCompaniesFromXing(file);
-        }, "XING import");
-
+                                       @RequestParam("file") MultipartFile file) {
+        importExcelService.importCompaniesFromXing(file);
         model.setViewName("redirect:/");
         return model;
     }
@@ -36,11 +31,7 @@ public class ImportExcelController {
     @PostMapping("/orbis")
     public ModelAndView importOrbisFile(ModelAndView model,
                                         @RequestParam("file") MultipartFile file) {
-
-        PerformanceUtils.logExecutionTime(() -> {
-            importExcelService.importCompaniesFromOrbis(file);
-        }, "Orbis import");
-
+        importExcelService.importCompaniesFromOrbis(file);
         model.setViewName("redirect:/");
         return model;
     }
@@ -48,11 +39,7 @@ public class ImportExcelController {
     @PostMapping("/employees")
     public ModelAndView importEmployeesFile(ModelAndView model,
                                             @RequestParam("file") MultipartFile file) {
-
-        PerformanceUtils.logExecutionTime(() -> {
-            importExcelService.importEmployees(file);
-        }, "Employees import");
-
+        importExcelService.importEmployees(file);
         model.setViewName("redirect:/");
         return model;
     }

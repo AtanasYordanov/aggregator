@@ -1,6 +1,5 @@
 package softuni.aggregator.service.impl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.repository.EmployeeRepository;
@@ -17,18 +16,16 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
     public List<ExcelExportDto> getEmployeesForExport() {
         return employeeRepository.findAll().stream()
-                .map(e -> modelMapper.map(e, EmployeesExportDto.class))
+                .map(EmployeesExportDto::new)
                 .collect(Collectors.toList());
     }
 }
