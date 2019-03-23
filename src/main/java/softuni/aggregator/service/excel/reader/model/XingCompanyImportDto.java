@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class XingCompanyDto extends CompanyExcelDto {
+public class XingCompanyImportDto extends CompanyImportDto {
 
     private String xingIndustry1;
     private String xingIndustry2;

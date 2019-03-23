@@ -1,11 +1,12 @@
 package softuni.aggregator.service.excel.writer;
 
-import softuni.aggregator.service.excel.writer.model.ExportExcelDto;
+import softuni.aggregator.service.excel.writer.exports.Export;
+import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
 import java.io.File;
 import java.util.List;
 
-public interface ExcelWriter<T extends ExportExcelDto> {
+public interface ExcelWriter {
 
-    File writeExcel(List<T> writeExcelDto);
+    File writeExcel(List<ExcelExportDto> writeExcelDto, Export export);
 }

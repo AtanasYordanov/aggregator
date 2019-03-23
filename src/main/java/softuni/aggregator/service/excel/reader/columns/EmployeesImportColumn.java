@@ -1,21 +1,21 @@
 package softuni.aggregator.service.excel.reader.columns;
 
-import softuni.aggregator.service.excel.reader.model.EmployeeExcelDto;
+import softuni.aggregator.service.excel.reader.model.EmployeeImportDto;
 
 import java.util.function.BiConsumer;
 
-public enum EmployeesImportColumn implements ReadExcelColumn<EmployeeExcelDto> {
+public enum EmployeesImportColumn implements ReadExcelColumn {
 
-    COMPANY_NAME("Company name", EmployeeExcelDto::setCompanyName),
-    FULL_NAME("Full name", EmployeeExcelDto::setFullName),
-    POSITION("Position", EmployeeExcelDto::setPosition),
-    EMAIL("CEO Email", EmployeeExcelDto::setEmail),
-    HUNTER_IO_SCORE("Hunter.io Score", EmployeeExcelDto::setHunterIoScore);
+    COMPANY_NAME("Company name", EmployeeImportDto::setCompanyName),
+    FULL_NAME("Full name", EmployeeImportDto::setFullName),
+    POSITION("Position", EmployeeImportDto::setPosition),
+    EMAIL("CEO Email", EmployeeImportDto::setEmail),
+    HUNTER_IO_SCORE("Hunter.io Score", EmployeeImportDto::setHunterIoScore);
 
     private String columnName;
-    private BiConsumer<EmployeeExcelDto, String> setter;
+    private BiConsumer<EmployeeImportDto, String> setter;
 
-    EmployeesImportColumn(String columnName, BiConsumer<EmployeeExcelDto, String> setter) {
+    EmployeesImportColumn(String columnName, BiConsumer<EmployeeImportDto, String> setter) {
         this.columnName = columnName;
         this.setter = setter;
     }
@@ -26,7 +26,7 @@ public enum EmployeesImportColumn implements ReadExcelColumn<EmployeeExcelDto> {
     }
 
     @Override
-    public BiConsumer<EmployeeExcelDto, String> getSetter() {
+    public BiConsumer<EmployeeImportDto, String> getSetter() {
         return setter;
     }
 }

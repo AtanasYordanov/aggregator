@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class CompanyExcelDto extends ImportExcelDto {
+public abstract class CompanyImportDto extends ExcelImportDto {
 
     private String name;
     private String website;

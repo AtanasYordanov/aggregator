@@ -2,7 +2,6 @@ package softuni.aggregator.service.excel;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import softuni.aggregator.domain.entities.*;
@@ -10,12 +9,9 @@ import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.domain.repository.EmployeeRepository;
 import softuni.aggregator.domain.repository.MajorIndustryRepository;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
-import softuni.aggregator.service.excel.constants.ExcelConstants;
 import softuni.aggregator.service.excel.reader.ExcelReader;
-import softuni.aggregator.service.excel.reader.model.CompanyExcelDto;
-import softuni.aggregator.service.excel.reader.model.EmployeeExcelDto;
-import softuni.aggregator.service.excel.reader.model.OrbisCompanyDto;
-import softuni.aggregator.service.excel.reader.model.XingCompanyDto;
+import softuni.aggregator.service.excel.reader.imports.Import;
+import softuni.aggregator.service.excel.reader.model.*;
 
 import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
@@ -32,39 +28,34 @@ import java.util.stream.Collectors;
 @Log
 @Service
 @Transactional
-@SuppressWarnings("unchecked")
 public class ImportExcelServiceImpl implements ImportExcelService {
+
+    private static final String EXTRACT_INTEGER_REGEX = "\\d+";
 
     private final CompanyRepository companyRepository;
     private final EmployeeRepository employeeRepository;
     private final MinorIndustryRepository minorIndustryRepository;
     private final MajorIndustryRepository majorIndustryRepository;
     private final ServletContext servletContext;
-    private final ExcelReader xingReader;
-    private final ExcelReader orbisReader;
-    private final ExcelReader employeesReader;
+    private final ExcelReader excelReader;
 
     @Autowired
     public ImportExcelServiceImpl(CompanyRepository companyRepository, EmployeeRepository employeeRepository,
                                   MinorIndustryRepository minorIndustryRepository,
                                   MajorIndustryRepository majorIndustryRepository, ServletContext servletContext,
-                                  @Qualifier("xing") ExcelReader xingReader,
-                                  @Qualifier("orbis") ExcelReader orbisReader,
-                                  @Qualifier("employees") ExcelReader employeesReader) {
+                                  ExcelReader excelReader) {
         this.companyRepository = companyRepository;
         this.employeeRepository = employeeRepository;
         this.minorIndustryRepository = minorIndustryRepository;
         this.majorIndustryRepository = majorIndustryRepository;
         this.servletContext = servletContext;
-        this.xingReader = xingReader;
-        this.orbisReader = orbisReader;
-        this.employeesReader = employeesReader;
+        this.excelReader = excelReader;
     }
 
     @Override
     public void importCompaniesFromXing(MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
-        List<XingCompanyDto> data = xingReader.readExcel(file.getAbsolutePath());
+        List<XingCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), Import.XING_COMPANIES);
         deleteFile(file);
 
         Map<String, MajorIndustry> majorIndustriesMap = majorIndustryRepository.findAll().stream()
@@ -74,12 +65,12 @@ public class ImportExcelServiceImpl implements ImportExcelService {
                 .collect(Collectors.toMap(MinorIndustry::getName, i -> i));
 
         List<String> companyWebsites = data.stream()
-                .map(XingCompanyDto::getWebsite)
+                .map(XingCompanyImportDto::getWebsite)
                 .collect(Collectors.toList());
 
         Map<String, Company> companies = getCompaniesMap(companyWebsites);
 
-        for (XingCompanyDto companyDto : data) {
+        for (XingCompanyImportDto companyDto : data) {
             Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
                 setXingCompanyProperties(company, companyDto, majorIndustriesMap, minorIndustriesMap);
@@ -94,16 +85,16 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     @Override
     public void importCompaniesFromOrbis(MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
-        List<OrbisCompanyDto> data = orbisReader.readExcel(file.getAbsolutePath());
+        List<OrbisCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), Import.ORBIS_COMPANIES);
         deleteFile(file);
 
         List<String> companyWebistes = data.stream()
-                .map(OrbisCompanyDto::getWebsite)
+                .map(OrbisCompanyImportDto::getWebsite)
                 .collect(Collectors.toList());
 
         Map<String, Company> companies = getCompaniesMap(companyWebistes);
 
-        for (OrbisCompanyDto companyDto : data) {
+        for (OrbisCompanyImportDto companyDto : data) {
             Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
                 setOrbisCompanyProperties(company, companyDto);
@@ -118,12 +109,12 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     @Override
     public void importEmployees(MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
-        List<EmployeeExcelDto> data = employeesReader.readExcel(file.getAbsolutePath());
+        List<EmployeeImportDto> data = excelReader.readExcel(file.getAbsolutePath(), Import.EMPLOYEES);
         deleteFile(file);
 
         List<Employee> employees = new ArrayList<>();
 
-        for (EmployeeExcelDto employeeDto : data) {
+        for (EmployeeImportDto employeeDto : data) {
             Employee employee = employeeRepository.findByEmail(employeeDto.getEmail())
                     .orElse(new Employee());
             setEmployeeProperties(employeeDto, employee);
@@ -134,7 +125,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         log.info(String.format("Successfully imported %s employees.", employees.size()));
     }
 
-    private void setXingCompanyProperties(Company company, XingCompanyDto companyDto, Map<String,
+    private void setXingCompanyProperties(Company company, XingCompanyImportDto companyDto, Map<String,
             MajorIndustry> majorIndustryMap, Map<String, MinorIndustry> minorIndustryMap) {
         setCommonCompanyProperties(company, companyDto);
 
@@ -162,7 +153,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         company.setIndustry(minorIndustry);
     }
 
-    private void setOrbisCompanyProperties(Company company, OrbisCompanyDto companyDto) {
+    private void setOrbisCompanyProperties(Company company, OrbisCompanyImportDto companyDto) {
         setCommonCompanyProperties(company, companyDto);
 
         company.setVATNumber(companyDto.getVATNumber());
@@ -181,7 +172,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         company.setSubsidiariesCount(getPropertyValueAsInteger(companyDto.getSubsidiariesCount()));
     }
 
-    private void setCommonCompanyProperties(Company company, CompanyExcelDto companyDto) {
+    private void setCommonCompanyProperties(Company company, CompanyImportDto companyDto) {
         company.addEmail(companyDto.getCompanyEmail());
         company.setName(companyDto.getName());
         company.setWebsite(companyDto.getWebsite());
@@ -191,7 +182,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         company.setCompanyPhone(companyDto.getCompanyPhone());
     }
 
-    private void setEmployeeProperties(EmployeeExcelDto employeeDto, Employee employee) {
+    private void setEmployeeProperties(EmployeeImportDto employeeDto, Employee employee) {
         Company company = companyRepository.findByName(employeeDto.getCompanyName()).orElse(null);
 
         employee.setCompany(company);
@@ -236,7 +227,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
         try {
             return Double.valueOf(property).intValue();
         } catch (NumberFormatException e) {
-            Pattern pattern = Pattern.compile(ExcelConstants.EXTRACT_INTEGER_REGEX);
+            Pattern pattern = Pattern.compile(EXTRACT_INTEGER_REGEX);
             Matcher matcher = pattern.matcher(property);
             return matcher.find() ? Double.valueOf(matcher.group(0)).intValue() : null;
         }

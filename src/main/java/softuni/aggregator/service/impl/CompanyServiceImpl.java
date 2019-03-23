@@ -1,4 +1,4 @@
-package softuni.aggregator.service;
+package softuni.aggregator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,8 +6,9 @@ import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.MajorIndustry;
 import softuni.aggregator.domain.entities.MinorIndustry;
 import softuni.aggregator.domain.repository.CompanyRepository;
-import softuni.aggregator.service.api.CompanyService;
-import softuni.aggregator.service.excel.writer.model.CompaniesExportExcelDto;
+import softuni.aggregator.service.CompanyService;
+import softuni.aggregator.service.excel.writer.model.CompaniesExportDto;
+import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +24,14 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<CompaniesExportExcelDto> getCompaniesForExport() {
+    public List<ExcelExportDto> getCompaniesForExport() {
         return mapToExcelDto(companyRepository.findAll());
     }
 
-    private List<CompaniesExportExcelDto> mapToExcelDto(List<Company> companies) {
-        List<CompaniesExportExcelDto> companyDtos = new ArrayList<>();
+    private List<ExcelExportDto> mapToExcelDto(List<Company> companies) {
+        List<ExcelExportDto> companyDtos = new ArrayList<>();
         for (Company company : companies) {
-            CompaniesExportExcelDto companyDto = new CompaniesExportExcelDto();
+            CompaniesExportDto companyDto = new CompaniesExportDto();
 
             companyDto.setName(company.getName());
             companyDto.setWebsite(company.getWebsite());
@@ -38,7 +39,7 @@ public class CompanyServiceImpl implements CompanyService {
             companyDto.setCity(company.getCity());
             companyDto.setCountry(company.getCountry());
             companyDto.setCompanyPhone(company.getCompanyPhone());
-            companyDto.setCompanyEmails(String.join(System.lineSeparator(),company.getCompanyEmails()));
+            companyDto.setCompanyEmails(String.join(System.lineSeparator(), company.getCompanyEmails()));
             companyDto.setXingIndustry1(getMajorIndustry(company));
             companyDto.setXingIndustry2(getMinorIndustry(company));
             companyDto.setEmployeesRange(company.getEmployeesRange());
@@ -74,11 +75,11 @@ public class CompanyServiceImpl implements CompanyService {
             return null;
         }
         MajorIndustry majorIndustry = industry.getMajorIndustry();
-        return majorIndustry != null ?  majorIndustry.getName() : null;
+        return majorIndustry != null ? majorIndustry.getName() : null;
     }
 
     private String getMinorIndustry(Company company) {
         MinorIndustry industry = company.getIndustry();
-        return industry != null ?  industry.getName() : null;
+        return industry != null ? industry.getName() : null;
     }
 }

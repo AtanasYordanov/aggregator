@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrbisCompanyDto extends CompanyExcelDto {
+public class OrbisCompanyImportDto extends CompanyImportDto {
 
     private String VATNumber;
     private String BvDIdNumber;

@@ -1,21 +1,21 @@
 package softuni.aggregator.service.excel.writer.columns;
 
-import softuni.aggregator.service.excel.writer.model.EmployeesExportExcelDto;
+import softuni.aggregator.service.excel.writer.model.EmployeesExportDto;
 
 import java.util.function.Function;
 
-public enum EmployeesExportColumn implements WriteExcelColumn<EmployeesExportExcelDto> {
+public enum EmployeesExportColumn implements WriteExcelColumn<EmployeesExportDto> {
 
-    COMPANY_NAME("Company name", EmployeesExportExcelDto::getCompanyName),
-    FULL_NAME("Full name", EmployeesExportExcelDto::getFullName),
-    POSITION("Position", EmployeesExportExcelDto::getPosition),
-    EMAIL("Email", EmployeesExportExcelDto::getEmail),
-    HUNTER_IO_SCORE("Hunter.io Score", EmployeesExportExcelDto::getHunterIoScore);
+    COMPANY_NAME("Company name", EmployeesExportDto::getCompanyName),
+    FULL_NAME("Full name", EmployeesExportDto::getFullName),
+    POSITION("Position", EmployeesExportDto::getPosition),
+    EMAIL("Email", EmployeesExportDto::getEmail),
+    HUNTER_IO_SCORE("Hunter.io Score", EmployeesExportDto::getHunterIoScore);
 
     private String columnName;
-    private Function<EmployeesExportExcelDto, ?> getter;
+    private Function<EmployeesExportDto, ?> getter;
 
-    EmployeesExportColumn(String columnName, Function<EmployeesExportExcelDto, ?> getter) {
+    EmployeesExportColumn(String columnName, Function<EmployeesExportDto, ?> getter) {
         this.columnName = columnName;
         this.getter = getter;
     }
@@ -26,7 +26,7 @@ public enum EmployeesExportColumn implements WriteExcelColumn<EmployeesExportExc
     }
 
     @Override
-    public Function<EmployeesExportExcelDto, ?> getGetter() {
+    public Function<EmployeesExportDto, ?> getGetter() {
         return getter;
     }
 }

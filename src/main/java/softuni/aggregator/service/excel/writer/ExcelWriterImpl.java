@@ -1,11 +1,12 @@
-package softuni.aggregator.service.excel.writer.writers;
+package softuni.aggregator.service.excel.writer;
 
 import lombok.extern.java.Log;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import softuni.aggregator.service.excel.writer.ExcelWriter;
+import org.springframework.stereotype.Service;
 import softuni.aggregator.service.excel.writer.columns.WriteExcelColumn;
-import softuni.aggregator.service.excel.writer.model.ExportExcelDto;
+import softuni.aggregator.service.excel.writer.exports.Export;
+import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,17 +15,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Log
-public abstract class BaseExcelWriter<T extends ExportExcelDto> implements ExcelWriter<T> {
+@Service
+public class ExcelWriterImpl implements ExcelWriter {
 
     private static final String NO_INFORMATION = "n/a";
     private static final String EXPORT_BASE_PATH = "src\\main\\resources\\exports\\";
     private static final String FILE_EXTENSION = ".xlsx";
 
     @Override
-    public File writeExcel(List<T> excelDtos) {
-        String filePath = EXPORT_BASE_PATH + generateFileName();
+    public File writeExcel(List<ExcelExportDto> excelDtos, Export export) {
+        String filePath = EXPORT_BASE_PATH + generateFileName(export);
 
-        WriteExcelColumn[] columns = getColumns();
+        WriteExcelColumn[] columns = export.getColumns();
 
         try (FileOutputStream fileOut = new FileOutputStream(filePath);
              Workbook workbook = new XSSFWorkbook()) {
@@ -34,7 +36,7 @@ public abstract class BaseExcelWriter<T extends ExportExcelDto> implements Excel
             Row headerRow = sheet.createRow(rowIndex++);
             createHeaderRow(columns, workbook, headerRow);
 
-            for (T data : excelDtos) {
+            for (ExcelExportDto data : excelDtos) {
                 Row row = sheet.createRow(rowIndex++);
                 int columnIndex = 0;
                 for (WriteExcelColumn column : columns) {
@@ -54,10 +56,6 @@ public abstract class BaseExcelWriter<T extends ExportExcelDto> implements Excel
             return null;
         }
     }
-
-    protected abstract WriteExcelColumn[] getColumns();
-
-    protected abstract String getExportName();
 
     private void createHeaderRow(WriteExcelColumn[] columns, Workbook workbook, Row headerRow) {
         int columnIndex = 0;
@@ -86,15 +84,15 @@ public abstract class BaseExcelWriter<T extends ExportExcelDto> implements Excel
             cell.setCellValue(Double.valueOf((Integer) property));
         } else if (property instanceof String) {
             cell.setCellValue((String) property);
-        } else if (cell.getCellType() == CellType.BLANK){
+        } else if (cell.getCellType() == CellType.BLANK) {
             cell.setCellValue(NO_INFORMATION);
         }
     }
 
-    private String generateFileName() {
+    private String generateFileName(Export export) {
         LocalDateTime now = LocalDateTime.now();
         return String.format("%s_%02d-%02d-%d_%02d-%02d-%02d%s",
-                getExportName(),
+                export.getExportName(),
                 now.getDayOfMonth(),
                 now.getMonthValue(),
                 now.getYear(),

@@ -1,10 +1,11 @@
 package softuni.aggregator.service.excel.reader;
 
-import softuni.aggregator.service.excel.reader.model.ImportExcelDto;
+import softuni.aggregator.service.excel.reader.imports.Import;
+import softuni.aggregator.service.excel.reader.model.ExcelImportDto;
 
 import java.util.List;
 
-public interface ExcelReader<T extends ImportExcelDto> {
+public interface ExcelReader {
 
-    List<T> readExcel(String path);
+    <T extends ExcelImportDto> List<T> readExcel(String path, Import excelImport);
 }
