@@ -1,6 +1,5 @@
 package softuni.aggregator.service.excel.writer;
 
-import lombok.extern.java.Log;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Log
 @Service
 public class ExcelWriterImpl implements ExcelWriter {
 

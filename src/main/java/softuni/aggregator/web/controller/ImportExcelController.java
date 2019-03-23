@@ -29,16 +29,14 @@ public class ImportExcelController {
     }
 
     @PostMapping("/orbis")
-    public ModelAndView importOrbisFile(ModelAndView model,
-                                        @RequestParam("file") MultipartFile file) {
+    public ModelAndView importOrbisFile(ModelAndView model, @RequestParam("file") MultipartFile file) {
         importExcelService.importCompaniesFromOrbis(file);
         model.setViewName("redirect:/");
         return model;
     }
 
     @PostMapping("/employees")
-    public ModelAndView importEmployeesFile(ModelAndView model,
-                                            @RequestParam("file") MultipartFile file) {
+    public ModelAndView importEmployeesFile(ModelAndView model, @RequestParam("file") MultipartFile file) {
         importExcelService.importEmployees(file);
         model.setViewName("redirect:/");
         return model;

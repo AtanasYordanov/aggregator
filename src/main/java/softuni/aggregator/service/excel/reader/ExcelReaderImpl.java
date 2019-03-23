@@ -1,6 +1,5 @@
 package softuni.aggregator.service.excel.reader;
 
-import lombok.extern.java.Log;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,11 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Log
 @Service
 public class ExcelReaderImpl implements ExcelReader {
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<ExcelImportDto> readExcel(String path, Import excelImport) {
         try (FileInputStream inputStream = new FileInputStream(new File(path));
              Workbook workbook = new XSSFWorkbook(inputStream)) {

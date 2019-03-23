@@ -13,12 +13,14 @@ import java.util.UUID;
 
 public class PerformanceInterceptor extends HandlerInterceptorAdapter {
 
+    private static final String REQUEST_ID_ATTRIBUTE = "requestId";
+
     private final Map<String, String> requestTimers = new HashMap<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String requestId = UUID.randomUUID().toString();
-        request.setAttribute("id", requestId);
+        request.setAttribute(REQUEST_ID_ATTRIBUTE, requestId);
         StringBuffer requestURL = request.getRequestURL();
         String timerName = String.format("%s:", requestURL);
         requestTimers.put(requestId, timerName);
@@ -28,7 +30,7 @@ public class PerformanceInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) {
-        String id = (String) request.getAttribute("id");
+        String id = (String) request.getAttribute(REQUEST_ID_ATTRIBUTE);
         String timerName = requestTimers.get(id);
         PerformanceUtils.stopTimer(timerName);
     }

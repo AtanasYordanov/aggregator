@@ -1,6 +1,6 @@
 package softuni.aggregator.service.excel;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 import java.io.*;
 import java.util.List;
 
-@Log
+@Slf4j
 @Service
 @Transactional
 public class ExportExcelServiceImpl implements ExportExcelService {
@@ -54,7 +54,7 @@ public class ExportExcelServiceImpl implements ExportExcelService {
             byte[] byteResponse = IOUtils.toByteArray(in);
             in.close();
             if (!file.delete()) {
-                log.warning(String.format("Failed to delete file: %s", file.getName()));
+                log.warn("Failed to delete file: {}", file.getName());
             }
             return byteResponse;
         } catch (IOException e) {

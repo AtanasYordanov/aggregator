@@ -1,6 +1,6 @@
 package softuni.aggregator.service.excel;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Log
+@Slf4j
 @Service
 @Transactional
 public class ImportExcelServiceImpl implements ImportExcelService {
@@ -211,7 +211,7 @@ public class ImportExcelServiceImpl implements ImportExcelService {
 
     private void deleteFile(File file) {
         if (!file.delete()) {
-            log.warning(String.format("Failed to delete %s", file.getName()));
+            log.warn("Failed to delete {}", file.getName());
         }
     }
 
