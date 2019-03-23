@@ -136,17 +136,16 @@ public class ImportExcelServiceImpl implements ImportExcelService {
 
     private void setXingCompanyProperties(Company company, XingCompanyDto companyDto, Map<String,
             MajorIndustry> majorIndustryMap, Map<String, MinorIndustry> minorIndustryMap) {
-        CompanyDetails companyDetails = getCompanyDetails(company);
-        setCommonCompanyProperties(company, companyDetails, companyDto);
+        setCommonCompanyProperties(company, companyDto);
 
-        companyDetails.setEmployeesRange(companyDto.getEmployeesRange());
-        companyDetails.setStreet(companyDto.getStreet());
-        companyDetails.setFax(companyDto.getFax());
-        companyDetails.setCompanyProfileLink(companyDto.getCompanyProfileLink());
-        companyDetails.setYearFound(getPropertyValueAsInteger(companyDto.getYearFound()));
-        companyDetails.setInformation(companyDto.getInformation());
-        companyDetails.setProductsAndServices(companyDto.getProductsAndServices());
-        companyDetails.setCompanyProfileLink(companyDto.getCompanyProfileLink());
+        company.setEmployeesRange(companyDto.getEmployeesRange());
+        company.setStreet(companyDto.getStreet());
+        company.setFax(companyDto.getFax());
+        company.setCompanyProfileLink(companyDto.getCompanyProfileLink());
+        company.setYearFound(getPropertyValueAsInteger(companyDto.getYearFound()));
+        company.setInformation(companyDto.getInformation());
+        company.setProductsAndServices(companyDto.getProductsAndServices());
+        company.setCompanyProfileLink(companyDto.getCompanyProfileLink());
 
         String majorIndustryName = companyDto.getXingIndustry1();
         MajorIndustry majorIndustry = majorIndustryMap
@@ -164,42 +163,32 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     }
 
     private void setOrbisCompanyProperties(Company company, OrbisCompanyDto companyDto) {
-        CompanyDetails companyDetails = getCompanyDetails(company);
-        setCommonCompanyProperties(company, companyDetails, companyDto);
+        setCommonCompanyProperties(company, companyDto);
 
-        companyDetails.setVATNumber(companyDto.getVATNumber());
-        companyDetails.setBvDIdNumber(companyDto.getBvDIdNumber());
-        companyDetails.setISOCountryCode(companyDto.getISOCountryCode());
-        companyDetails.setNaceRevMainSection(companyDto.getNaceRevMainSection());
-        companyDetails.setNaceRevCoreCode(getPropertyValueAsInteger(companyDto.getNaceRevCoreCode()));
-        companyDetails.setConsolidationCode(companyDto.getConsolidationCode());
-        companyDetails.setOperatingIncome(companyDto.getOperatingIncome());
-        companyDetails.setEmployeesCount(getPropertyValueAsInteger(companyDto.getEmployeesCount()));
-        companyDetails.setAddress(companyDto.getAddress());
-        companyDetails.setJobDescription(companyDto.getJobDescription());
-        companyDetails.setStandardizedLegalForm(companyDto.getStandardizedLegalForm());
-        companyDetails.setManagersCount(getPropertyValueAsInteger(companyDto.getManagersCount()));
-        companyDetails.setCorporationCompaniesCount(getPropertyValueAsInteger(companyDto.getCorporationCompaniesCount()));
-        companyDetails.setSubsidiariesCount(getPropertyValueAsInteger(companyDto.getSubsidiariesCount()));
+        company.setVATNumber(companyDto.getVATNumber());
+        company.setBvDIdNumber(companyDto.getBvDIdNumber());
+        company.setISOCountryCode(companyDto.getISOCountryCode());
+        company.setNaceRevMainSection(companyDto.getNaceRevMainSection());
+        company.setNaceRevCoreCode(getPropertyValueAsInteger(companyDto.getNaceRevCoreCode()));
+        company.setConsolidationCode(companyDto.getConsolidationCode());
+        company.setOperatingIncome(companyDto.getOperatingIncome());
+        company.setEmployeesCount(getPropertyValueAsInteger(companyDto.getEmployeesCount()));
+        company.setAddress(companyDto.getAddress());
+        company.setJobDescription(companyDto.getJobDescription());
+        company.setStandardizedLegalForm(companyDto.getStandardizedLegalForm());
+        company.setManagersCount(getPropertyValueAsInteger(companyDto.getManagersCount()));
+        company.setCorporationCompaniesCount(getPropertyValueAsInteger(companyDto.getCorporationCompaniesCount()));
+        company.setSubsidiariesCount(getPropertyValueAsInteger(companyDto.getSubsidiariesCount()));
     }
 
-    private void setCommonCompanyProperties(Company company, CompanyDetails companyDetails, CompanyExcelDto companyDto) {
+    private void setCommonCompanyProperties(Company company, CompanyExcelDto companyDto) {
         company.addEmail(companyDto.getCompanyEmail());
         company.setName(companyDto.getName());
         company.setWebsite(companyDto.getWebsite());
-        companyDetails.setPostcode(getPropertyValueAsInteger(companyDto.getPostcode()));
-        companyDetails.setCity(companyDto.getCity());
-        companyDetails.setCountry(companyDto.getCountry());
-        companyDetails.setCompanyPhone(companyDto.getCompanyPhone());
-    }
-
-    private CompanyDetails getCompanyDetails(Company company) {
-        CompanyDetails companyDetails = company.getCompanyDetails();
-        if (companyDetails == null) {
-            companyDetails = new CompanyDetails();
-            company.setCompanyDetails(companyDetails);
-        }
-        return companyDetails;
+        company.setPostcode(getPropertyValueAsInteger(companyDto.getPostcode()));
+        company.setCity(companyDto.getCity());
+        company.setCountry(companyDto.getCountry());
+        company.setCompanyPhone(companyDto.getCompanyPhone());
     }
 
     private void setEmployeeProperties(EmployeeExcelDto employeeDto, Employee employee) {

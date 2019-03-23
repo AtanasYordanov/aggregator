@@ -17,7 +17,7 @@ public class EmployeesExcelWriter extends BaseExcelWriter<EmployeesExportExcelDt
     }
 
     @Override
-    protected String getExportType() {
+    protected String getExportName() {
         return ExcelConstants.EMPLOYEES_EXPORT_NAME;
     }
 }

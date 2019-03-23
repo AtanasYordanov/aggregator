@@ -12,6 +12,7 @@ import softuni.aggregator.service.excel.writer.model.CompaniesExportExcelDto;
 import softuni.aggregator.service.excel.writer.model.EmployeesExportExcelDto;
 import softuni.aggregator.service.excel.writer.writers.CompaniesExcelWriter;
 import softuni.aggregator.service.excel.writer.writers.EmployeesExcelWriter;
+import softuni.aggregator.utils.performance.PerformanceUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -43,22 +44,27 @@ public class ExportExcelServiceImpl implements ExportExcelService {
 
     @Override
     public byte[] exportEmployees(HttpServletResponse response) {
+        PerformanceUtils.startTimer("Export Employees");
+
         List<EmployeesExportExcelDto> allEmployees = employeesService.getEmployeesForExport().stream()
                 .map(e -> modelMapper.map(e, EmployeesExportExcelDto.class))
                 .collect(Collectors.toList());
 
         File file = employeesExcelWriter.writeExcel(allEmployees);
 
+        PerformanceUtils.stopTimer("Export Employees");
+
         return getBytes(response, file);
     }
 
     @Override
     public byte[] exportCompanies(HttpServletResponse response) {
-        List<CompaniesExportExcelDto> allCompanies = companyService.getCompaniesForExport()
-                .stream()
-                .limit(1000)
-                .collect(Collectors.toList());
+        PerformanceUtils.startTimer("Export Companies");
+
+        List<CompaniesExportExcelDto> allCompanies = companyService.getCompaniesForExport();
         File file = companiesExcelWriter.writeExcel(allCompanies);
+
+        PerformanceUtils.stopTimer("Export Companies");
         return getBytes(response, file);
     }
 

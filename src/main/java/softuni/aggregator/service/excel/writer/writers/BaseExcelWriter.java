@@ -57,7 +57,7 @@ public abstract class BaseExcelWriter<T extends ExportExcelDto> implements Excel
 
     protected abstract WriteExcelColumn[] getColumns();
 
-    protected abstract String getExportType();
+    protected abstract String getExportName();
 
     private void createHeaderRow(WriteExcelColumn[] columns, Workbook workbook, Row headerRow) {
         int columnIndex = 0;
@@ -93,8 +93,8 @@ public abstract class BaseExcelWriter<T extends ExportExcelDto> implements Excel
 
     private String generateFileName() {
         LocalDateTime now = LocalDateTime.now();
-        return String.format("%s__%02d_%02d_%d__%02d_%02d_%02d%s",
-                getExportType(),
+        return String.format("%s_%02d-%02d-%d_%02d-%02d-%02d%s",
+                getExportName(),
                 now.getDayOfMonth(),
                 now.getMonthValue(),
                 now.getYear(),

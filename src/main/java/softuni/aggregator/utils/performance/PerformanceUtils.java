@@ -1,6 +1,11 @@
 package softuni.aggregator.utils.performance;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PerformanceUtils {
+
+    private static Map<String, Long> timers = new HashMap<>();
 
     private static final String DEFAULT_NAME = "Performance Test";
 
@@ -12,7 +17,20 @@ public class PerformanceUtils {
         long start = System.currentTimeMillis();
         runnable.run();
         long end = System.currentTimeMillis();
-        double seconds = (end - start) / 1000.0;
-        System.out.println(String.format("%s - Execution time: %.2f seconds.", name, seconds));
+        System.out.println(String.format("%s - Execution time: %.2f seconds.", name, getSeconds(start, end)));
+    }
+
+    public static void startTimer(String timerName) {
+        timers.put(timerName, System.currentTimeMillis());
+    }
+
+    public static void stopTimer(String timerName) {
+        long start = timers.remove(timerName);
+        long end = System.currentTimeMillis();
+        System.out.println(String.format("%s - Execution time: %.2f seconds.", timerName, getSeconds(start, end)));
+    }
+
+    private static double getSeconds(long start, long end) {
+        return (end - start) / 1000.0;
     }
 }
