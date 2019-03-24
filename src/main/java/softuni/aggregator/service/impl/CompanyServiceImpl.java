@@ -1,10 +1,16 @@
 package softuni.aggregator.service.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.MajorIndustry;
 import softuni.aggregator.domain.entities.MinorIndustry;
+import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.service.CompanyService;
 import softuni.aggregator.service.excel.writer.model.CompaniesExportDto;
@@ -12,20 +18,35 @@ import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public CompanyServiceImpl(CompanyRepository companyRepository) {
+    public CompanyServiceImpl(CompanyRepository companyRepository, ModelMapper modelMapper) {
         this.companyRepository = companyRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
     public List<ExcelExportDto> getCompaniesForExport() {
         return mapToExcelDto(companyRepository.findAll());
+    }
+
+    @Override
+    public List<CompanyListVO> getCompanies(Pageable pageable) {
+        return companyRepository.findAll(pageable).stream()
+                .map(c -> modelMapper.map(c, CompanyListVO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public long getTotalCompaniesCount() {
+        return companyRepository.count();
     }
 
     private List<ExcelExportDto> mapToExcelDto(List<Company> companies) {

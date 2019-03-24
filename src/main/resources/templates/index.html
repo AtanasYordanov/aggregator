@@ -6,11 +6,15 @@
     </th:block>
 </head>
 <body>
-<main>
-    <div class="container-fluid">
+<div class="container-fluid">
+    <div class="row">
+        <th:block th:include="~{fragments/navbar}">
+        </th:block>
+    </div>
+    <main class="container">
         <div class="row mt-4">
-            <div class="col-lg-4"></div>
-            <div class="col-lg-4">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
                 <form th:action="@{/import/xing}" method="post" enctype="multipart/form-data" class="row">
                     <div class="custom-file col-lg-8 mr-4">
                         <input type="file" name="file" readonly class="custom-file-input" id="xing-input"
@@ -41,9 +45,11 @@
                     <a th:href="@{/export/companies}" class="btn btn-success mb-2 col-lg-4">Export Companies</a>
                 </div>
             </div>
-            <div class="col-lg-4"></div>
+            <div class="col-lg-2"></div>
         </div>
-    </div>
-</main>
+    </main>
+    <th:block th:include="~{fragments/notification-container}">
+    </th:block>
+</div>
 </body>
 </html>

@@ -12,6 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public String handleSQLException(HttpServletRequest request, Exception ex) {
+        ex.printStackTrace();
         log.warn("Error when trying to access {}: {}", request.getRequestURL(), ex.getMessage());
         return "error";
     }

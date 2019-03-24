@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}">
+    </th:block>
+</head>
+<body>
+
+<div th:with="pageSize=${20}">
+    <div th:with="sortCriteria=${param.sort != null ? param.sort : 'industry' }">
+
+        <div class="container-fluid">
+            <div class="row">
+                <th:block th:include="~{fragments/navbar}">
+                </th:block>
+            </div>
+            <main class="container">
+                <div class="row mt-4 mb-4">
+
+                    <div class="container-fluid section-header mt-4">
+                        <form class="row">
+                            <div class="form-row col-lg-6">
+                                <div class="form-group col-lg-6">
+                                    <label for="major-industry-select">Major Industry</label>
+                                    <select id="major-industry-select" class="form-control">
+                                        <option selected>Select Major Industry</option>
+                                        <option th:each="industry: ${majorIndustries}" th:value="${industry}"
+                                                th:text="${industry}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="minor-industry-select">Minor Industry</label>
+                                    <select id="minor-industry-select" class="form-control">
+                                        <option selected>Select Minor Industry</option>
+                                        <option th:each="industry: ${minorIndustries}" th:value="${industry}"
+                                                th:text="${industry}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="search-btn-wrapper col-lg-2">
+                                <button type="submit" class="btn btn-info">FILTER</button>
+                            </div>
+                            <div class="search-btn-wrapper col-lg-2">
+                                <button type="submit" class="btn btn-success">EXPORT</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <nav class="container-fluid" aria-label="...">
+                        <ul class="pagination float-right">
+                            <li class="page-item disabled">
+                                <a id="previous-btn" class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+
+                            <li th:each="i: ${#numbers.sequence(1, companiesCount / 2000)}" class="page-item"
+                                th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
+                                <a class="page-link"
+                                   th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
+                                   th:text="${i}"></a>
+                            </li>
+
+                            <li class="page-item">
+                                <a id="next-btn" class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <table id="companies-table" class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Company name<i class="fas fa-sort-down ml-2"></i></th>
+                            <th scope="col">Industry<i class="fas fa-sort-down ml-2"></i></th>
+                            <th scope="col">Website<i class="fas fa-sort-down ml-2"></i></th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="company, iter: ${companies}">
+                            <th th:text="${(T(Integer).parseInt(param.page) - 1) * pageSize + iter.index + 1}"></th>
+                            <td th:text="${company.name}"></td>
+                            <td th:text="${company.industry}"></td>
+                            <td><a th:href="@{'http://' + ${company.website}}" th:text="${company.website}"></a></td>
+                            <td class="btn-col">
+                                <a th:href="@{'/companies/' + ${company.id}}" class="btn btn-outline-secondary btn-sm">View
+                                    Details</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <nav class="container-fluid" aria-label="...">
+                        <ul class="pagination float-right">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+
+                            <li th:each="i: ${#numbers.sequence(1, companiesCount / 2000)}" class="page-item"
+                                th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
+                                <a class="page-link"
+                                   th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
+                                   th:text="${i}"></a>
+                            </li>
+
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </main>
+            <th:block th:include="~{fragments/notification-container}">
+            </th:block>
+        </div>
+</body>
+<script th:src="@{/js/pages/companies.js}"></script>
+</html>
