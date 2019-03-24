@@ -3,32 +3,38 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand text-white active ml-2" href="/">
+    <a class="navbar-brand text-white active ml-2" th:href="@{/home}">
         <img th:src="@{/images/logo.png}" id="logo" class="rounded mx-auto d-block" alt="Logo">
     </a>
 
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/}">HOME</a>
+                <a class="nav-link text-white" th:href="@{/home}"
+                   th:classappend="${#httpServletRequest.requestURI.contains('home') ? 'active' : ''}">HOME</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/companies/(page=${1}, size=${20})}">COMPANIES</a>
+                <a class="nav-link text-white" th:href="@{/companies/(page=${1}, size=${20})}"
+                   th:classappend="${#httpServletRequest.requestURI.contains('companies') ? 'active' : ''}">COMPANIES</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/employees}">EMPLOYEES</a>
+                <a class="nav-link text-white" th:href="@{/employees}"
+                   th:classappend="${#httpServletRequest.requestURI.contains('employees') ? 'active' : ''}">EMPLOYEES</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/reports}">REPORTS</a>
+                <a class="nav-link text-white" th:href="@{/reports}"
+                   th:classappend="${#httpServletRequest.requestURI.contains('reports') ? 'active' : ''}">REPORTS</a>
             </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link text-white" th:href="@{/login}">LOGIN</a>
+                    <a class="nav-link text-white" th:href="@{/login}"
+                       th:classappend="${#httpServletRequest.requestURI.contains('login') ? 'active' : ''}">LOGIN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" th:href="@{/register}">REGISTER</a>
+                    <a class="nav-link text-white" th:href="@{/register}"
+                       th:classappend="${#httpServletRequest.requestURI.contains('register') ? 'active' : ''}">REGISTER</a>
                 </li>
             </ul>
         </div>

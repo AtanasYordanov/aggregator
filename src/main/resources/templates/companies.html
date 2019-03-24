@@ -20,26 +20,25 @@
 
                     <div class="container-fluid section-header mt-4">
                         <form class="row">
-                            <div class="form-row col-lg-6">
-                                <div class="form-group col-lg-6">
-                                    <label for="major-industry-select">Major Industry</label>
-                                    <select id="major-industry-select" class="form-control">
-                                        <option selected>Select Major Industry</option>
-                                        <option th:each="industry: ${majorIndustries}" th:value="${industry}"
-                                                th:text="${industry}"></option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="minor-industry-select">Minor Industry</label>
-                                    <select id="minor-industry-select" class="form-control">
-                                        <option selected>Select Minor Industry</option>
+                            <div class="form-row col-lg-4">
+                                <div class="form-group col-lg-12">
+                                    <label for="industry-select"> </label>
+                                    <select id="industry-select" class="form-control">
+                                        <option selected disabled>Select Industry</option>
+                                        <optgroup label="________ Major ________">
+                                            <option th:each="industry: ${majorIndustries}" th:value="${industry}"
+                                                    th:text="${industry}"></option>
+                                        </optgroup>
+                                        <optgroup label="________ Minor ________">
                                         <option th:each="industry: ${minorIndustries}" th:value="${industry}"
                                                 th:text="${industry}"></option>
+                                        </optgroup>
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-4"></div>
                             <div class="search-btn-wrapper col-lg-2">
-                                <button type="submit" class="btn btn-info">FILTER</button>
+                                <button class="btn btn-info" type="button">Filter</button>
                             </div>
                             <div class="search-btn-wrapper col-lg-2">
                                 <button type="submit" class="btn btn-success">EXPORT</button>
@@ -48,24 +47,27 @@
                     </div>
 
 
-                    <nav class="container-fluid" aria-label="...">
-                        <ul class="pagination float-right">
-                            <li class="page-item disabled">
-                                <a id="previous-btn" class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
+                    <div class="container-fluid mt-3">
+                        <div class="float-left text-primary" th:text="${'Total matches: ' + companiesCount}"></div>
+                        <nav class="container-fluid" aria-label="...">
+                            <ul class="pagination float-right">
+                                <li class="page-item disabled">
+                                    <a class="page-link previous-btn" href="#" tabindex="-1">Previous</a>
+                                </li>
 
-                            <li th:each="i: ${#numbers.sequence(1, companiesCount / 2000)}" class="page-item"
-                                th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
-                                <a class="page-link"
-                                   th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
-                                   th:text="${i}"></a>
-                            </li>
+                                <li th:each="i: ${#numbers.sequence(1, companiesCount / 2000)}" class="page-item"
+                                    th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
+                                    <a class="page-link"
+                                       th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
+                                       th:text="${i}"></a>
+                                </li>
 
-                            <li class="page-item">
-                                <a id="next-btn" class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                                <li class="page-item">
+                                    <a class="page-link next-btn" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
 
                     <table id="companies-table" class="table">
                         <thead>
@@ -91,24 +93,27 @@
                         </tbody>
                     </table>
 
-                    <nav class="container-fluid" aria-label="...">
-                        <ul class="pagination float-right">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
+                    <div class="container-fluid mt-3">
+                        <div class="float-left text-primary" th:text="${'Total matches: ' + companiesCount}"></div>
+                        <nav class="container-fluid" aria-label="...">
+                            <ul class="pagination float-right">
+                                <li class="page-item disabled">
+                                    <a class="page-link previous-btn" href="#" tabindex="-1">Previous</a>
+                                </li>
 
-                            <li th:each="i: ${#numbers.sequence(1, companiesCount / 2000)}" class="page-item"
-                                th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
-                                <a class="page-link"
-                                   th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
-                                   th:text="${i}"></a>
-                            </li>
+                                <li th:each="i: ${#numbers.sequence(1, companiesCount / 2000)}" class="page-item"
+                                    th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
+                                    <a class="page-link"
+                                       th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
+                                       th:text="${i}"></a>
+                                </li>
 
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                                <li class="page-item">
+                                    <a class="page-link next-btn" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
 
                 </div>
             </main>
