@@ -7,10 +7,6 @@
 </head>
 <body>
 
-<div th:with="pageSize=${20}">
-<div th:with="sortCriteria=${param.sort != null ? param.sort : 'industry' }">
-<div th:with="pagesCount=${companiesCount / 2000}">
-
 <div class="container-fluid">
     <div class="row">
         <th:block th:include="~{fragments/navbar}">
@@ -26,20 +22,16 @@
                             <label for="industry-select"> </label>
                             <select id="industry-select" class="form-control">
                                 <option selected disabled>Select Industry</option>
-                                <optgroup label="________ Major ________">
-                                    <option th:each="industry: ${majorIndustries}" th:value="${industry}"
-                                            th:text="${industry}"></option>
+                                <optgroup id ="major-industries" label="________ Major ________">
                                 </optgroup>
-                                <optgroup label="________ Minor ________">
-                                <option th:each="industry: ${minorIndustries}" th:value="${industry}"
-                                        th:text="${industry}"></option>
+                                <optgroup id ="minor-industries" label="________ Minor ________">
                                 </optgroup>
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-4"></div>
                     <div class="search-btn-wrapper col-lg-2">
-                        <button class="btn btn-info" type="button">FILTER</button>
+                        <button class="btn btn-primary" type="button">FILTER</button>
                     </div>
                     <div class="search-btn-wrapper col-lg-2">
                         <button type="submit" class="btn btn-success">EXPORT</button>
@@ -50,29 +42,24 @@
             <th:block th:include="~{fragments/pagination}">
             </th:block>
 
-            <table id="companies-table" class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Company name<i class="fas fa-sort-down ml-2"></i></th>
-                    <th scope="col">Industry<i class="fas fa-sort-down ml-2"></i></th>
-                    <th scope="col">Website<i class="fas fa-sort-down ml-2"></i></th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="company, iter: ${companies}">
-                    <th th:text="${(T(Integer).parseInt(param.page) - 1) * pageSize + iter.index + 1}"></th>
-                    <td th:text="${company.name}"></td>
-                    <td th:text="${company.industry}"></td>
-                    <td><a th:href="@{'http://' + ${company.website}}" th:text="${company.website}"></a></td>
-                    <td class="btn-col">
-                        <a th:href="@{'/companies/' + ${company.id}}" class="btn btn-outline-secondary btn-sm">View
-                            Details</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="container-fluid text-center table-wrapper align-middle">
+                <table id="companies-table" class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Company name<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col">Industry<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col">Website<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="spinner-border text-info" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
 
             <th:block th:include="~{fragments/pagination}">
             </th:block>

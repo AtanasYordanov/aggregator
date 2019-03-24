@@ -1,9 +1,5 @@
 let notification = (() => {
 
-    // $(document).on({
-    //     ajaxStart: () => $('#notification-container').show(),
-    //     ajaxStop: () => $('#loadingBox').fadeOut()
-    // });
     const container = $('#notification-container');
     const notificationTimeOut = 5000;
 

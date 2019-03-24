@@ -14,7 +14,7 @@
                    th:classappend="${#httpServletRequest.requestURI.contains('home') ? 'active' : ''}">HOME</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" th:href="@{/companies/(page=${1}, size=${20})}"
+                <a class="nav-link text-white" th:href="@{/companies}"
                    th:classappend="${#httpServletRequest.requestURI.contains('companies') ? 'active' : ''}">COMPANIES</a>
             </li>
             <li class="nav-item">

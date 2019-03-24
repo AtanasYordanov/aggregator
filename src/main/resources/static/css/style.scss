@@ -10,6 +10,16 @@ body {
     width: 100%;
 }
 
+.spinner-border {
+    width: 3rem !important;
+    height: 3rem !important;
+
+    position: absolute;
+
+    top: calc(50% - 1.5rem);
+    left: calc(50% - 1.5rem);
+}
+
 .search-btn-wrapper {
     padding-top: 1.5rem !important;
     padding-bottom: 1rem !important;
@@ -20,8 +30,15 @@ body {
     border-radius: 10px;
 }
 
-.navbar {
+#notification-container {
+    width: 500px;
+    max-width: 98%;
+    position: fixed;
+    top: 65px;
+    right: 5px;
+}
 
+.navbar {
     .navbar-brand {
         padding-top: 0;
         padding-bottom: 0;
@@ -30,32 +47,27 @@ body {
             max-width: 35px;
         }
     }
-
     .active {
         font-weight: 600;
     }
-
     a:hover {
         color: #75ea7b !important;
     }
 }
 
 main {
-    .table {
-        .btn-col {
-            padding: 0.5rem;
-        }
+    .table-wrapper {
+        position: relative;
+        min-height: 700px;
 
-        tbody tr:last-child td, tbody tr:last-child th {
-            border-bottom: 1px solid #dee2e6;
+        .table {
+            .btn-col {
+                padding: 0.5rem;
+            }
+
+            tbody tr:last-child td, tbody tr:last-child th {
+                border-bottom: 1px solid #dee2e6;
+            }
         }
     }
-}
-
-#notification-container {
-    width: 500px;
-    max-width: 98%;
-    position: fixed;
-    top: 65px;
-    right: 5px;
 }
