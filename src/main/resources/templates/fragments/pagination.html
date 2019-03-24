@@ -1,22 +1,25 @@
-<div class="container-fluid mt-3">
-    <div class="float-left text-primary" >Total matches: </div>
-    <nav class="container-fluid" aria-label="...">
-        <ul class="pagination float-right">
-            <li class="page-item disabled">
-                <a class="page-link previous-btn" href="#" tabindex="-1">Previous</a>
-            </li>
+<th:block th:fragment xmlns:th="http://www.thymeleaf.org">
+    <div class="container-fluid mt-3">
+        <div class="float-left text-primary pt-2" th:text="${'Total matches: ' + companiesCount}"></div>
+        <nav class="container-fluid" aria-label="...">
+            <ul class="pagination float-right">
+                <li class="page-item" th:classappend="${T(Integer).parseInt(param.page) == 1 ? 'disabled' : ''}">
+                    <a class="page-link previous-btn" tabindex="-1"
+                       th:href="@{/companies/(page=${T(Integer).parseInt(param.page) - 1}, size=${pageSize}, sort=${sortCriteria})}">Previous</a>
+                </li>
 
-            <li class="page-item">
-                <a class="page-link previous-btn" href="#" tabindex="-1">Previous</a>
-            </li>
+                <li th:each="i: ${#numbers.sequence(1, pagesCount)}" class="page-item"
+                    th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
+                    <a class="page-link"
+                       th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
+                       th:text="${i}"></a>
+                </li>
 
-            <li class="page-item disabled">
-                <a class="page-link previous-btn" href="#" tabindex="-1">Previous</a>
-            </li>
-
-            <li class="page-item">
-                <a class="page-link next-btn" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
-</div>
+                <li class="page-item" th:classappend="${T(Integer).parseInt(param.page) == pagesCount ? 'disabled' : ''}">
+                    <a class="page-link next-btn"
+                       th:href="@{/companies/(page=${T(Integer).parseInt(param.page) + 1}, size=${pageSize}, sort=${sortCriteria})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</th:block>

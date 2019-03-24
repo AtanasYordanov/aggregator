@@ -8,118 +8,80 @@
 <body>
 
 <div th:with="pageSize=${20}">
-    <div th:with="sortCriteria=${param.sort != null ? param.sort : 'industry' }">
+<div th:with="sortCriteria=${param.sort != null ? param.sort : 'industry' }">
+<div th:with="pagesCount=${companiesCount / 2000}">
 
-        <div class="container-fluid">
-            <div class="row">
-                <th:block th:include="~{fragments/navbar}">
-                </th:block>
+<div class="container-fluid">
+    <div class="row">
+        <th:block th:include="~{fragments/navbar}">
+        </th:block>
+    </div>
+    <main class="container">
+        <div class="row mt-4 mb-4">
+
+            <div class="container-fluid section-header mt-4">
+                <form class="row">
+                    <div class="form-row col-lg-4">
+                        <div class="form-group col-lg-12">
+                            <label for="industry-select"> </label>
+                            <select id="industry-select" class="form-control">
+                                <option selected disabled>Select Industry</option>
+                                <optgroup label="________ Major ________">
+                                    <option th:each="industry: ${majorIndustries}" th:value="${industry}"
+                                            th:text="${industry}"></option>
+                                </optgroup>
+                                <optgroup label="________ Minor ________">
+                                <option th:each="industry: ${minorIndustries}" th:value="${industry}"
+                                        th:text="${industry}"></option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4"></div>
+                    <div class="search-btn-wrapper col-lg-2">
+                        <button class="btn btn-info" type="button">FILTER</button>
+                    </div>
+                    <div class="search-btn-wrapper col-lg-2">
+                        <button type="submit" class="btn btn-success">EXPORT</button>
+                    </div>
+                </form>
             </div>
-            <main class="container">
-                <div class="row mt-4 mb-4">
 
-                    <div class="container-fluid section-header mt-4">
-                        <form class="row">
-                            <div class="form-row col-lg-4">
-                                <div class="form-group col-lg-12">
-                                    <label for="industry-select"> </label>
-                                    <select id="industry-select" class="form-control">
-                                        <option selected disabled>Select Industry</option>
-                                        <optgroup label="________ Major ________">
-                                            <option th:each="industry: ${majorIndustries}" th:value="${industry}"
-                                                    th:text="${industry}"></option>
-                                        </optgroup>
-                                        <optgroup label="________ Minor ________">
-                                        <option th:each="industry: ${minorIndustries}" th:value="${industry}"
-                                                th:text="${industry}"></option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4"></div>
-                            <div class="search-btn-wrapper col-lg-2">
-                                <button class="btn btn-info" type="button">Filter</button>
-                            </div>
-                            <div class="search-btn-wrapper col-lg-2">
-                                <button type="submit" class="btn btn-success">EXPORT</button>
-                            </div>
-                        </form>
-                    </div>
-
-
-                    <div class="container-fluid mt-3">
-                        <div class="float-left text-primary pt-2" th:text="${'Total matches: ' + companiesCount}"></div>
-                        <nav class="container-fluid" aria-label="...">
-                            <ul class="pagination float-right">
-                                <li class="page-item disabled">
-                                    <a class="page-link previous-btn" href="#" tabindex="-1">Previous</a>
-                                </li>
-
-                                <li th:each="i: ${#numbers.sequence(1, companiesCount / 2000)}" class="page-item"
-                                    th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
-                                    <a class="page-link"
-                                       th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
-                                       th:text="${i}"></a>
-                                </li>
-
-                                <li class="page-item">
-                                    <a class="page-link next-btn" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-
-                    <table id="companies-table" class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Company name<i class="fas fa-sort-down ml-2"></i></th>
-                            <th scope="col">Industry<i class="fas fa-sort-down ml-2"></i></th>
-                            <th scope="col">Website<i class="fas fa-sort-down ml-2"></i></th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="company, iter: ${companies}">
-                            <th th:text="${(T(Integer).parseInt(param.page) - 1) * pageSize + iter.index + 1}"></th>
-                            <td th:text="${company.name}"></td>
-                            <td th:text="${company.industry}"></td>
-                            <td><a th:href="@{'http://' + ${company.website}}" th:text="${company.website}"></a></td>
-                            <td class="btn-col">
-                                <a th:href="@{'/companies/' + ${company.id}}" class="btn btn-outline-secondary btn-sm">View
-                                    Details</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="container-fluid mt-3">
-                        <div class="float-left text-primary pt-2" th:text="${'Total matches: ' + companiesCount}"></div>
-                        <nav class="container-fluid" aria-label="...">
-                            <ul class="pagination float-right">
-                                <li class="page-item disabled">
-                                    <a class="page-link previous-btn" href="#" tabindex="-1">Previous</a>
-                                </li>
-
-                                <li th:each="i: ${#numbers.sequence(1, companiesCount / 2000)}" class="page-item"
-                                    th:classappend="${T(Integer).parseInt(param.page) == i} ? active : ''">
-                                    <a class="page-link"
-                                       th:href="@{/companies/(page=${i}, size=${pageSize}, sort=${sortCriteria})}"
-                                       th:text="${i}"></a>
-                                </li>
-
-                                <li class="page-item">
-                                    <a class="page-link next-btn" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-
-                </div>
-            </main>
-            <th:block th:include="~{fragments/notification-container}">
+            <th:block th:include="~{fragments/pagination}">
             </th:block>
+
+            <table id="companies-table" class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Company name<i class="fas fa-sort-down ml-2"></i></th>
+                    <th scope="col">Industry<i class="fas fa-sort-down ml-2"></i></th>
+                    <th scope="col">Website<i class="fas fa-sort-down ml-2"></i></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="company, iter: ${companies}">
+                    <th th:text="${(T(Integer).parseInt(param.page) - 1) * pageSize + iter.index + 1}"></th>
+                    <td th:text="${company.name}"></td>
+                    <td th:text="${company.industry}"></td>
+                    <td><a th:href="@{'http://' + ${company.website}}" th:text="${company.website}"></a></td>
+                    <td class="btn-col">
+                        <a th:href="@{'/companies/' + ${company.id}}" class="btn btn-outline-secondary btn-sm">View
+                            Details</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <th:block th:include="~{fragments/pagination}">
+            </th:block>
+
         </div>
+    </main>
+    <th:block th:include="~{fragments/notification-container}">
+    </th:block>
+</div>
 </body>
 <script th:src="@{/js/pages/companies.js}"></script>
 </html>

@@ -1,24 +1,29 @@
+body {
+  font-family: 'Montserrat', sans-serif !important; }
+
 .bg-custom {
   background-color: #c44725; }
+
+.btn {
+  width: 100%; }
 
 .search-btn-wrapper {
   padding-top: 1.5rem !important;
   padding-bottom: 1rem !important; }
-  .search-btn-wrapper .btn {
-    letter-spacing: 1px;
-    width: 100%; }
 
-.navbar {
-  letter-spacing: 0.5px; }
-  .navbar .navbar-brand {
-    padding-top: 0;
-    padding-bottom: 0; }
-    .navbar .navbar-brand #logo {
-      max-width: 35px; }
-  .navbar .active {
-    font-weight: 500; }
-  .navbar a:hover {
-    color: #75ea7b !important; }
+.rounded-form {
+  background: #e7efda;
+  border-radius: 10px; }
+
+.navbar .navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0; }
+  .navbar .navbar-brand #logo {
+    max-width: 35px; }
+.navbar .active {
+  font-weight: 600; }
+.navbar a:hover {
+  color: #75ea7b !important; }
 
 main .table .btn-col {
   padding: 0.5rem; }
