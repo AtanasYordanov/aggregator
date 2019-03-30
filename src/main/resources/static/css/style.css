@@ -7,7 +7,11 @@ body {
 .btn {
   width: 100%; }
 
-.spinner-border {
+.btn-spinner {
+  margin-bottom: 2px;
+  margin-right: 2px; }
+
+.table-spinner {
   width: 3rem !important;
   height: 3rem !important;
   position: absolute;
@@ -34,6 +38,8 @@ body {
   padding-bottom: 0; }
   .navbar .navbar-brand #logo {
     max-width: 35px; }
+.navbar .dropdown-menu {
+  background-color: inherit; }
 .navbar .active {
   font-weight: 600; }
 .navbar a:hover {

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CompaniesFilterData {
+public class CompaniesFilterDataModel {
 
     private String industry;
 }

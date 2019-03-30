@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.aggregator.domain.model.binding.CompaniesFilterData;
+import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.model.vo.CompanyPageVO;
 import softuni.aggregator.service.CompanyService;
@@ -35,7 +35,7 @@ public class CompaniesController {
         this.majorIndustryService = majorIndustryService;
     }
 
-    @GetMapping
+    @GetMapping("/catalog")
     public ModelAndView getCompaniesView(ModelAndView model) {
         model.setViewName("companies");
         return model;
@@ -58,7 +58,7 @@ public class CompaniesController {
     }
 
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CompanyPageVO> getCompaniesPage(Pageable pageable, CompaniesFilterData filterData) {
+    public ResponseEntity<CompanyPageVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData) {
         List<CompanyListVO> companies = companyService.getCompaniesPage(pageable, filterData);
         long companiesCount = companyService.getCompaniesCountForIndustry(filterData.getIndustry());
 

@@ -10,7 +10,12 @@ body {
     width: 100%;
 }
 
-.spinner-border {
+.btn-spinner {
+    margin-bottom: 2px;
+    margin-right: 2px;
+}
+
+.table-spinner {
     width: 3rem !important;
     height: 3rem !important;
 
@@ -47,6 +52,11 @@ body {
             max-width: 35px;
         }
     }
+
+    .dropdown-menu {
+        background-color: inherit;
+    }
+
     .active {
         font-weight: 600;
     }

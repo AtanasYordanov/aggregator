@@ -58,9 +58,9 @@ case "`uname`" in
     # See https://developer.apple.com/library/mac/qa/qa1170/_index.html
     if [ -z "$JAVA_HOME" ]; then
       if [ -x "/usr/libexec/java_home" ]; then
-        export JAVA_HOME="`/usr/libexec/java_home`"
+        exportType JAVA_HOME="`/usr/libexec/java_home`"
       else
-        export JAVA_HOME="/Library/Java/Home"
+        exportType JAVA_HOME="/Library/Java/Home"
       fi
     fi
     ;;
@@ -132,7 +132,7 @@ if [ -z "$JAVA_HOME" ]; then
       javaHome="`dirname \"$javaExecutable\"`"
       javaHome=`expr "$javaHome" : '\(.*\)/bin'`
       JAVA_HOME="$javaHome"
-      export JAVA_HOME
+      exportType JAVA_HOME
     fi
   fi
 fi
@@ -259,7 +259,7 @@ fi
 # End of extension
 ##########################################################################################
 
-export MAVEN_PROJECTBASEDIR=${MAVEN_BASEDIR:-"$BASE_DIR"}
+exportType MAVEN_PROJECTBASEDIR=${MAVEN_BASEDIR:-"$BASE_DIR"}
 if [ "$MVNW_VERBOSE" = true ]; then
   echo $MAVEN_PROJECTBASEDIR
 fi

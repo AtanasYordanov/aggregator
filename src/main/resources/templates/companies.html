@@ -14,6 +14,7 @@
     </div>
     <main class="container">
         <div class="row mt-4 mb-4">
+            <h1 class="container-fluid text-center">Companies Catalog</h1>
 
             <div class="container-fluid section-header mt-4">
                 <form class="row">
@@ -30,11 +31,11 @@
                         </div>
                     </div>
                     <div class="col-lg-4"></div>
+                    <div class="search-btn-wrapper col-lg-2"></div>
                     <div class="search-btn-wrapper col-lg-2">
-                        <button id="filter-btn" class="btn btn-primary" type="button">FILTER</button>
-                    </div>
-                    <div class="search-btn-wrapper col-lg-2">
-                        <button id="export-btn" class="btn btn-success" type="button">EXPORT</button>
+                        <button id="export-btn" class="btn btn-success" type="button">
+                            <span class="btn-text">EXPORT</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -56,7 +57,7 @@
                     <tbody>
                     </tbody>
                 </table>
-                <div class="spinner-border text-info" role="status">
+                <div class="table-spinner spinner-border text-info" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
@@ -71,4 +72,5 @@
 </div>
 </body>
 <script th:src="@{/js/pages/companies.js}"></script>
+<script type="text/javascript" th:src="@{/js/pagination.js}"></script>
 </html>

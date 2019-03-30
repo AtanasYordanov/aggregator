@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.MajorIndustry;
 import softuni.aggregator.domain.entities.MinorIndustry;
-import softuni.aggregator.domain.model.binding.CompaniesFilterData;
+import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.service.CompanyService;
@@ -42,10 +42,18 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<ExcelExportDto> getCompaniesForExport() {
-        return companyRepository.findAll().stream()
-                .map(this::mapToExcelDto)
-                .collect(Collectors.toList());
+    public List<ExcelExportDto> getCompaniesForExport(CompaniesFilterDataModel filterData) {
+        List<MinorIndustry> industries = getIndustries(filterData.getIndustry());
+
+        if (!industries.isEmpty()) {
+            return companyRepository.findAllByIndustryIn(industries).stream()
+                    .map(this::mapToExcelDto)
+                    .collect(Collectors.toList());
+        } else {
+            return companyRepository.findAll().stream()
+                    .map(this::mapToExcelDto)
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -56,12 +64,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<CompanyListVO> getCompaniesPage(Pageable pageable, CompaniesFilterData filterData) {
+    public List<CompanyListVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData) {
         String industry = filterData.getIndustry();
         List<MinorIndustry> industries = getIndustries(industry);
 
         if (!industries.isEmpty()) {
-            return companyRepository.getCompaniesForIndustry(pageable, industries).stream()
+            return companyRepository.getCompaniesPageForIndustry(pageable, industries).stream()
                     .map(c -> modelMapper.map(c, CompanyListVO.class))
                     .collect(Collectors.toList());
         } else {

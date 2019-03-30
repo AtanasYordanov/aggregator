@@ -18,9 +18,11 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     Optional<Company> findByName(String website);
 
+    List<Company> findAllByIndustryIn(List<MinorIndustry> industries);
+
     @Query("SELECT c FROM Company AS c " +
             "WHERE c.industry IN :industries")
-    List<Company> getCompaniesForIndustry(Pageable pageable, @Param("industries") List<MinorIndustry> industries);
+    List<Company> getCompaniesPageForIndustry(Pageable pageable, @Param("industries") List<MinorIndustry> industries);
 
     @Query(value = "SELECT COUNT(c.id) FROM companies AS c " +
             "WHERE c.industry_id IN :industries", nativeQuery = true)

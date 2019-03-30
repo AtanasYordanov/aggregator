@@ -2,21 +2,22 @@
     $(document).ready(function () {
 
         const $tableBody = $('#companies-table tbody');
-        const $spinner = $('.spinner-border');
-        const $pagination = $('.pagination');
-        const $matchesBox = $('.matches-box');
-        const $selectIndustry = $('#industry-select');
+        const $spinner = $('.table-spinner');
+        const $exportBtn = $('#export-btn');
 
         let totalCompanies;
-        let pagesCount;
         let currentPage = 0;
+        let selectedIndustry = 'all';
 
         attachEvents();
         fetchData();
 
         function attachEvents() {
-            $('#industry-select').on('change', () => fetchCompanies(currentPage));
-            $('#export-btn').on('click', exportCompanies)
+            $('#industry-select').on('change', (e) => {
+                selectedIndustry = e.target.value;
+                fetchCompanies(currentPage);
+            });
+            $exportBtn.on('click', exportCompanies)
         }
 
         function fetchData() {
@@ -28,25 +29,21 @@
                     renderMinorIndustries(data['minorIndustries']);
                     renderCompanies(data['companies']);
                     totalCompanies = data['totalCompaniesCount'];
-                    updatesMatches();
-                    renderPagination();
+                    pagination.render(fetchCompanies, currentPage, totalCompanies);
                 });
         }
 
         function fetchCompanies(page) {
-            const industry = $selectIndustry.val();
-
             currentPage = page;
             $tableBody.empty();
             $spinner.show();
-            fetch(`/companies/page?page=${page}&size=20&sort=industry&industry=${industry}`)
+            fetch(`/companies/page?page=${page}&size=20&sort=industry&industry=${selectedIndustry}`)
                 .then(res => res.json())
                 .then(data => {
                     $spinner.hide();
                     renderCompanies(data['companies']);
                     totalCompanies = data['totalCompaniesCount'];
-                    updatesMatches();
-                    renderPagination();
+                    pagination.render(fetchCompanies, currentPage, totalCompanies);
                 });
         }
 
@@ -82,87 +79,24 @@
         }
 
         function exportCompanies() {
-            const industry = $selectIndustry.val();
+            const $buttonSpinner = $(`<span class="btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
+            $exportBtn.prepend($buttonSpinner);
+            $exportBtn.find('.btn-text').text('EXPORTING');
+            $exportBtn.attr('disabled', true);
 
-            fetch(`/export/companies?sort=industry&industry=${industry}`)
-                .then(() => notification.success("Successfully generated companies report."))
+            fetch(`/exports/companies?sort=industry&industry=${selectedIndustry}`)
+                .then((res) => {
+                    $buttonSpinner.remove();
+                    $exportBtn.find('.btn-text').text('EXPORT');
+                    $exportBtn.attr('disabled', false);
+
+                    if (res.status === 200) {
+                        notification.success("Successfully generated companies report.");
+                    } else {
+                        notification.error("Failed to generate report.");
+                    }
+                })
                 .catch(notification.handleError);
-        }
-
-        function updatesMatches() {
-            pagesCount = totalCompanies % 20 === 0
-                ? parseInt(totalCompanies / 20)
-                : parseInt(totalCompanies / 20) + 1;
-        }
-
-        function renderPagination() {
-            $pagination.empty();
-
-            const $firstPageBtn = $(`<li class="page-item">`
-                + `<a href="#" class="page-link">First</a>`
-                + `</li>`);
-            $firstPageBtn.on('click', function (e) {
-                e.preventDefault();
-                fetchCompanies(0)
-            });
-
-            const $lastPageBtn = $(`<li class="page-item">`
-                + `<a href="#" class="page-link">Last</a>`
-                + `</li>`);
-            $lastPageBtn.on('click', function (e) {
-                e.preventDefault();
-                fetchCompanies(pagesCount - 1)
-            });
-
-            const disablePrevBtn = currentPage === 0;
-            const $prevBtn = $(`<li class="page-item ${currentPage === 0 ? 'disabled' : ''}">`
-                    + `<a href="#" class="page-link">&laquo;</a>`
-                    + `</li>`);
-
-            if (!disablePrevBtn) {
-                $prevBtn.on('click', function (e) {
-                    e.preventDefault();
-                    fetchCompanies(currentPage - 1)
-                });
-            }
-
-            const disableNextBtn = currentPage === pagesCount - 1;
-            const $nextBtn = $(`<li class="page-item ${currentPage + 1 === pagesCount ? 'disabled' : ''}">`
-                + `<a href="#" class="page-link">&raquo;</a>`
-                + `</li>`);
-
-            if (!disableNextBtn) {
-                $nextBtn.on('click', function (e) {
-                    e.preventDefault();
-                    fetchCompanies(currentPage + 1)
-                });
-            }
-
-            $pagination.append($firstPageBtn);
-            $pagination.append($prevBtn);
-
-            let from = Math.max(0, currentPage - 3);
-            let to = Math.min(pagesCount - 1, currentPage + 3);
-            to = to - from < 6 ? Math.min(from + 6, pagesCount - 1) : to;
-            from = to - from < 6 ? Math.max(to - 6, 0) : from;
-
-            for (let i = from; i <= to; i++) {
-                const $pageLink = $(`<li class="page-item ${currentPage === i ? 'active' : ''}">`
-                    + `<a href="#" class="page-link">${i + 1}</a>`
-                    + `</li>`);
-
-                $pageLink.on('click', function(e) {
-                    e.preventDefault();
-                    fetchCompanies(i)
-                });
-
-                $pagination.append($pageLink);
-            }
-
-            $pagination.append($nextBtn);
-            $pagination.append($lastPageBtn);
-
-            $matchesBox.text('Total matches: ' + totalCompanies);
         }
     });
 })();

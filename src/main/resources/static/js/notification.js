@@ -1,7 +1,7 @@
 let notification = (() => {
 
     const container = $('#notification-container');
-    const notificationTimeOut = 5000;
+    const notificationTimeOut = 7000;
 
     function info(message) {
         displayMessage('info', message);

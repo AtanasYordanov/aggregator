@@ -7,37 +7,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.aggregator.service.excel.ImportExcelService;
+import softuni.aggregator.service.excel.ImportService;
 
 @Controller
 @RequestMapping("/import")
-public class ImportExcelController {
+public class ImportController {
 
-    private final ImportExcelService importExcelService;
+    private final ImportService importService;
 
     @Autowired
-    public ImportExcelController(ImportExcelService importExcelService) {
-        this.importExcelService = importExcelService;
+    public ImportController(ImportService importService) {
+        this.importService = importService;
     }
 
     @PostMapping("/xing")
     public ModelAndView importXingFile(ModelAndView model,
                                        @RequestParam("file") MultipartFile file) {
-        importExcelService.importCompaniesFromXing(file);
+        importService.importCompaniesFromXing(file);
         model.setViewName("redirect:/");
         return model;
     }
 
     @PostMapping("/orbis")
     public ModelAndView importOrbisFile(ModelAndView model, @RequestParam("file") MultipartFile file) {
-        importExcelService.importCompaniesFromOrbis(file);
+        importService.importCompaniesFromOrbis(file);
         model.setViewName("redirect:/");
         return model;
     }
 
     @PostMapping("/employees")
     public ModelAndView importEmployeesFile(ModelAndView model, @RequestParam("file") MultipartFile file) {
-        importExcelService.importEmployees(file);
+        importService.importEmployees(file);
         model.setViewName("redirect:/");
         return model;
     }

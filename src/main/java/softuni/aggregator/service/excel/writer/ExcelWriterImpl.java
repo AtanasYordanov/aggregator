@@ -1,31 +1,34 @@
 package softuni.aggregator.service.excel.writer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.service.excel.constants.ExcelConstants;
 import softuni.aggregator.service.excel.writer.columns.WriteExcelColumn;
-import softuni.aggregator.service.excel.writer.exports.Export;
+import softuni.aggregator.service.excel.writer.exports.ExportType;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ExcelWriterImpl implements ExcelWriter {
 
-    private static final String EXPORT_BASE_PATH = "src\\main\\resources\\exports\\";
-    private static final String EXPORT_FILE_EXTENSION = ".xlsx";
-
     @Override
-    public File writeExcel(List<ExcelExportDto> excelDtos, Export export) {
-        String filePath = EXPORT_BASE_PATH + generateFileName(export);
+    public File writeExcel(List<ExcelExportDto> excelDtos, ExportType exportType) {
+        createDirectoryIfNotExists();
 
-        WriteExcelColumn[] columns = export.getColumns();
+        String fileName = ExcelConstants.EXPORT_BASE_PATH + generateFileName(exportType);
 
-        try (FileOutputStream fileOut = new FileOutputStream(filePath);
+        WriteExcelColumn[] columns = exportType.getColumns();
+
+        try (FileOutputStream fileOut = new FileOutputStream(fileName);
              Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet();
 
@@ -47,7 +50,7 @@ public class ExcelWriterImpl implements ExcelWriter {
             }
 
             workbook.write(fileOut);
-            return new File(filePath);
+            return new File(fileName);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -84,16 +87,26 @@ public class ExcelWriterImpl implements ExcelWriter {
         }
     }
 
-    private String generateFileName(Export export) {
-        LocalDateTime now = LocalDateTime.now();
+    private String generateFileName(ExportType exportType) {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         return String.format("%s_%02d-%02d-%d_%02d-%02d-%02d%s",
-                export.getExportName(),
+                exportType.getExportName(),
                 now.getDayOfMonth(),
                 now.getMonthValue(),
                 now.getYear(),
                 now.getHour(),
                 now.getMinute(),
                 now.getSecond(),
-                EXPORT_FILE_EXTENSION);
+                ExcelConstants.EXPORT_FILE_EXTENSION);
+    }
+
+    private void createDirectoryIfNotExists() {
+        File dir = new File(ExcelConstants.EXPORT_BASE_PATH);
+        if (!dir.exists()) {
+            if (!dir.mkdirs()) {
+                log.error("Failed to create Directory!");
+                throw new IllegalArgumentException("Failed to create Directory!");
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional
-public class ImportExcelServiceImpl implements ImportExcelService {
+public class ImportServiceImpl implements ImportService {
 
     private static final String EXTRACT_INTEGER_REGEX = "\\d+";
 
@@ -40,10 +40,10 @@ public class ImportExcelServiceImpl implements ImportExcelService {
     private final ExcelReader excelReader;
 
     @Autowired
-    public ImportExcelServiceImpl(CompanyRepository companyRepository, EmployeeRepository employeeRepository,
-                                  MinorIndustryRepository minorIndustryRepository,
-                                  MajorIndustryRepository majorIndustryRepository, ServletContext servletContext,
-                                  ExcelReader excelReader) {
+    public ImportServiceImpl(CompanyRepository companyRepository, EmployeeRepository employeeRepository,
+                             MinorIndustryRepository minorIndustryRepository,
+                             MajorIndustryRepository majorIndustryRepository, ServletContext servletContext,
+                             ExcelReader excelReader) {
         this.companyRepository = companyRepository;
         this.employeeRepository = employeeRepository;
         this.minorIndustryRepository = minorIndustryRepository;

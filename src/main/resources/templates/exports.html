@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}">
+    </th:block>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <th:block th:include="~{fragments/navbar}">
+        </th:block>
+    </div>
+    <main class="container">
+        <div class="row mt-4 mb-4">
+            <h1 class="container-fluid text-center">Exports</h1>
+
+            <th:block th:include="~{fragments/pagination}">
+            </th:block>
+
+            <div class="container-fluid text-center table-wrapper align-middle">
+                <table id="companies-table" class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Generated On<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col">Type<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="export, iter: ${exports}">
+                        <td th:text="${iter.index + 1}"></td>
+                        <td th:text="${export.generatedOn}"></td>
+                        <td th:text="${export.type}"></td>
+                        <td class="btn-col">
+                            <a th:href="'/exports/' + ${export['id']}" class="btn btn-outline-secondary btn-sm">
+                                Download
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--<div class="table-spinner spinner-border text-info" role="status">-->
+                    <!--<span class="sr-only">Loading...</span>-->
+                <!--</div>-->
+            </div>
+
+            <th:block th:include="~{fragments/pagination}">
+            </th:block>
+
+        </div>
+    </main>
+    <th:block th:include="~{fragments/notification-container}">
+    </th:block>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/js/pagination.js}"></script>
+</html>

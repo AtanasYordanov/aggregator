@@ -2,7 +2,7 @@ package softuni.aggregator.service.excel;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface ImportExcelService {
+public interface ImportService {
 
     void importCompaniesFromXing(MultipartFile file);
 
