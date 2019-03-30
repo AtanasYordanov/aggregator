@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
-import softuni.aggregator.domain.model.vo.CompaniesPageVO;
+import softuni.aggregator.domain.model.vo.page.CompaniesPageVO;
 import softuni.aggregator.service.CompanyService;
 
 import org.springframework.data.domain.Pageable;
@@ -52,7 +52,7 @@ public class CompaniesController {
         companiesPageVO.setCompanies(companies);
         companiesPageVO.setMinorIndustries(minorIndustries);
         companiesPageVO.setMajorIndustries(majorIndustries);
-        companiesPageVO.setTotalCompaniesCount(companiesCount);
+        companiesPageVO.setTotalItemsCount(companiesCount);
 
         return new ResponseEntity<>(companiesPageVO, HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class CompaniesController {
 
         CompaniesPageVO companiesPageVO = new CompaniesPageVO();
         companiesPageVO.setCompanies(companies);
-        companiesPageVO.setTotalCompaniesCount(companiesCount);
+        companiesPageVO.setTotalItemsCount(companiesCount);
 
         return new ResponseEntity<>(companiesPageVO, HttpStatus.OK);
     }

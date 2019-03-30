@@ -15,21 +15,6 @@ body {
     margin-right: 2px;
 }
 
-.table-spinner {
-    width: 3rem !important;
-    height: 3rem !important;
-
-    position: absolute;
-
-    top: calc(50% - 1.5rem);
-    left: calc(50% - 1.5rem);
-}
-
-.search-btn-wrapper {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1rem !important;
-}
-
 .rounded-form {
     background: #e7efda;
     border-radius: 10px;
@@ -41,12 +26,14 @@ body {
     position: fixed;
     top: 65px;
     right: 5px;
+
     .alert:hover {
         cursor: pointer;
     }
 }
 
 .navbar {
+
     .navbar-brand {
         padding-top: 0;
         padding-bottom: 0;
@@ -63,16 +50,53 @@ body {
     .active {
         font-weight: 600;
     }
+
     a:hover {
         color: #75ea7b !important;
     }
 }
 
 main {
+
+    .section-header {
+
+        .btn-wrapper {
+            padding-top: 1.5rem !important;
+            padding-bottom: 1rem !important;
+
+            .btn {
+                width: 100%;
+            }
+
+            .btn-spinner {
+                margin-bottom: 2px;
+                margin-right: 2px;
+            }
+
+            .btn-success {
+                background-color: #60B515;
+                border-color: #60B515;
+            }
+
+            .btn-success:hover {
+                background-color: #48960C;
+                border-color: #48960C;
+            }
+        }
+    }
+
     .table-wrapper {
         position: relative;
 
         .table {
+
+            text-align: left;
+
+            th {
+                font-weight: bold;
+                color: #6c757d;
+            }
+
             .btn-col {
                 padding: 0.5rem;
             }
@@ -84,6 +108,25 @@ main {
 
         .table-spinner-wrapper {
             min-height: 500px;
+
+            .table-spinner {
+                width: 3rem !important;
+                height: 3rem !important;
+
+                position: absolute;
+
+                top: calc(50% - 1.5rem);
+                left: calc(50% - 1.5rem);
+            }
         }
+    }
+
+    .page-item.active .page-link {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+    .page-link {
+        color: #6c757d;
     }
 }

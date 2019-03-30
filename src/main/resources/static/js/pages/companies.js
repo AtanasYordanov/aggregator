@@ -30,7 +30,7 @@
                     renderMajorIndustries(data['majorIndustries']);
                     renderMinorIndustries(data['minorIndustries']);
                     renderCompanies(data['companies']);
-                    totalCompanies = data['totalCompaniesCount'];
+                    totalCompanies = data['totalItemsCount'];
                     pagination.render(fetchCompanies, currentPage, totalCompanies, itemsPerPage);
                 });
         }
@@ -44,7 +44,7 @@
                 .then(data => {
                     $spinner.hide();
                     renderCompanies(data['companies']);
-                    totalCompanies = data['totalCompaniesCount'];
+                    totalCompanies = data['totalItemsCount'];
                     pagination.render(fetchCompanies, page, totalCompanies, itemsPerPage);
                 });
         }
@@ -69,11 +69,10 @@
                 $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
                 $tableRow.append($('<td>').text(company['name']));
                 $tableRow.append($('<td>').text(company['industry']));
-
                 $tableRow.append($('<td>')
                     .append($(`<a href="https://${company['website']}">${company['website']}</a>`)));
 
-                $tableRow.append($(`<td class="btn-col"><a href="/company/${company['id']}" 
+                $tableRow.append($(`<td class="btn-col"><a href="/companies/${company['id']}" 
                                             class="btn btn-outline-secondary btn-sm">View Details</a></td>`));
 
                 $tableBody.append($tableRow);

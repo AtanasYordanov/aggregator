@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.service.ImportService;
 
 @Controller
-@RequestMapping("/import")
+@RequestMapping("/imports")
 public class ImportController {
 
     private final ImportService importService;

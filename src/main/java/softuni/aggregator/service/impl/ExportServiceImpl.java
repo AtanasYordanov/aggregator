@@ -75,7 +75,7 @@ public class ExportServiceImpl implements ExportService {
 
     @Override
     public List<ExportListVO> getExportsPage(Pageable pageable) {
-         return exportRepository.findAll(pageable).stream()
+        return exportRepository.findAll(pageable).stream()
                 .map(e -> modelMapper.map(e, ExportListVO.class))
                 .collect(Collectors.toList());
     }

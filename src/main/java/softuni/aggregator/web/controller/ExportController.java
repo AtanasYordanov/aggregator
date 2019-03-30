@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
-import softuni.aggregator.domain.model.vo.ExportsPageVO;
+import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.service.ExportService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +44,7 @@ public class ExportController {
 
         ExportsPageVO exportsPageVO = new ExportsPageVO();
         exportsPageVO.setExports(exports);
-        exportsPageVO.setTotalExportsCount(exportsCount);
+        exportsPageVO.setTotalItemsCount(exportsCount);
 
         return new ResponseEntity<>(exportsPageVO, HttpStatus.OK);
     }

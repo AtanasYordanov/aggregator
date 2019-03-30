@@ -12,12 +12,12 @@
         fetchData();
 
         function fetchData() {
-            fetch(`/exports/page?page=0&size=${itemsPerPage}`)
+            fetch(`/exports/page?page=0&size=${itemsPerPage}&sort=generatedOn,desc`)
                 .then(res => res.json())
                 .then(data => {
                     $spinner.hide();
                     renderExports(data['exports']);
-                    totalExports = data['totalExportsCount'];
+                    totalExports = data['totalItemsCount'];
                     pagination.render(fetchExports, currentPage, totalExports, itemsPerPage);
                 })
                 .catch(notification.handleError);
@@ -27,12 +27,12 @@
             currentPage = page;
             $tableBody.empty();
             $spinner.show();
-            fetch(`/exports/page?page=${page}&size=${itemsPerPage}`)
+            fetch(`/exports/page?page=${page}&size=${itemsPerPage}&sort=generatedOn,desc`)
                 .then(res => res.json())
                 .then(data => {
                     $spinner.hide();
                     renderExports(data['exports']);
-                    totalExports = data['totalExportsCount'];
+                    totalExports = data['totalItemsCount'];
                     pagination.render(fetchExports, currentPage, totalExports, itemsPerPage);
                 })
                 .catch(notification.handleError);
@@ -44,9 +44,9 @@
 
                 const $tableRow = $('<tr>');
                 $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
-                $tableRow.append($('<td>').text(dateString));
                 $tableRow.append($('<td>').text(exp['type']));
                 $tableRow.append($('<td>').text(exp['itemsCount']));
+                $tableRow.append($('<td>').text(dateString));
                 $tableRow.append($(`<td class="btn-col"><a href="/exports/${exp['id']}" 
                                             class="btn btn-outline-secondary btn-sm">Download</a></td>`));
 

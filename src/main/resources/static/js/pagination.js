@@ -29,7 +29,7 @@ let pagination = (() => {
         renderNextPageButton(fetchFunction);
         renderLastPageButton(fetchFunction);
 
-        $matchesBox.text('Total matches: ' + totalMatches);
+        $matchesBox.text('Total items: ' + totalMatches);
     }
 
     function renderFirstPageButton(fetchFunction) {
