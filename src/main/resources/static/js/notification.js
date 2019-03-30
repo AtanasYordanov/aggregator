@@ -21,9 +21,13 @@ let notification = (() => {
 
     function displayMessage(type, message) {
         let $alert = $(`<div class="alert alert-${type}" role="alert">${message}</div>`);
-        $alert.on('click', () => $alert.remove());
+        $alert.on('click', () => $alert.fadeOut());
+        $alert.hide();
+
         container.append($alert);
-        setTimeout(() => $alert.remove(), notificationTimeOut);
+        $alert.fadeIn();
+
+        setTimeout(() => $alert.fadeOut(), notificationTimeOut);
     }
 
     function handleError(reason) {

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
 import softuni.aggregator.domain.model.vo.ExportsPageVO;
-import softuni.aggregator.service.excel.ExportService;
+import softuni.aggregator.service.ExportService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

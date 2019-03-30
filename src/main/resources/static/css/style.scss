@@ -41,6 +41,9 @@ body {
     position: fixed;
     top: 65px;
     right: 5px;
+    .alert:hover {
+        cursor: pointer;
+    }
 }
 
 .navbar {

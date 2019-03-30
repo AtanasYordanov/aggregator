@@ -32,6 +32,8 @@ body {
   position: fixed;
   top: 65px;
   right: 5px; }
+  #notification-container .alert:hover {
+    cursor: pointer; }
 
 .navbar .navbar-brand {
   padding-top: 0;

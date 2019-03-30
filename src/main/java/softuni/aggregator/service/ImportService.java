@@ -1,4 +1,4 @@
-package softuni.aggregator.service.excel;
+package softuni.aggregator.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

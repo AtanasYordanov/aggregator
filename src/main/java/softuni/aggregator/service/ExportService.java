@@ -1,4 +1,4 @@
-package softuni.aggregator.service.excel;
+package softuni.aggregator.service;
 
 import org.springframework.data.domain.Pageable;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
