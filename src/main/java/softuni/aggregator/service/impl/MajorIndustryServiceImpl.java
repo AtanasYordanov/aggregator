@@ -22,9 +22,14 @@ public class MajorIndustryServiceImpl implements MajorIndustryService {
     }
 
     @Override
-    public List<String> getAllIndustries() {
+    public List<String> getAllIndustryNames() {
         return majorIndustryRepository.findAll().stream()
                 .map(MajorIndustry::getName)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public MajorIndustry getMajorIndustryByName(String name) {
+        return majorIndustryRepository.findByName(name).orElseThrow();
     }
 }

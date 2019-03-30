@@ -5,6 +5,7 @@
         const $spinner = $('.spinner-border');
         const $pagination = $('.pagination');
         const $matchesBox = $('.matches-box');
+        const $selectIndustry = $('#industry-select');
 
         let totalCompanies;
         let pagesCount;
@@ -14,6 +15,8 @@
         fetchData();
 
         function attachEvents() {
+            $('#industry-select').on('change', () => fetchCompanies(currentPage));
+            $('#export-btn').on('click', exportCompanies)
         }
 
         function fetchData() {
@@ -25,37 +28,37 @@
                     renderMinorIndustries(data['minorIndustries']);
                     renderCompanies(data['companies']);
                     totalCompanies = data['totalCompaniesCount'];
-
-                    pagesCount = totalCompanies % 20 === 0
-                        ? parseInt(totalCompanies / 20)
-                        : parseInt(totalCompanies / 20) + 1;
-
+                    updatesMatches();
                     renderPagination();
                 });
         }
 
         function fetchCompanies(page) {
+            const industry = $selectIndustry.val();
+
             currentPage = page;
             $tableBody.empty();
             $spinner.show();
-            fetch(`/companies/page?page=${page}&size=20&sort=industry`)
+            fetch(`/companies/page?page=${page}&size=20&sort=industry&industry=${industry}`)
                 .then(res => res.json())
                 .then(data => {
                     $spinner.hide();
                     renderCompanies(data['companies']);
+                    totalCompanies = data['totalCompaniesCount'];
+                    updatesMatches();
                     renderPagination();
                 });
         }
 
         function renderMajorIndustries(industries) {
-            let $industries = $('#major-industries');
+            const $industries = $('#major-industries');
             industries.forEach(industry => {
                 $industries.append($(`<option>`).val('Maj:' + industry).text(industry));
             });
         }
 
         function renderMinorIndustries(industries) {
-            let $industries = $('#minor-industries');
+            const $industries = $('#minor-industries');
             industries.forEach(industry => {
                 $industries.append($(`<option>`).val('Min:' + industry).text(industry));
             });
@@ -63,7 +66,7 @@
 
         function renderCompanies(companies) {
             companies.forEach((company, i) => {
-                let $tableRow = $('<tr>');
+                const $tableRow = $('<tr>');
                 $tableRow.append($('<td>').text(currentPage * 20 + i + 1));
                 $tableRow.append($('<td>').text(company['name']));
                 $tableRow.append($('<td>').text(company['industry']));
@@ -78,20 +81,36 @@
             });
         }
 
+        function exportCompanies() {
+            const industry = $selectIndustry.val();
+
+            fetch(`/export/companies?sort=industry&industry=${industry}`)
+                .then(() => notification.success("Successfully generated companies report."))
+                .catch(notification.handleError);
+        }
+
+        function updatesMatches() {
+            pagesCount = totalCompanies % 20 === 0
+                ? parseInt(totalCompanies / 20)
+                : parseInt(totalCompanies / 20) + 1;
+        }
+
         function renderPagination() {
             $pagination.empty();
 
             const $firstPageBtn = $(`<li class="page-item">`
                 + `<a href="#" class="page-link">First</a>`
                 + `</li>`);
-            $firstPageBtn.on('click', function () {
+            $firstPageBtn.on('click', function (e) {
+                e.preventDefault();
                 fetchCompanies(0)
             });
 
             const $lastPageBtn = $(`<li class="page-item">`
                 + `<a href="#" class="page-link">Last</a>`
                 + `</li>`);
-            $lastPageBtn.on('click', function () {
+            $lastPageBtn.on('click', function (e) {
+                e.preventDefault();
                 fetchCompanies(pagesCount - 1)
             });
 
@@ -101,7 +120,8 @@
                     + `</li>`);
 
             if (!disablePrevBtn) {
-                $prevBtn.on('click', function () {
+                $prevBtn.on('click', function (e) {
+                    e.preventDefault();
                     fetchCompanies(currentPage - 1)
                 });
             }
@@ -112,7 +132,8 @@
                 + `</li>`);
 
             if (!disableNextBtn) {
-                $nextBtn.on('click', function () {
+                $nextBtn.on('click', function (e) {
+                    e.preventDefault();
                     fetchCompanies(currentPage + 1)
                 });
             }
@@ -129,7 +150,11 @@
                 const $pageLink = $(`<li class="page-item ${currentPage === i ? 'active' : ''}">`
                     + `<a href="#" class="page-link">${i + 1}</a>`
                     + `</li>`);
-                $pageLink.on('click', function() {fetchCompanies(i)});
+
+                $pageLink.on('click', function(e) {
+                    e.preventDefault();
+                    fetchCompanies(i)
+                });
 
                 $pagination.append($pageLink);
             }

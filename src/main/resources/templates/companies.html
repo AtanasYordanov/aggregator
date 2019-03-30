@@ -21,7 +21,7 @@
                         <div class="form-group col-lg-12">
                             <label for="industry-select"> </label>
                             <select id="industry-select" class="form-control">
-                                <option selected disabled>Select Industry</option>
+                                <option value="all">All</option>
                                 <optgroup id ="major-industries" label="________ Major ________">
                                 </optgroup>
                                 <optgroup id ="minor-industries" label="________ Minor ________">
@@ -31,10 +31,10 @@
                     </div>
                     <div class="col-lg-4"></div>
                     <div class="search-btn-wrapper col-lg-2">
-                        <button class="btn btn-primary" type="button">FILTER</button>
+                        <button id="filter-btn" class="btn btn-primary" type="button">FILTER</button>
                     </div>
                     <div class="search-btn-wrapper col-lg-2">
-                        <button type="submit" class="btn btn-success">EXPORT</button>
+                        <button id="export-btn" class="btn btn-success" type="button">EXPORT</button>
                     </div>
                 </form>
             </div>

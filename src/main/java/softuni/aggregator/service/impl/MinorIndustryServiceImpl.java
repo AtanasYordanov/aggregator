@@ -2,6 +2,7 @@ package softuni.aggregator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.domain.entities.MajorIndustry;
 import softuni.aggregator.domain.entities.MinorIndustry;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
 import softuni.aggregator.service.MinorIndustryService;
@@ -22,9 +23,19 @@ public class MinorIndustryServiceImpl implements MinorIndustryService {
     }
 
     @Override
-    public List<String> getAllIndustries() {
+    public List<String> getAllIndustryNames() {
         return minorIndustryRepository.findAll().stream()
                 .map(MinorIndustry::getName)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MinorIndustry> getAllIndustriesForMajor(MajorIndustry majorIndustry) {
+        return minorIndustryRepository.findByMajorIndustry(majorIndustry);
+    }
+
+    @Override
+    public MinorIndustry getIndustryByName(String name) {
+        return minorIndustryRepository.findByName(name).orElseThrow();
     }
 }
