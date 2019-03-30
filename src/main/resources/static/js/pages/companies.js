@@ -1,8 +1,10 @@
 (function () {
     $(document).ready(function () {
 
+        const itemsPerPage = 20;
+
         const $tableBody = $('#companies-table tbody');
-        const $spinner = $('.table-spinner');
+        const $spinner = $('.table-spinner-wrapper');
         const $exportBtn = $('#export-btn');
 
         let totalCompanies;
@@ -21,7 +23,7 @@
         }
 
         function fetchData() {
-            fetch('/companies/data?page=1&size=20&sort=industry')
+            fetch(`/companies/data?page=0&size=${itemsPerPage}&sort=industry`)
                 .then(res => res.json())
                 .then(data => {
                     $spinner.hide();
@@ -29,7 +31,7 @@
                     renderMinorIndustries(data['minorIndustries']);
                     renderCompanies(data['companies']);
                     totalCompanies = data['totalCompaniesCount'];
-                    pagination.render(fetchCompanies, currentPage, totalCompanies);
+                    pagination.render(fetchCompanies, currentPage, totalCompanies, itemsPerPage);
                 });
         }
 
@@ -37,13 +39,13 @@
             currentPage = page;
             $tableBody.empty();
             $spinner.show();
-            fetch(`/companies/page?page=${page}&size=20&sort=industry&industry=${selectedIndustry}`)
+            fetch(`/companies/page?page=${page}&size=${itemsPerPage}&sort=industry&industry=${selectedIndustry}`)
                 .then(res => res.json())
                 .then(data => {
                     $spinner.hide();
                     renderCompanies(data['companies']);
                     totalCompanies = data['totalCompaniesCount'];
-                    pagination.render(fetchCompanies, currentPage, totalCompanies);
+                    pagination.render(fetchCompanies, page, totalCompanies, itemsPerPage);
                 });
         }
 
@@ -64,7 +66,7 @@
         function renderCompanies(companies) {
             companies.forEach((company, i) => {
                 const $tableRow = $('<tr>');
-                $tableRow.append($('<td>').text(currentPage * 20 + i + 1));
+                $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
                 $tableRow.append($('<td>').text(company['name']));
                 $tableRow.append($('<td>').text(company['industry']));
 
@@ -90,11 +92,14 @@
                     $exportBtn.find('.btn-text').text('EXPORT');
                     $exportBtn.attr('disabled', false);
 
-                    if (res.status === 200) {
-                        notification.success("Successfully generated companies report.");
-                    } else {
-                        notification.error("Failed to generate report.");
-                    }
+                    let status = res.status;
+                    res.json().then(count => {
+                        if (status === 200) {
+                            notification.success(`Successfully exported ${count} companies.`);
+                        } else {
+                            notification.error("Failed to generate report.");
+                        }
+                    });
                 })
                 .catch(notification.handleError);
         }

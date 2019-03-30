@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CompanyPageVO {
+public class CompaniesPageVO {
 
     private List<CompanyListVO> companies;
     private List<String> minorIndustries;

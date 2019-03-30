@@ -57,8 +57,10 @@
                     <tbody>
                     </tbody>
                 </table>
-                <div class="table-spinner spinner-border text-info" role="status">
-                    <span class="sr-only">Loading...</span>
+                <div class="table-spinner-wrapper">
+                    <div class="table-spinner spinner-border text-info" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
                 </div>
             </div>
 
@@ -71,6 +73,6 @@
     </th:block>
 </div>
 </body>
-<script th:src="@{/js/pages/companies.js}"></script>
+<script type="text/javascript" th:src="@{/js/pages/companies.js}"></script>
 <script type="text/javascript" th:src="@{/js/pagination.js}"></script>
 </html>

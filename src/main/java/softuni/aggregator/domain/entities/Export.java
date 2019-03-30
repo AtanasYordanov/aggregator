@@ -7,6 +7,7 @@ import softuni.aggregator.service.excel.writer.exports.ExportType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 
 @Getter
@@ -26,10 +27,14 @@ public class Export extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ExportType exportType;
 
-    public Export(String name, LocalDateTime generatedOn, ExportType exportType) {
+    @Column(name = "items_count", nullable = false)
+    private int itemsCount;
+
+    public Export(String name, ExportType exportType, int itemsCount) {
         this.name = name;
-        this.generatedOn = generatedOn;
         this.exportType = exportType;
+        this.itemsCount = itemsCount;
+        setGeneratedOn(LocalDateTime.now(ZoneOffset.UTC));
     }
 
     //    private User creator;

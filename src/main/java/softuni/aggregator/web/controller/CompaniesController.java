@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
-import softuni.aggregator.domain.model.vo.CompanyPageVO;
+import softuni.aggregator.domain.model.vo.CompaniesPageVO;
 import softuni.aggregator.service.CompanyService;
 
 import org.springframework.data.domain.Pageable;
@@ -42,30 +42,30 @@ public class CompaniesController {
     }
 
     @GetMapping(value = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CompanyPageVO> getCompaniesData(Pageable pageable) {
+    public ResponseEntity<CompaniesPageVO> getCompaniesData(Pageable pageable) {
         List<CompanyListVO> companies = companyService.getCompanies(pageable);
         List<String> minorIndustries = minorIndustryService.getAllIndustryNames();
         List<String> majorIndustries = majorIndustryService.getAllIndustryNames();
-        long totalCompaniesCount = companyService.getTotalCompaniesCount();
+        long companiesCount = companyService.getTotalCompaniesCount();
 
-        CompanyPageVO companyPageVO = new CompanyPageVO();
-        companyPageVO.setCompanies(companies);
-        companyPageVO.setMinorIndustries(minorIndustries);
-        companyPageVO.setMajorIndustries(majorIndustries);
-        companyPageVO.setTotalCompaniesCount(totalCompaniesCount);
+        CompaniesPageVO companiesPageVO = new CompaniesPageVO();
+        companiesPageVO.setCompanies(companies);
+        companiesPageVO.setMinorIndustries(minorIndustries);
+        companiesPageVO.setMajorIndustries(majorIndustries);
+        companiesPageVO.setTotalCompaniesCount(companiesCount);
 
-        return new ResponseEntity<>(companyPageVO, HttpStatus.OK);
+        return new ResponseEntity<>(companiesPageVO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CompanyPageVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData) {
+    public ResponseEntity<CompaniesPageVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData) {
         List<CompanyListVO> companies = companyService.getCompaniesPage(pageable, filterData);
         long companiesCount = companyService.getCompaniesCountForIndustry(filterData.getIndustry());
 
-        CompanyPageVO companyPageVO = new CompanyPageVO();
-        companyPageVO.setCompanies(companies);
-        companyPageVO.setTotalCompaniesCount(companiesCount);
+        CompaniesPageVO companiesPageVO = new CompaniesPageVO();
+        companiesPageVO.setCompanies(companies);
+        companiesPageVO.setTotalCompaniesCount(companiesCount);
 
-        return new ResponseEntity<>(companyPageVO, HttpStatus.OK);
+        return new ResponseEntity<>(companiesPageVO, HttpStatus.OK);
     }
 }

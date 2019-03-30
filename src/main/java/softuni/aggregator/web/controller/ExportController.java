@@ -1,7 +1,10 @@
 package softuni.aggregator.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.vo.ExportListVO;
+import softuni.aggregator.domain.model.vo.ExportsPageVO;
 import softuni.aggregator.service.excel.ExportService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/exports")
@@ -26,27 +32,38 @@ public class ExportController {
     }
 
     @GetMapping
-    public ModelAndView getAllExports(ModelAndView model) {
-        model.addObject("exports", exportService.getAllExports());
+    public ModelAndView getExportsView(ModelAndView model) {
         model.setViewName("exports");
         return model;
     }
 
-    @GetMapping(value = "/employees")
-    @ResponseBody
-    public void exportEmployees() throws IOException {
-        exportService.exportEmployees();
+    @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ExportsPageVO> getExportsPage(Pageable pageable) {
+        List<ExportListVO> exports = exportService.getExportsPage(pageable);
+        long exportsCount = exportService.getExportsCount();
+
+        ExportsPageVO exportsPageVO = new ExportsPageVO();
+        exportsPageVO.setExports(exports);
+        exportsPageVO.setTotalExportsCount(exportsCount);
+
+        return new ResponseEntity<>(exportsPageVO, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/companies")
+    @GetMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void exportCompanies(CompaniesFilterDataModel filterData) {
-        exportService.exportCompanies(filterData);
+    public int exportEmployees() throws IOException {
+        return exportService.exportEmployees();
+    }
+
+    @GetMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public int exportCompanies(CompaniesFilterDataModel filterData) {
+        return exportService.exportCompanies(filterData);
     }
 
     @GetMapping(value = "/{exportId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public @ResponseBody
-    byte[] downloadExport(HttpServletResponse response, @PathVariable Long exportId) {
+    @ResponseBody
+    public byte[] downloadExport(HttpServletResponse response, @PathVariable Long exportId) {
         return exportService.getExport(response, exportId);
     }
 }

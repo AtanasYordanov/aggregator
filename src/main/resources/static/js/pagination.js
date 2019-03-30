@@ -6,6 +6,32 @@ let pagination = (() => {
     let totalPages;
     let currentPage;
 
+    function render(fetchFunction, page, totalMatches, itemsPerPage) {
+        currentPage = page;
+        totalPages = totalMatches % itemsPerPage === 0
+            ? parseInt(totalMatches / itemsPerPage)
+            : parseInt(totalMatches / itemsPerPage) + 1;
+
+        $pagination.empty();
+
+        renderFirstPageButton(fetchFunction);
+        renderPreviousPageButton(fetchFunction);
+
+        let from = Math.max(0, currentPage - 3);
+        let to = Math.min(totalPages - 1, currentPage + 3);
+        to = to - from < 6 ? Math.min(from + 6, totalPages - 1) : to;
+        from = to - from < 6 ? Math.max(to - 6, 0) : from;
+
+        for (let i = from; i <= to; i++) {
+            renderPageLink(i, fetchFunction);
+        }
+
+        renderNextPageButton(fetchFunction);
+        renderLastPageButton(fetchFunction);
+
+        $matchesBox.text('Total matches: ' + totalMatches);
+    }
+
     function renderFirstPageButton(fetchFunction) {
         const $firstPageBtn = $(`<li class="page-item">`
             + `<a href="#" class="page-link">First</a>`
@@ -69,32 +95,6 @@ let pagination = (() => {
         });
 
         $pagination.append($pageLink);
-    }
-
-    function render(fetchFunction, page, totalMatches) {
-        currentPage = page;
-        totalPages = totalMatches % 20 === 0
-            ? parseInt(totalMatches / 20)
-            : parseInt(totalMatches / 20) + 1;
-
-        $pagination.empty();
-
-        renderFirstPageButton(fetchFunction);
-        renderPreviousPageButton(fetchFunction);
-
-        let from = Math.max(0, currentPage - 3);
-        let to = Math.min(totalPages - 1, currentPage + 3);
-        to = to - from < 6 ? Math.min(from + 6, totalPages - 1) : to;
-        from = to - from < 6 ? Math.max(to - 6, 0) : from;
-
-        for (let i = from; i <= to; i++) {
-            renderPageLink(i, fetchFunction);
-        }
-
-        renderNextPageButton(fetchFunction);
-        renderLastPageButton(fetchFunction);
-
-        $matchesBox.text('Total matches: ' + totalMatches);
     }
 
     return {

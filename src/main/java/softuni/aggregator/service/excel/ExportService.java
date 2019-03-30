@@ -1,5 +1,6 @@
 package softuni.aggregator.service.excel;
 
+import org.springframework.data.domain.Pageable;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
 
@@ -9,11 +10,13 @@ import java.util.List;
 
 public interface ExportService {
 
-    void exportEmployees() throws FileNotFoundException;
+    int exportEmployees() throws FileNotFoundException;
 
-    void exportCompanies(CompaniesFilterDataModel filterData);
+    int exportCompanies(CompaniesFilterDataModel filterData);
 
     byte[] getExport(HttpServletResponse response, Long exportId);
 
-    List<ExportListVO> getAllExports();
+    List<ExportListVO> getExportsPage(Pageable pageable);
+
+    long getExportsCount();
 }

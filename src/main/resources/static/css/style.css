@@ -46,11 +46,12 @@ body {
   color: #75ea7b !important; }
 
 main .table-wrapper {
-  position: relative;
-  min-height: 700px; }
+  position: relative; }
   main .table-wrapper .table .btn-col {
     padding: 0.5rem; }
   main .table-wrapper .table tbody tr:last-child td, main .table-wrapper .table tbody tr:last-child th {
     border-bottom: 1px solid #dee2e6; }
+  main .table-wrapper .table-spinner-wrapper {
+    min-height: 500px; }
 
 /*# sourceMappingURL=style.css.map */

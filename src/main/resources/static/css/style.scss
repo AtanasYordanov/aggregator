@@ -68,7 +68,6 @@ body {
 main {
     .table-wrapper {
         position: relative;
-        min-height: 700px;
 
         .table {
             .btn-col {
@@ -78,6 +77,10 @@ main {
             tbody tr:last-child td, tbody tr:last-child th {
                 border-bottom: 1px solid #dee2e6;
             }
+        }
+
+        .table-spinner-wrapper {
+            min-height: 500px;
         }
     }
 }

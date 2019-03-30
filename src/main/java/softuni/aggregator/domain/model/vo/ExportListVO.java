@@ -12,4 +12,5 @@ public class ExportListVO {
     private Long id;
     private LocalDateTime generatedOn;
     private String type;
+    private int itemsCount;
 }

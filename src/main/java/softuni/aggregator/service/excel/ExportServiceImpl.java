@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Export;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
@@ -47,19 +48,23 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public void exportEmployees() {
+    public int exportEmployees() {
         List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport();
         File file = excelWriter.writeExcel(allEmployees, ExportType.EMPLOYEES);
-        Export export = new Export(file.getName(), LocalDateTime.now(ZoneOffset.UTC), ExportType.EMPLOYEES);
+        int itemsCount = allEmployees.size();
+        Export export = new Export(file.getName(), ExportType.EMPLOYEES, itemsCount);
         exportRepository.saveAndFlush(export);
+        return itemsCount;
     }
 
     @Override
-    public void exportCompanies(CompaniesFilterDataModel filterData) {
+    public int exportCompanies(CompaniesFilterDataModel filterData) {
         List<ExcelExportDto> companies = companyService.getCompaniesForExport(filterData);
         File file = excelWriter.writeExcel(companies, ExportType.COMPANIES);
-        Export export = new Export(file.getName(), LocalDateTime.now(ZoneOffset.UTC), ExportType.COMPANIES);
+        int itemsCount = companies.size();
+        Export export = new Export(file.getName(), ExportType.COMPANIES, itemsCount);
         exportRepository.saveAndFlush(export);
+        return itemsCount;
     }
 
     @Override
@@ -70,10 +75,15 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public List<ExportListVO> getAllExports() {
-         return exportRepository.findAll().stream()
+    public List<ExportListVO> getExportsPage(Pageable pageable) {
+         return exportRepository.findAll(pageable).stream()
                 .map(e -> modelMapper.map(e, ExportListVO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public long getExportsCount() {
+        return exportRepository.count();
     }
 
     private byte[] getBytes(HttpServletResponse response, File file) {
