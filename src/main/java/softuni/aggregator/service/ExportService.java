@@ -20,4 +20,6 @@ public interface ExportService {
     List<ExportListVO> getExportsPage(Pageable pageable, User user);
 
     long getExportsCount(User user);
+
+    void removeOldExports();
 }

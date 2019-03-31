@@ -22,6 +22,8 @@ import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,6 +86,19 @@ public class ExportServiceImpl implements ExportService {
     @Override
     public long getExportsCount(User user) {
         return exportRepository.countByUser(user);
+    }
+
+    @Override
+    public void removeOldExports() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC).minusMonths(1);
+        List<Export> exports = exportRepository.findAllByGeneratedOnBefore(now);
+
+        exports.stream()
+                .map(e -> new File(ExcelConstants.EXPORT_BASE_PATH + e.getName()))
+                .filter(f -> !f.delete())
+                .forEach(f -> log.error("Failed to delete file {}", f.getName()));
+
+        exportRepository.deleteAll(exports);
     }
 
     private byte[] getBytes(HttpServletResponse response, File file) {

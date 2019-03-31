@@ -30,7 +30,7 @@ public class Export extends BaseEntity {
     @Column(name = "items_count", nullable = false)
     private int itemsCount;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

@@ -48,7 +48,8 @@
                 $tableRow.append($('<td>').text(exp['itemsCount']));
                 $tableRow.append($('<td>').text(dateString));
                 $tableRow.append($(`<td class="btn-col"><a href="/exports/${exp['id']}" 
-                                            class="btn btn-outline-secondary btn-sm">Download</a></td>`));
+                                            class="btn btn-outline-secondary btn-sm">
+                                            <i class="fa fa-download mr-2" aria-hidden="true"></i>Download</a></td>`));
 
                 $tableBody.append($tableRow);
             });
