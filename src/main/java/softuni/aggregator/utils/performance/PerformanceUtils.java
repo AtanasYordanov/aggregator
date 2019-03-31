@@ -8,7 +8,7 @@ import java.util.Map;
 @Slf4j
 public class PerformanceUtils {
 
-    private static Map<String, Long> timers = new HashMap<>();
+    private static Map<String, Timer> timers = new HashMap<>();
 
     private static final String DEFAULT_NAME = "Performance Test";
 
@@ -23,14 +23,15 @@ public class PerformanceUtils {
         log.info(String.format("%s - Execution time: %.2f seconds.", name, getSeconds(start, end)));
     }
 
-    public static void startTimer(String timerName) {
-        timers.put(timerName, System.currentTimeMillis());
+    public static void startTimer(String timerId, String timerName) {
+        timers.put(timerId, new Timer(timerName, System.currentTimeMillis()));
     }
 
-    public static void stopTimer(String timerName) {
-        long start = timers.remove(timerName);
+    public static void stopTimer(String timerId) {
+        Timer timer = timers.remove(timerId);
+        long start = timer.getStart();
         long end = System.currentTimeMillis();
-        log.info(String.format("%s - Execution time: %.2f seconds.", timerName, getSeconds(start, end)));
+        log.info(String.format("%s - Execution time: %.2f seconds.", timer.getName(), getSeconds(start, end)));
     }
 
     private static double getSeconds(long start, long end) {
