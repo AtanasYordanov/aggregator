@@ -23,30 +23,31 @@
         }
 
         function fetchData() {
-            fetch(`/companies/data?page=0&size=${itemsPerPage}&sort=industry`)
-                .then(res => res.json())
-                .then(data => {
+            http.get(`/companies/data?page=0&size=${itemsPerPage}&sort=industry`
+                , (data) => {
                     $spinner.hide();
                     renderMajorIndustries(data['majorIndustries']);
                     renderMinorIndustries(data['minorIndustries']);
                     renderCompanies(data['companies']);
                     totalCompanies = data['totalItemsCount'];
                     pagination.render(fetchCompanies, currentPage, totalCompanies, itemsPerPage);
-                });
+                }
+                , () => notification.error("Failed to load the companies catalog."));
         }
 
         function fetchCompanies(page) {
             currentPage = page;
             $tableBody.empty();
             $spinner.show();
-            fetch(`/companies/page?page=${page}&size=${itemsPerPage}&sort=industry&industry=${selectedIndustry}`)
-                .then(res => res.json())
-                .then(data => {
+
+            http.get(`/companies/page?page=${page}&size=${itemsPerPage}&sort=industry&industry=${selectedIndustry}`
+                , (data) => {
                     $spinner.hide();
                     renderCompanies(data['companies']);
                     totalCompanies = data['totalItemsCount'];
                     pagination.render(fetchCompanies, page, totalCompanies, itemsPerPage);
-                });
+                }
+                , () => notification.error("Failed to load companies."));
         }
 
         function renderMajorIndustries(industries) {
@@ -85,22 +86,19 @@
             $exportBtn.find('.btn-text').text('EXPORTING');
             $exportBtn.attr('disabled', true);
 
-            fetch(`/exports/companies?sort=industry&industry=${selectedIndustry}`)
-                .then((res) => {
+            http.get(`/exports/companies?sort=industry&industry=${selectedIndustry}`
+                , (count) => {
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
                     $exportBtn.attr('disabled', false);
-
-                    let status = res.status;
-                    res.json().then(count => {
-                        if (status === 200) {
-                            notification.success(`Successfully exported ${count} companies.`);
-                        } else {
-                            notification.error("Failed to generate report.");
-                        }
-                    });
-                })
-                .catch(notification.handleError);
+                    notification.success(`Successfully exported ${count} companies.`);
+                }
+                , () => {
+                    $buttonSpinner.remove();
+                    $exportBtn.find('.btn-text').text('EXPORT');
+                    $exportBtn.attr('disabled', false);
+                    notification.error("Failed to generate report.")
+                });
         }
     });
 })();

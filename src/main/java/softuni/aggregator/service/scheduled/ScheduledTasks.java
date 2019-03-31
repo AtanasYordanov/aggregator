@@ -16,7 +16,7 @@ public class ScheduledTasks {
     }
 
     @Scheduled(fixedRate = 21_600_000)
-    public void removeOldExports() {
-        exportService.removeOldExports();
+    public void deleteOldExports() {
+        exportService.deleteOldExports();
     }
 }

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.MajorIndustry;
 import softuni.aggregator.domain.repository.MajorIndustryRepository;
 import softuni.aggregator.service.MajorIndustryService;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 

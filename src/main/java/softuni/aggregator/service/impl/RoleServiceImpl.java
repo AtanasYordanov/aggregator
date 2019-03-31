@@ -6,9 +6,9 @@ import softuni.aggregator.domain.entities.Role;
 import softuni.aggregator.domain.repository.RoleRepository;
 import softuni.aggregator.domain.enums.UserRole;
 import softuni.aggregator.service.RoleService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 
 @Service
 @Transactional

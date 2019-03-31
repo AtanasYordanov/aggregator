@@ -13,9 +13,9 @@ import softuni.aggregator.service.ImportService;
 import softuni.aggregator.service.excel.reader.ExcelReader;
 import softuni.aggregator.service.excel.reader.imports.Import;
 import softuni.aggregator.service.excel.reader.model.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletContext;
-import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

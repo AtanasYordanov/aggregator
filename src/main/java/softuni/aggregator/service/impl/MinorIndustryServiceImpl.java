@@ -6,8 +6,8 @@ import softuni.aggregator.domain.entities.MajorIndustry;
 import softuni.aggregator.domain.entities.MinorIndustry;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
 import softuni.aggregator.service.MinorIndustryService;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 

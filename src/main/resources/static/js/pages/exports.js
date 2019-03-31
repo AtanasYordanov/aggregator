@@ -9,33 +9,20 @@
         let totalExports;
         let currentPage = 0;
 
-        fetchData();
-
-        function fetchData() {
-            fetch(`/exports/page?page=0&size=${itemsPerPage}&sort=generatedOn,desc`)
-                .then(res => res.json())
-                .then(data => {
-                    $spinner.hide();
-                    renderExports(data['exports']);
-                    totalExports = data['totalItemsCount'];
-                    pagination.render(fetchExports, currentPage, totalExports, itemsPerPage);
-                })
-                .catch(notification.handleError);
-        }
+        fetchExports(currentPage);
 
         function fetchExports(page) {
             currentPage = page;
             $tableBody.empty();
             $spinner.show();
-            fetch(`/exports/page?page=${page}&size=${itemsPerPage}&sort=generatedOn,desc`)
-                .then(res => res.json())
-                .then(data => {
+
+            http.get(`/exports/page?page=${page}&size=${itemsPerPage}&sort=generatedOn,desc`
+                , (data) => {
                     $spinner.hide();
                     renderExports(data['exports']);
                     totalExports = data['totalItemsCount'];
                     pagination.render(fetchExports, currentPage, totalExports, itemsPerPage);
-                })
-                .catch(notification.handleError);
+                }, () => ("Failed to load exports."));
         }
 
         function renderExports(exports) {
@@ -47,9 +34,9 @@
                 $tableRow.append($('<td>').text(exp['type']));
                 $tableRow.append($('<td>').text(exp['itemsCount']));
                 $tableRow.append($('<td>').text(dateString));
-                $tableRow.append($(`<td class="btn-col"><a href="/exports/${exp['id']}" 
-                                            class="btn btn-outline-secondary btn-sm">
-                                            <i class="fa fa-download mr-2" aria-hidden="true"></i>Download</a></td>`));
+                $tableRow.append($(`<td class="btn-col">` +
+                    `<a href="/exports/${exp['id']}" class="btn btn-outline-secondary btn-sm">` +
+                    `<i class="fa fa-download mr-2" aria-hidden="true"></i>Download</a></td>`));
 
                 $tableBody.append($tableRow);
             });

@@ -21,5 +21,5 @@ public interface ExportService {
 
     long getExportsCount(User user);
 
-    void removeOldExports();
+    void deleteOldExports();
 }

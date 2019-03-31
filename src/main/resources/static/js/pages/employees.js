@@ -21,15 +21,15 @@
             currentPage = page;
             $tableBody.empty();
             $spinner.show();
-            fetch(`/employees/page?page=${page}&size=${itemsPerPage}`)
-                .then(res => res.json())
-                .then(data => {
+
+            http.get(`/employees/page?page=${page}&size=${itemsPerPage}`
+                , (data) => {
                     $spinner.hide();
                     renderEmployees(data['employees']);
                     totalExports = data['totalItemsCount'];
                     pagination.render(fetchEmployees, currentPage, totalExports, itemsPerPage);
-                })
-                .catch(notification.handleError);
+                }
+                , () => notification.error("Failed to load the employees catalog."));
         }
 
         function renderEmployees(employees) {
@@ -52,22 +52,19 @@
             $exportBtn.find('.btn-text').text('EXPORTING');
             $exportBtn.attr('disabled', true);
 
-            fetch(`/exports/employees`)
-                .then((res) => {
+            http.get(`/exports/employees`
+                , (count) => {
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
                     $exportBtn.attr('disabled', false);
-
-                    let status = res.status;
-                    res.json().then(count => {
-                        if (status === 200) {
-                            notification.success(`Successfully exported ${count} employees.`);
-                        } else {
-                            notification.error("Failed to generate report.");
-                        }
-                    });
-                })
-                .catch(notification.handleError);
+                    notification.success(`Successfully exported ${count} employees.`);
+                }
+                , () => {
+                    $buttonSpinner.remove();
+                    $exportBtn.find('.btn-text').text('EXPORT');
+                    $exportBtn.attr('disabled', false);
+                    notification.error("Failed to generate report.");
+                });
         }
     });
 })();

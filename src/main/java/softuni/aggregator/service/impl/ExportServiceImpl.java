@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.domain.entities.Export;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
@@ -20,7 +21,6 @@ import softuni.aggregator.service.excel.writer.ExcelWriterImpl;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -55,7 +55,7 @@ public class ExportServiceImpl implements ExportService {
         File file = excelWriter.writeExcel(allEmployees, ExportType.EMPLOYEES);
         int itemsCount = allEmployees.size();
         Export export = new Export(file.getName(), ExportType.EMPLOYEES, itemsCount, user);
-        exportRepository.saveAndFlush(export);
+        exportRepository.save(export);
         return itemsCount;
     }
 
@@ -65,7 +65,7 @@ public class ExportServiceImpl implements ExportService {
         File file = excelWriter.writeExcel(companies, ExportType.COMPANIES);
         int itemsCount = companies.size();
         Export export = new Export(file.getName(), ExportType.COMPANIES, itemsCount, user);
-        exportRepository.saveAndFlush(export);
+        exportRepository.save(export);
         return itemsCount;
     }
 
@@ -89,8 +89,9 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public void removeOldExports() {
+    public void deleteOldExports() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC).minusMonths(1);
+
         List<Export> exports = exportRepository.findAllByGeneratedOnBefore(now);
 
         exports.stream()

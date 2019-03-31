@@ -12,8 +12,8 @@ import softuni.aggregator.domain.repository.UserRepository;
 import softuni.aggregator.domain.enums.UserRole;
 import softuni.aggregator.service.RoleService;
 import softuni.aggregator.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -15,12 +15,14 @@ import softuni.aggregator.service.MajorIndustryService;
 import softuni.aggregator.service.MinorIndustryService;
 import softuni.aggregator.service.excel.writer.model.CompaniesExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CompanyServiceImpl implements CompanyService {
 
     private static final String MAJOR_INDUSTRY_PREFIX = "Maj:";
