@@ -34,10 +34,11 @@ public class Export extends BaseEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Export(String name, ExportType exportType, int itemsCount) {
+    public Export(String name, ExportType exportType, int itemsCount, User user) {
         this.name = name;
         this.exportType = exportType;
         this.itemsCount = itemsCount;
-        setGeneratedOn(LocalDateTime.now(ZoneOffset.UTC));
+        this.user = user;
+        this.generatedOn = LocalDateTime.now(ZoneOffset.UTC);
     }
 }

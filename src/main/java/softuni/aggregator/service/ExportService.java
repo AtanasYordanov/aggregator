@@ -1,6 +1,7 @@
 package softuni.aggregator.service;
 
 import org.springframework.data.domain.Pageable;
+import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
 
@@ -10,13 +11,13 @@ import java.util.List;
 
 public interface ExportService {
 
-    int exportEmployees() throws FileNotFoundException;
+    int exportEmployees(User user) throws FileNotFoundException;
 
-    int exportCompanies(CompaniesFilterDataModel filterData);
+    int exportCompanies(CompaniesFilterDataModel filterData, User user);
 
     byte[] getExport(HttpServletResponse response, Long exportId);
 
-    List<ExportListVO> getExportsPage(Pageable pageable);
+    List<ExportListVO> getExportsPage(Pageable pageable, User user);
 
-    long getExportsCount();
+    long getExportsCount(User user);
 }
