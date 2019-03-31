@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:include="~{fragments/head}">
-    </th:block>
-</head>
+
+<div th:replace="~{fragments/head}"></div>
+
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <th:block th:include="~{fragments/navbar}">
-        </th:block>
-    </div>
+
+    <div th:replace="~{fragments/navbar}"></div>
+
     <main class="container">
         <div class="row mt-4">
             <h1 class="col-lg-12 text-dark text-center">Something went wrong</h1>

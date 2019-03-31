@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:include="~{fragments/head}">
-    </th:block>
-</head>
+
+<div th:replace="~{fragments/head}"></div>
+
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <th:block th:include="~{fragments/navbar}">
-        </th:block>
-    </div>
+
+    <div th:replace="~{fragments/navbar}"></div>
+
     <main class="container">
         <div class="row mt-4">
             <div class="col-lg-2"></div>
@@ -48,8 +46,7 @@
             <div class="col-lg-2"></div>
         </div>
     </main>
-    <th:block th:include="~{fragments/notification-container}">
-    </th:block>
+    <div th:replace="~{fragments/notification-container}"></div>
 </div>
 </body>
 </html>
