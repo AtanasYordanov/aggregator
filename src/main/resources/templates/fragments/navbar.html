@@ -1,5 +1,7 @@
-<div class="row" xmlns:sec="http://www.w3.org/1999/xhtml"
-     xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="row" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.w3.org/1999/xhtml">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-custom col-lg-12">
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
@@ -17,12 +19,12 @@
                        th:classappend="${#httpServletRequest.requestURI.contains('home') ? 'active' : ''}">HOME</a>
                 </li>
                 <li class="nav-item dropdown bg-custom" sec:authorize="isAuthenticated()">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button"
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="catalog-dropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        th:classappend="${#httpServletRequest.requestURI.contains('catalog') ? 'active' : ''}">
                         CATALOG
                     </a>
-                    <div class="dropdown-menu bg-custom" aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu bg-custom" aria-labelledby="catalog-dropdown">
                         <a class="nav-link text-white" th:href="@{/companies/catalog}"
                            th:classappend="${#httpServletRequest.requestURI.contains('companies') ? 'active' : ''}">
                             Companies
@@ -41,6 +43,26 @@
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
+
+                <ul class="navbar-nav mr-auto mr-2 mt-lg-0" sec:authorize="isAuthenticated()">
+                    <li class="nav-item dropdown bg-custom" sec:authorize="isAuthenticated()">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="user-dropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                           th:classappend="${#httpServletRequest.requestURI.contains('catalog') ? 'active' : ''}"
+                           th:text="'Hi, ' + ${#request.getAttribute('firstName')}">
+                        </a>
+                        <div class="dropdown-menu bg-custom" aria-labelledby="user-dropdown">
+                            <div class="nav-item" sec:authorize="isAuthenticated()">
+                                <form th:action="@{/logout}" method="post">
+                                    <button class="nav-link text-white pt-1 pb-1 pl-3" type="submit">
+                                        <span>Logout</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item" sec:authorize="isAnonymous()">
                         <a class="nav-link text-white" th:href="@{/login}"
@@ -53,13 +75,6 @@
                            th:classappend="${#httpServletRequest.requestURI.contains('register') ? 'active' : ''}">
                             REGISTER
                         </a>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" method="post">
-                            <button class="nav-link text-white" type="submit">
-                                <span>LOGOUT</span>
-                            </button>
-                        </form>
                     </li>
                 </ul>
             </div>

@@ -45,7 +45,7 @@ body {
 
     .dropdown-menu {
         background-color: inherit;
-        min-width: 8rem;
+        min-width: 7.5rem;
     }
 
     .active {
@@ -61,6 +61,7 @@ body {
         border: none;
         color: #FFF;
         outline: none;
+        //padding: .2rem 1rem;
     }
 }
 

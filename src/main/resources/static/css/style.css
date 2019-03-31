@@ -31,7 +31,7 @@ body {
     max-width: 35px; }
 .navbar .dropdown-menu {
   background-color: inherit;
-  min-width: 8rem; }
+  min-width: 7.5rem; }
 .navbar .active {
   font-weight: 600; }
 .navbar a:hover, .navbar button.nav-link:hover {
