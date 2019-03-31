@@ -42,11 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeListVO> getEmployeesPage(Pageable pageable) {
         return employeeRepository.findAll(pageable).stream()
-                .map(e -> {
-                    EmployeeListVO employeeVO = modelMapper.map(e, EmployeeListVO.class);
-                    employeeVO.setCompanyName(e.getCompany());
-                    return employeeVO;
-                })
+                .map(e ->  modelMapper.map(e, EmployeeListVO.class))
                 .collect(Collectors.toList());
     }
 }

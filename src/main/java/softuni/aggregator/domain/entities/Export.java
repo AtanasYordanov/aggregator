@@ -30,12 +30,14 @@ public class Export extends BaseEntity {
     @Column(name = "items_count", nullable = false)
     private int itemsCount;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
     public Export(String name, ExportType exportType, int itemsCount) {
         this.name = name;
         this.exportType = exportType;
         this.itemsCount = itemsCount;
         setGeneratedOn(LocalDateTime.now(ZoneOffset.UTC));
     }
-
-    //    private User creator;
 }

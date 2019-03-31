@@ -1,11 +1,14 @@
 package softuni.aggregator.domain.model.vo;
 
 import lombok.Getter;
+import lombok.Setter;
 import softuni.aggregator.domain.entities.Company;
 
 @Getter
+@Setter
 public class EmployeeListVO {
 
+    private Long id;
     private String fullName;
     private String email;
     private String company;
@@ -18,7 +21,7 @@ public class EmployeeListVO {
         this.email = truncate(email, 30);
     }
 
-    public void setCompanyName(Company company) {
+    public void setCompany(Company company) {
         this.company = company != null ? truncate(company.getName(), 30) : "n/a";
     }
 

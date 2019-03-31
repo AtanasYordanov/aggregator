@@ -45,14 +45,22 @@ body {
 
     .dropdown-menu {
         background-color: inherit;
+        min-width: 8rem;
     }
 
     .active {
         font-weight: 600;
     }
 
-    a:hover {
+    a:hover, button.nav-link:hover {
         color: #75ea7b !important;
+    }
+
+    button.nav-link {
+        background: no-repeat;
+        border: none;
+        color: #FFF;
+        outline: none;
     }
 }
 

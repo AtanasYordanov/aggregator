@@ -28,7 +28,7 @@ public class EmployeesController {
 
 
     @GetMapping("/catalog")
-    public ModelAndView getEmployeesView(ModelAndView model) {
+    public ModelAndView employees(ModelAndView model) {
         model.setViewName("employees");
         return model;
     }

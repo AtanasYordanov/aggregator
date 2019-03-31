@@ -30,11 +30,17 @@ body {
   .navbar .navbar-brand #logo {
     max-width: 35px; }
 .navbar .dropdown-menu {
-  background-color: inherit; }
+  background-color: inherit;
+  min-width: 8rem; }
 .navbar .active {
   font-weight: 600; }
-.navbar a:hover {
+.navbar a:hover, .navbar button.nav-link:hover {
   color: #75ea7b !important; }
+.navbar button.nav-link {
+  background: no-repeat;
+  border: none;
+  color: #FFF;
+  outline: none; }
 
 main .section-header .btn-wrapper {
   padding-top: 1.5rem !important;

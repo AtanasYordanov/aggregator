@@ -32,7 +32,7 @@ public class ExportController {
     }
 
     @GetMapping
-    public ModelAndView getExportsView(ModelAndView model) {
+    public ModelAndView exports(ModelAndView model) {
         model.setViewName("exports");
         return model;
     }

@@ -33,33 +33,44 @@ let pagination = (() => {
     }
 
     function renderFirstPageButton(fetchFunction) {
-        const $firstPageBtn = $(`<li class="page-item">`
+        const disableFirstPageBtn = currentPage === 0;
+
+        const $firstPageBtn = $(`<li class="page-item ${disableFirstPageBtn ? 'disabled' : ''}">`
             + `<a href="#" class="page-link">First</a>`
             + `</li>`);
-        $firstPageBtn.on('click', function (e) {
-            e.preventDefault();
-            fetchFunction(0)
-        });
+
+        if (!disableFirstPageBtn) {
+            $firstPageBtn.on('click', function (e) {
+                e.preventDefault();
+                fetchFunction(0)
+            });
+        }
         $pagination.append($firstPageBtn);
     }
 
-    function renderLastPageButton(fetchFunction) {
-        const $lastPageBtn = $(`<li class="page-item">`
-            + `<a href="#" class="page-link">Last</a>`
+    function renderPreviousPageButton(fetchFunction) {
+        const disablePrevBtn = currentPage === 0;
+
+        const $prevBtn = $(`<li class="page-item ${disablePrevBtn ? 'disabled' : ''}">`
+            + `<a href="#" class="page-link">&laquo;</a>`
             + `</li>`);
-        $lastPageBtn.on('click', function (e) {
-            e.preventDefault();
-            fetchFunction(totalPages - 1)
-        });
-        $pagination.append($lastPageBtn);
+
+        if (!disablePrevBtn) {
+            $prevBtn.on('click', function (e) {
+                e.preventDefault();
+                fetchFunction(currentPage - 1)
+            });
+        }
+        $pagination.append($prevBtn);
     }
 
     function renderNextPageButton(fetchFunction) {
-        const $nextBtn = $(`<li class="page-item ${currentPage + 1 === totalPages ? 'disabled' : ''}">`
+        const disableNextBtn = currentPage === totalPages - 1;
+
+        const $nextBtn = $(`<li class="page-item ${disableNextBtn ? 'disabled' : ''}">`
             + `<a href="#" class="page-link">&raquo;</a>`
             + `</li>`);
 
-        const disableNextBtn = currentPage === totalPages - 1;
         if (!disableNextBtn) {
             $nextBtn.on('click', function (e) {
                 e.preventDefault();
@@ -69,19 +80,20 @@ let pagination = (() => {
         $pagination.append($nextBtn);
     }
 
-    function renderPreviousPageButton(fetchFunction) {
-        const $prevBtn = $(`<li class="page-item ${currentPage === 0 ? 'disabled' : ''}">`
-            + `<a href="#" class="page-link">&laquo;</a>`
+    function renderLastPageButton(fetchFunction) {
+        const disableLastPageBtn = currentPage === totalPages - 1;
+
+        const $lastPageBtn = $(`<li class="page-item ${disableLastPageBtn ? 'disabled' : ''}">`
+            + `<a href="#" class="page-link">Last</a>`
             + `</li>`);
 
-        const disablePrevBtn = currentPage === 0;
-        if (!disablePrevBtn) {
-            $prevBtn.on('click', function (e) {
+        if (!disableLastPageBtn) {
+            $lastPageBtn.on('click', function (e) {
                 e.preventDefault();
-                fetchFunction(currentPage - 1)
+                fetchFunction(totalPages - 1)
             });
         }
-        $pagination.append($prevBtn);
+        $pagination.append($lastPageBtn);
     }
 
     function renderPageLink(i, fetchFunction) {

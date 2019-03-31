@@ -36,7 +36,7 @@ public class CompaniesController {
     }
 
     @GetMapping("/catalog")
-    public ModelAndView getCompaniesView(ModelAndView model) {
+    public ModelAndView companies(ModelAndView model) {
         model.setViewName("companies");
         return model;
     }

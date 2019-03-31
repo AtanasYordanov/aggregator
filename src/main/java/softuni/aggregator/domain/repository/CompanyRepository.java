@@ -1,5 +1,6 @@
 package softuni.aggregator.domain.repository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,7 +23,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     @Query("SELECT c FROM Company AS c " +
             "WHERE c.industry IN :industries")
-    List<Company> getCompaniesPageForIndustry(Pageable pageable, @Param("industries") List<MinorIndustry> industries);
+    Page<Company> getCompaniesPageForIndustry(Pageable pageable, @Param("industries") List<MinorIndustry> industries);
 
     @Query(value = "SELECT COUNT(c.id) FROM companies AS c " +
             "WHERE c.industry_id IN :industries", nativeQuery = true)
