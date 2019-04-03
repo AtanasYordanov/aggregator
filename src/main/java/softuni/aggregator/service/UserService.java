@@ -13,4 +13,6 @@ public interface UserService extends UserDetailsService {
     boolean existsByEmail(String username);
 
     void saveUser(User user);
+
+    void updateUserStatus();
 }
