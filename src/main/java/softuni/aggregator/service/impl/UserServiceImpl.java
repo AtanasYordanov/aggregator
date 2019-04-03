@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Role;
 import softuni.aggregator.domain.entities.User;
+import softuni.aggregator.domain.enums.UserStatus;
 import softuni.aggregator.domain.model.binding.UserRegisterBindingModel;
 import softuni.aggregator.domain.repository.UserRepository;
 import softuni.aggregator.domain.enums.UserRole;
@@ -44,16 +45,16 @@ public class UserServiceImpl implements UserService {
     public void registerUser(UserRegisterBindingModel userModel) {
         User user = modelMapper.map(userModel, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Set<Role> authorities = new HashSet<>();
+        user.setStatus(UserStatus.ACTIVE);
 
+        Set<Role> authorities = new HashSet<>();
         Role role = userRepository.count() == 0
                 ? roleService.getRoleByName(UserRole.ROLE_ROOT_ADMIN.toString())
                 : roleService.getRoleByName(UserRole.ROLE_USER.toString());
-
         authorities.add(role);
-
         user.setAuthorities(authorities);
-        userRepository.save(user);
+
+        saveUser(user);
     }
 
     @Override
@@ -62,11 +63,16 @@ public class UserServiceImpl implements UserService {
         Set<Role> authorities = new HashSet<>();
         authorities.add(roleService.getRoleByName(role));
         user.setAuthorities(authorities);
-        userRepository.save(user);
+        saveUser(user);
     }
 
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userRepository.save(user);
     }
 }

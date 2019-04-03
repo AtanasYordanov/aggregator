@@ -21,6 +21,7 @@ import softuni.aggregator.service.ExportService;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 @Controller
 @RequestMapping("/exports")
@@ -53,14 +54,14 @@ public class ExportController {
 
     @GetMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public int exportEmployees(@AuthenticationPrincipal User loggedUser) throws IOException {
-        return exportService.exportEmployees(loggedUser);
+    public Callable<Integer> exportEmployees(@AuthenticationPrincipal User loggedUser) {
+        return () -> exportService.exportEmployees(loggedUser);
     }
 
     @GetMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public int exportCompanies(CompaniesFilterDataModel filterData, @AuthenticationPrincipal User loggedUser) {
-        return exportService.exportCompanies(filterData, loggedUser);
+    public Callable<Integer> exportCompanies(CompaniesFilterDataModel filterData, @AuthenticationPrincipal User loggedUser) {
+        return () -> exportService.exportCompanies(filterData, loggedUser);
     }
 
     @GetMapping(value = "/{exportId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)

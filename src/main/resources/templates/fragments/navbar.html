@@ -50,7 +50,6 @@
                     <li class="nav-item dropdown bg-custom" sec:authorize="isAuthenticated()">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="user-dropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                           th:classappend="${#httpServletRequest.requestURI.contains('catalog') ? 'active' : ''}"
                            th:text="'Hi, ' + ${#request.getAttribute('firstName')}">
                         </a>
                         <div class="dropdown-menu bg-custom" aria-labelledby="user-dropdown">

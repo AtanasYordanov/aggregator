@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -30,30 +33,55 @@ public class ExcelWriterImpl implements ExcelWriter {
 
         try (FileOutputStream fileOut = new FileOutputStream(fileName);
              Workbook workbook = new XSSFWorkbook()) {
+
             Sheet sheet = workbook.createSheet();
-
-            int rowIndex = 0;
-            Row headerRow = sheet.createRow(rowIndex++);
-            createHeaderRow(columns, workbook, headerRow);
-
-            for (ExcelExportDto data : excelDtos) {
-                Row row = sheet.createRow(rowIndex++);
-                int columnIndex = 0;
-                for (WriteExcelColumn column : columns) {
-                    Cell cell = row.createCell(columnIndex++);
-                    setCellValue(cell, data.getProperty(column));
-                }
-            }
-
-            for (int i = 0; i < columns.length; i++) {
-                sheet.autoSizeColumn(i);
-            }
+            fillData(excelDtos, columns, workbook, sheet);
+            autosizeColumns(columns, sheet);
 
             workbook.write(fileOut);
             return new File(fileName);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to export %s.", exportType.getExportName());
+            // TODO
             return null;
+        }
+    }
+
+    private void autosizeColumns(WriteExcelColumn[] columns, Sheet sheet) {
+        ExecutorService executor = Executors.newFixedThreadPool(columns.length);
+
+        for (int i = 0; i < columns.length; i++) {
+            final int columnIndex = i;
+            executor.submit(() -> sheet.autoSizeColumn(columnIndex));
+        }
+
+        awaitTerminationAfterShutdown(executor);
+    }
+
+    private void fillData(List<ExcelExportDto> excelDtos, WriteExcelColumn[] columns, Workbook workbook, Sheet sheet) {
+        int rowIndex = 0;
+        Row headerRow = sheet.createRow(rowIndex++);
+        createHeaderRow(columns, workbook, headerRow);
+
+        for (ExcelExportDto dto : excelDtos) {
+            Row row = sheet.createRow(rowIndex++);
+            int columnIndex = 0;
+            for (WriteExcelColumn column : columns) {
+                Cell cell = row.createCell(columnIndex++);
+                setCellValue(cell, dto.getProperty(column));
+            }
+        }
+    }
+
+    private void awaitTerminationAfterShutdown(ExecutorService executor) {
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(10, TimeUnit.MINUTES)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException ex) {
+            executor.shutdownNow();
+            Thread.currentThread().interrupt();
         }
     }
 

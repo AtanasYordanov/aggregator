@@ -15,11 +15,13 @@ public class PerformanceInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String requestId = UUID.randomUUID().toString();
-        request.setAttribute(REQUEST_ID_ATTRIBUTE, requestId);
-        StringBuffer requestURL = request.getRequestURL();
-        String timerName =  String.format("%s:", requestURL);
-        PerformanceUtils.startTimer(requestId, timerName);
+        if (request.getAttribute(REQUEST_ID_ATTRIBUTE) == null) {
+            String requestId = UUID.randomUUID().toString();
+            request.setAttribute(REQUEST_ID_ATTRIBUTE, requestId);
+            StringBuffer requestURL = request.getRequestURL();
+            String timerName = String.format("%s:", requestURL);
+            PerformanceUtils.startTimer(requestId, timerName);
+        }
         return true;
     }
 

@@ -1,5 +1,8 @@
 package softuni.aggregator.utils.performance;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -24,7 +27,11 @@ public class PerformanceUtils {
     }
 
     public static void startTimer(String timerId, String timerName) {
-        timers.put(timerId, new Timer(timerName, System.currentTimeMillis()));
+        timers.putIfAbsent(timerId, new Timer(timerName, System.currentTimeMillis()));
+    }
+
+    public static void startTimer(String timerName) {
+        startTimer(timerName, timerName);
     }
 
     public static void stopTimer(String timerId) {
@@ -36,5 +43,13 @@ public class PerformanceUtils {
 
     private static double getSeconds(long start, long end) {
         return (end - start) / 1000.0;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class Timer {
+        private String name;
+        private Long start;
     }
 }
