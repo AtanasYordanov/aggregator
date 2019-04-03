@@ -11,7 +11,7 @@ import softuni.aggregator.service.excel.reader.model.XingCompanyImportDto;
 
 import java.util.function.Supplier;
 
-public enum Import {
+public enum ImportType {
     EMPLOYEES(EmployeesImportColumn.values(), EmployeeImportDto::new),
     XING_COMPANIES(XingImportColumn.values(), XingCompanyImportDto::new),
     ORBIS_COMPANIES(OrbisImportColumn.values(), OrbisCompanyImportDto::new);
@@ -19,7 +19,7 @@ public enum Import {
     private ReadExcelColumn[] columns;
     private Supplier<ExcelImportDto> instanceCreator;
 
-    Import(ReadExcelColumn[] columns, Supplier<ExcelImportDto> instanceCreator) {
+    ImportType(ReadExcelColumn[] columns, Supplier<ExcelImportDto> instanceCreator) {
         this.columns = columns;
         this.instanceCreator = instanceCreator;
     }

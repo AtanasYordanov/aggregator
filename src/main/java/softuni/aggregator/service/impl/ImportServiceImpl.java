@@ -11,7 +11,7 @@ import softuni.aggregator.domain.repository.MajorIndustryRepository;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
 import softuni.aggregator.service.ImportService;
 import softuni.aggregator.service.excel.reader.ExcelReader;
-import softuni.aggregator.service.excel.reader.imports.Import;
+import softuni.aggregator.service.excel.reader.imports.ImportType;
 import softuni.aggregator.service.excel.reader.model.*;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +56,7 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public void importCompaniesFromXing(MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
-        List<XingCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), Import.XING_COMPANIES);
+        List<XingCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.XING_COMPANIES);
         deleteFile(file);
 
         Map<String, MajorIndustry> majorIndustriesMap = majorIndustryRepository.findAll().stream()
@@ -86,7 +86,7 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public void importCompaniesFromOrbis(MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
-        List<OrbisCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), Import.ORBIS_COMPANIES);
+        List<OrbisCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.ORBIS_COMPANIES);
         deleteFile(file);
 
         List<String> companyWebistes = data.stream()
@@ -110,7 +110,7 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public void importEmployees(MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
-        List<EmployeeImportDto> data = excelReader.readExcel(file.getAbsolutePath(), Import.EMPLOYEES);
+        List<EmployeeImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.EMPLOYEES);
         deleteFile(file);
 
         List<Employee> employees = new ArrayList<>();

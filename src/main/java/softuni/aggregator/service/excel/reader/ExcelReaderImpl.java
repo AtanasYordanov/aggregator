@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.service.excel.common.ExcelColumn;
 import softuni.aggregator.service.excel.reader.columns.ReadExcelColumn;
-import softuni.aggregator.service.excel.reader.imports.Import;
+import softuni.aggregator.service.excel.reader.imports.ImportType;
 import softuni.aggregator.service.excel.reader.model.ExcelImportDto;
 
 import java.io.File;
@@ -19,13 +19,13 @@ public class ExcelReaderImpl implements ExcelReader {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ExcelImportDto> readExcel(String path, Import excelImport) {
+    public List<ExcelImportDto> readExcel(String path, ImportType excelImportType) {
         try (FileInputStream inputStream = new FileInputStream(new File(path));
              Workbook workbook = new XSSFWorkbook(inputStream)) {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            Map<String, ReadExcelColumn> columns = Arrays.stream(excelImport.getColumns())
+            Map<String, ReadExcelColumn> columns = Arrays.stream(excelImportType.getColumns())
                     .collect(Collectors.toMap(ExcelColumn::getColumnName, c -> c));
 
             ReadExcelColumn[] columnsByIndex = getColumnsByIndex(sheet, columns);
@@ -37,7 +37,7 @@ public class ExcelReaderImpl implements ExcelReader {
                     continue;
                 }
 
-                ExcelImportDto dto = excelImport.createInstance();
+                ExcelImportDto dto = excelImportType.createInstance();
                 parseRow(row, dto, columnsByIndex);
 
                 data.add(dto);
