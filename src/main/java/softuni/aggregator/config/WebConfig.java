@@ -5,7 +5,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import softuni.aggregator.web.interceptor.PerformanceInterceptor;
-import softuni.aggregator.web.interceptor.UsernameInterceptor;
+import softuni.aggregator.web.interceptor.UserDataInterceptor;
 
 @Configuration
 @EnableSpringDataWebSupport
@@ -16,6 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new PerformanceInterceptor())
                 .addPathPatterns("/imports/**", "/exports/**");
 
-        registry.addInterceptor(new UsernameInterceptor());
+        registry.addInterceptor(new UserDataInterceptor());
     }
 }

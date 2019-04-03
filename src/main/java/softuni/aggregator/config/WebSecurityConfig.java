@@ -32,19 +32,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**", "/images/**", "/js/**","/home").permitAll()
                 .antMatchers("/register", "/login").anonymous()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasAnyRole("ROOT_ADMIN", "ADMIN")
                 .anyRequest().authenticated()
-             .and()
-                .exceptionHandling().accessDeniedPage("/unauthorized")
+//             .and()
+//                .exceptionHandling().accessDeniedPage("/unauthorized")
              .and()
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")
-                .successHandler(successHandler)
-             .and()
-                .logout();
+                .successHandler(successHandler);
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
