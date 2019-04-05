@@ -1,9 +1,11 @@
 package softuni.aggregator.service.excel.reader.columns;
 
+import lombok.AllArgsConstructor;
 import softuni.aggregator.service.excel.reader.model.OrbisCompanyImportDto;
 
 import java.util.function.BiConsumer;
 
+@AllArgsConstructor
 public enum OrbisImportColumn implements ReadExcelColumn<OrbisCompanyImportDto> {
 
     COMPANY_NAME("Company name", OrbisCompanyImportDto::setName),
@@ -31,11 +33,6 @@ public enum OrbisImportColumn implements ReadExcelColumn<OrbisCompanyImportDto> 
 
     private String columnName;
     private BiConsumer<OrbisCompanyImportDto, String> setter;
-
-    OrbisImportColumn(String columnName, BiConsumer<OrbisCompanyImportDto, String> setter) {
-        this.columnName = columnName;
-        this.setter = setter;
-    }
 
     @Override
     public String getColumnName() {

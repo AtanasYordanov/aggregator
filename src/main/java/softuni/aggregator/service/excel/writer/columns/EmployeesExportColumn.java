@@ -1,9 +1,11 @@
 package softuni.aggregator.service.excel.writer.columns;
 
+import lombok.AllArgsConstructor;
 import softuni.aggregator.service.excel.writer.model.EmployeesExportDto;
 
 import java.util.function.Function;
 
+@AllArgsConstructor
 public enum EmployeesExportColumn implements WriteExcelColumn<EmployeesExportDto> {
 
     COMPANY_NAME("Company name", EmployeesExportDto::getCompanyName),
@@ -14,11 +16,6 @@ public enum EmployeesExportColumn implements WriteExcelColumn<EmployeesExportDto
 
     private String columnName;
     private Function<EmployeesExportDto, ?> getter;
-
-    EmployeesExportColumn(String columnName, Function<EmployeesExportDto, ?> getter) {
-        this.columnName = columnName;
-        this.getter = getter;
-    }
 
     @Override
     public String getColumnName() {

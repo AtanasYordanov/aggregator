@@ -1,9 +1,11 @@
 package softuni.aggregator.service.excel.reader.columns;
 
+import lombok.AllArgsConstructor;
 import softuni.aggregator.service.excel.reader.model.XingCompanyImportDto;
 
 import java.util.function.BiConsumer;
 
+@AllArgsConstructor
 public enum XingImportColumn implements ReadExcelColumn<XingCompanyImportDto> {
 
     XING_INDUSTRY_1("Xing industry 1", XingCompanyImportDto::setXingIndustry1),
@@ -27,11 +29,6 @@ public enum XingImportColumn implements ReadExcelColumn<XingCompanyImportDto> {
 
     private String columnName;
     private BiConsumer<XingCompanyImportDto, String> setter;
-
-    XingImportColumn(String columnName, BiConsumer<XingCompanyImportDto, String> setter) {
-        this.columnName = columnName;
-        this.setter = setter;
-    }
 
     @Override
     public String getColumnName() {

@@ -10,7 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "companies", indexes = {@Index(name = "websiteIndex", columnList = "website")})
+@Table(name = "companies"
+        , indexes = @Index(name = "websiteIndex", columnList = "website"))
 public class Company extends BaseEntity {
 
     @Column(name = "name", nullable = false)

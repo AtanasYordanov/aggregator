@@ -1,18 +1,17 @@
 package softuni.aggregator.service.excel.writer.exports;
 
+import lombok.AllArgsConstructor;
 import softuni.aggregator.service.excel.writer.columns.CompaniesExportColumn;
 import softuni.aggregator.service.excel.writer.columns.EmployeesExportColumn;
 import softuni.aggregator.service.excel.writer.columns.WriteExcelColumn;
 
+@AllArgsConstructor
 public enum ExportType {
+
     EMPLOYEES(EmployeesExportColumn.values()),
     COMPANIES(CompaniesExportColumn.values());
 
     private WriteExcelColumn[] columns;
-
-    ExportType(WriteExcelColumn[] columns) {
-        this.columns = columns;
-    }
 
     public WriteExcelColumn[] getColumns() {
         return columns;

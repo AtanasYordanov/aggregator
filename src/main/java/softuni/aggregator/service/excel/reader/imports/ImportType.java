@@ -1,5 +1,6 @@
 package softuni.aggregator.service.excel.reader.imports;
 
+import lombok.AllArgsConstructor;
 import softuni.aggregator.service.excel.reader.columns.EmployeesImportColumn;
 import softuni.aggregator.service.excel.reader.columns.OrbisImportColumn;
 import softuni.aggregator.service.excel.reader.columns.ReadExcelColumn;
@@ -11,18 +12,15 @@ import softuni.aggregator.service.excel.reader.model.XingCompanyImportDto;
 
 import java.util.function.Supplier;
 
+@AllArgsConstructor
 public enum ImportType {
+
     EMPLOYEES(EmployeesImportColumn.values(), EmployeeImportDto::new),
     XING_COMPANIES(XingImportColumn.values(), XingCompanyImportDto::new),
     ORBIS_COMPANIES(OrbisImportColumn.values(), OrbisCompanyImportDto::new);
 
     private ReadExcelColumn[] columns;
     private Supplier<ExcelImportDto> instanceCreator;
-
-    ImportType(ReadExcelColumn[] columns, Supplier<ExcelImportDto> instanceCreator) {
-        this.columns = columns;
-        this.instanceCreator = instanceCreator;
-    }
 
     public ExcelImportDto createInstance() {
         return instanceCreator.get();
