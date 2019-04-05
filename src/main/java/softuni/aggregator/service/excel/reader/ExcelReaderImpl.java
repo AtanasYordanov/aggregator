@@ -36,10 +36,8 @@ public class ExcelReaderImpl implements ExcelReader {
                 if (row.getRowNum() == 0) {
                     continue;
                 }
-
                 ExcelImportDto dto = excelImportType.createInstance();
                 parseRow(row, dto, columnsByIndex);
-
                 data.add(dto);
             }
 
@@ -55,12 +53,9 @@ public class ExcelReaderImpl implements ExcelReader {
         while (cellIterator.hasNext()) {
             Cell cell = cellIterator.next();
             ReadExcelColumn column = columns[cell.getColumnIndex()];
-
-            if (column == null) {
-                continue;
+            if (column != null) {
+                employee.setProperty(column, getCellValueAsString(cell));
             }
-
-            employee.setProperty(column, getCellValueAsString(cell));
         }
     }
 

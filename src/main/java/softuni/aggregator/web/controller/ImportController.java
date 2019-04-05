@@ -24,21 +24,21 @@ public class ImportController {
     public ModelAndView importXingFile(ModelAndView model,
                                        @RequestParam("file") MultipartFile file) {
         importService.importCompaniesFromXing(file);
-        model.setViewName("redirect:/");
+        model.setViewName("redirect:/home");
         return model;
     }
 
     @PostMapping("/orbis")
     public ModelAndView importOrbisFile(ModelAndView model, @RequestParam("file") MultipartFile file) {
         importService.importCompaniesFromOrbis(file);
-        model.setViewName("redirect:/");
+        model.setViewName("redirect:/home");
         return model;
     }
 
     @PostMapping("/employees")
     public ModelAndView importEmployeesFile(ModelAndView model, @RequestParam("file") MultipartFile file) {
         importService.importEmployees(file);
-        model.setViewName("redirect:/");
+        model.setViewName("redirect:/home");
         return model;
     }
 }

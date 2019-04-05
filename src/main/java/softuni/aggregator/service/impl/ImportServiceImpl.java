@@ -91,13 +91,14 @@ public class ImportServiceImpl implements ImportService {
 
         List<String> companyWebistes = data.stream()
                 .map(OrbisCompanyImportDto::getWebsite)
+                .distinct()
                 .collect(Collectors.toList());
 
         Map<String, Company> companies = getCompaniesMap(companyWebistes);
 
         for (OrbisCompanyImportDto companyDto : data) {
-            Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
+                Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
                 setOrbisCompanyProperties(company, companyDto);
                 companies.putIfAbsent(company.getWebsite(), company);
             }
