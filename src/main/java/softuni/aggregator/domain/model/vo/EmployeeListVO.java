@@ -3,6 +3,7 @@ package softuni.aggregator.domain.model.vo;
 import lombok.Getter;
 import lombok.Setter;
 import softuni.aggregator.domain.entities.Company;
+import softuni.aggregator.utils.performance.CustomStringUtils;
 
 @Getter
 @Setter
@@ -14,18 +15,14 @@ public class EmployeeListVO {
     private String company;
 
     public void setFullName(String fullName) {
-        this.fullName = truncate(fullName, 30);
+        this.fullName = CustomStringUtils.truncate(fullName, 30);
     }
 
     public void setEmail(String email) {
-        this.email = truncate(email, 30);
+        this.email = CustomStringUtils.truncate(email, 30);
     }
 
     public void setCompany(Company company) {
-        this.company = company != null ? truncate(company.getName(), 30) : "n/a";
-    }
-
-    private String truncate(String str, int symbolCount) {
-        return str != null && str.length() > symbolCount ? str.substring(0, symbolCount) + "..." : str;
+        this.company = company != null ? CustomStringUtils.truncate(company.getName(), 30) : "n/a";
     }
 }
