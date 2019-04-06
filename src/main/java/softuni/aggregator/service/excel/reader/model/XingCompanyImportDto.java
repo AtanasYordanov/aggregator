@@ -13,12 +13,8 @@ public class XingCompanyImportDto extends CompanyImportDto {
     private String street;
     private String fax;
     private String information;
-
-    // TODO
     private String employeesListed;
     private String employeesPage;
-    ////////
-
     private String xingProfileLink;
     private String yearFound;
     private String productsAndServices;

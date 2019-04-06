@@ -123,10 +123,12 @@ public class CompanyServiceImpl implements CompanyService {
         if (industryName == null || industryName.equals(ALL_INDUSTRIES)) {
             return industries;
         } else if (industryName.startsWith(MAJOR_INDUSTRY_PREFIX)) {
-            MajorIndustry majorIndustry = majorIndustryService.getMajorIndustryByName(industryName.substring(4));
-            industries.addAll(minorIndustryService.getAllIndustriesForMajor(majorIndustry));
+            industryName = industryName.substring(MAJOR_INDUSTRY_PREFIX.length());
+            MajorIndustry majorIndustry = majorIndustryService.getMajorIndustryByName(industryName);
+            industries.addAll(majorIndustry.getMinorIndustries());
         } else if (industryName.startsWith(MINOR_INDUSTRY_PREFIX)) {
-            industries.add(minorIndustryService.getIndustryByName(industryName.substring(4)));
+            industryName = industryName.substring(MINOR_INDUSTRY_PREFIX.length());
+            industries.add(minorIndustryService.getIndustryByName(industryName));
         }
         return industries;
     }
@@ -144,6 +146,7 @@ public class CompanyServiceImpl implements CompanyService {
         companyDto.setXingIndustry1(getMajorIndustry(company));
         companyDto.setXingIndustry2(getMinorIndustry(company));
         companyDto.setEmployeesRange(company.getEmployeesRange());
+        companyDto.setEmployeesPage(company.getEmployeesPage());
         companyDto.setStreet(company.getStreet());
         companyDto.setFax(company.getFax());
         companyDto.setInformation(company.getInformation());

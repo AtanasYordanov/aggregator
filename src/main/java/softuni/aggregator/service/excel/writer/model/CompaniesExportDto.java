@@ -14,24 +14,16 @@ public class CompaniesExportDto extends ExcelExportDto {
     private String country;
     private String companyPhone;
     private String companyEmails;
-
-    ///
     private String xingIndustry1;
     private String xingIndustry2;
     private String employeesRange;
     private String street;
     private String fax;
     private String information;
-
-    // TODO
-    private String employeesListed;
     private String employeesPage;
-    ////////
-
     private String xingProfileLink;
     private Integer yearFound;
     private String productsAndServices;
-
     private String VATNumber;
     private String BvDIdNumber;
     private String ISOCountryCode;

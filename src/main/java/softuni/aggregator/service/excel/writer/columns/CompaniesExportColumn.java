@@ -30,7 +30,6 @@ public enum CompaniesExportColumn implements WriteExcelColumn<CompaniesExportDto
     CORPORATION_COMPANIES_COUNT("Anzahl Unternehmen in der Konzerngruppe", CompaniesExportDto::getCorporationCompaniesCount),
     EMPLOYEES_COUNT_SKIP("Anzahl der Mitarbeiter\nLetztes verf. Jahr.1", CompaniesExportDto::getEmployeesCount),
     SUBSIDIARIES_COUNT("Anzahl der dokumentierten Tochtergesellschaften", CompaniesExportDto::getSubsidiariesCount),
-
     XING_INDUSTRY_1("Xing industry 1", CompaniesExportDto::getXingIndustry1),
     XING_INDUSTRY_2("Xing industry 2", CompaniesExportDto::getXingIndustry2),
     EMPLOYEES_RANGE("Employee range", CompaniesExportDto::getEmployeesRange),
@@ -38,7 +37,6 @@ public enum CompaniesExportColumn implements WriteExcelColumn<CompaniesExportDto
     COMPANY_PHONE("Company phone", CompaniesExportDto::getCompanyPhone),
     FAX("Fax", CompaniesExportDto::getFax),
     INFORMATION("Information", CompaniesExportDto::getInformation),
-    EMPLOYEES_LISTED("Employees listed", CompaniesExportDto::getEmployeesListed),
     EMPLOYEES_PAGE("Employees page", CompaniesExportDto::getEmployeesPage),
     COMPANY_PROFILE_LINK("Xing profile", CompaniesExportDto::getXingProfileLink),
     YEAR_FOUND("Year found", CompaniesExportDto::getYearFound),

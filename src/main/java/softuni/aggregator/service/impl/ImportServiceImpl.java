@@ -132,6 +132,8 @@ public class ImportServiceImpl implements ImportService {
         setCommonCompanyProperties(company, companyDto);
 
         company.setEmployeesRange(companyDto.getEmployeesRange());
+        company.setEmployeesCount(getPropertyValueAsInteger(companyDto.getEmployeesListed()));
+        company.setEmployeesPage(companyDto.getEmployeesPage());
         company.setStreet(companyDto.getStreet());
         company.setFax(companyDto.getFax());
         company.setXingProfileLink(companyDto.getXingProfileLink());

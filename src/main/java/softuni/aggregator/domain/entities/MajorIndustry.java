@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -20,7 +17,7 @@ public class MajorIndustry extends BaseEntity {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "majorIndustry")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "majorIndustry")
     private List<MinorIndustry> minorIndustries;
 
     public MajorIndustry(String name) {

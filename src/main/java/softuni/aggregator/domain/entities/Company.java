@@ -88,6 +88,9 @@ public class Company extends BaseEntity {
     @Column(name = "employees_count")
     private Integer employeesCount;
 
+    @Column(name = "employees_page")
+    private String employeesPage;
+
     @Column(name = "address")
     private String address;
 

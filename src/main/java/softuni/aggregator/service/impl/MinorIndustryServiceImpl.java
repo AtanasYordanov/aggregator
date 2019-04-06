@@ -30,11 +30,6 @@ public class MinorIndustryServiceImpl implements MinorIndustryService {
     }
 
     @Override
-    public List<MinorIndustry> getAllIndustriesForMajor(MajorIndustry majorIndustry) {
-        return minorIndustryRepository.findByMajorIndustry(majorIndustry);
-    }
-
-    @Override
     public MinorIndustry getIndustryByName(String name) {
         return minorIndustryRepository.findByName(name).orElseThrow();
     }

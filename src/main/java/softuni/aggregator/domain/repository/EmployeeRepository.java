@@ -15,7 +15,7 @@ import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphTyp
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    @EntityGraph(attributePaths = {"company", "company.id", "company.name"})
+    @EntityGraph(attributePaths = "company")
     @Query("SELECT e FROM Employee AS e WHERE e.id = :id")
     Optional<Employee> findByIdEager(@Param("id") Long id);
 
@@ -23,5 +23,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee AS e")
     List<Employee> findAllEager();
 
+    @EntityGraph(attributePaths = "company")
     Optional<Employee> findByEmail(String email);
 }
