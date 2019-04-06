@@ -1,37 +1,30 @@
-package softuni.aggregator.service.excel.writer.model;
+package softuni.aggregator.domain.model.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import softuni.aggregator.domain.entities.MinorIndustry;
+
+import java.util.List;
 
 @Getter
 @Setter
-public class CompaniesExportDto extends ExcelExportDto {
+public class CompanyDetailsVO {
 
     private String name;
     private String website;
-    private Integer postcode;
-    private String city;
-    private String country;
-    private String companyPhone;
     private String companyEmails;
-
-    ///
-    private String xingIndustry1;
-    private String xingIndustry2;
+    private String industry;
     private String employeesRange;
     private String street;
+    private Integer postcode;
+    private String country;
+    private String city;
+    private String companyPhone;
     private String fax;
-    private String information;
-
-    // TODO
-    private String employeesListed;
-    private String employeesPage;
-    ////////
-
     private String xingProfileLink;
     private Integer yearFound;
+    private String information;
     private String productsAndServices;
-
     private String VATNumber;
     private String BvDIdNumber;
     private String ISOCountryCode;
@@ -46,4 +39,13 @@ public class CompaniesExportDto extends ExcelExportDto {
     private Integer managersCount;
     private Integer corporationCompaniesCount;
     private Integer subsidiariesCount;
+    private List<EmployeeListVO> employees;
+
+    public void setIndustry(MinorIndustry industry) {
+        this.industry = industry != null ? industry.getName() : null;
+    }
+
+    public void setCompanyEmails(List<String> companyEmails) {
+        this.companyEmails = String.join(", ", companyEmails);
+    }
 }

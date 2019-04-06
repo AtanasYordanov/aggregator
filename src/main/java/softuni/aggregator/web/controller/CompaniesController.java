@@ -6,9 +6,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.vo.CompanyDetailsVO;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.model.vo.page.CompaniesPageVO;
 import softuni.aggregator.service.CompanyService;
@@ -38,6 +40,14 @@ public class CompaniesController {
     @GetMapping("/catalog")
     public ModelAndView companies(ModelAndView model) {
         model.setViewName("companies");
+        return model;
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView getCompanyDetails(ModelAndView model, @PathVariable Long id) {
+        CompanyDetailsVO company = companyService.getById(id);
+        model.addObject("company", company);
+        model.setViewName("company-details");
         return model;
     }
 

@@ -23,7 +23,7 @@ public enum XingImportColumn implements ReadExcelColumn<XingCompanyImportDto> {
     INFORMATION("Information", XingCompanyImportDto::setInformation),
     EMPLOYEES_LISTED("Employees listed", XingCompanyImportDto::setEmployeesListed),
     EMPLOYEES_PAGE("Employees page", XingCompanyImportDto::setEmployeesPage),
-    COMPANY_PROFILE_LINK("Company profile link", XingCompanyImportDto::setCompanyProfileLink),
+    COMPANY_PROFILE_LINK("Xing profile", XingCompanyImportDto::setXingProfileLink),
     YEAR_FOUND("Year found", XingCompanyImportDto::setYearFound),
     PRODUCTS_AND_SERVICES("Products and services", XingCompanyImportDto::setProductsAndServices);
 

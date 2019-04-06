@@ -134,11 +134,11 @@ public class ImportServiceImpl implements ImportService {
         company.setEmployeesRange(companyDto.getEmployeesRange());
         company.setStreet(companyDto.getStreet());
         company.setFax(companyDto.getFax());
-        company.setCompanyProfileLink(companyDto.getCompanyProfileLink());
+        company.setXingProfileLink(companyDto.getXingProfileLink());
         company.setYearFound(getPropertyValueAsInteger(companyDto.getYearFound()));
         company.setInformation(companyDto.getInformation());
         company.setProductsAndServices(companyDto.getProductsAndServices());
-        company.setCompanyProfileLink(companyDto.getCompanyProfileLink());
+        company.setXingProfileLink(companyDto.getXingProfileLink());
 
         String majorIndustryName = companyDto.getXingIndustry1();
         MajorIndustry majorIndustry = majorIndustryMap

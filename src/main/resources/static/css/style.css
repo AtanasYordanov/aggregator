@@ -80,5 +80,13 @@ main .page-item.active .page-link {
   border-color: #6c757d; }
 main .page-link {
   color: #6c757d; }
+main .row {
+  margin-right: 0;
+  margin-left: 0; }
+  main .row .card {
+    padding: 0;
+    border: none; }
+    main .row .card .list-group-item {
+      min-height: 50px; }
 
 /*# sourceMappingURL=style.css.map */

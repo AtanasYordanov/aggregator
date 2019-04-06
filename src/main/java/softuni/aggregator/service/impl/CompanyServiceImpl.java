@@ -8,6 +8,7 @@ import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.MajorIndustry;
 import softuni.aggregator.domain.entities.MinorIndustry;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.vo.CompanyDetailsVO;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.service.CompanyService;
@@ -32,15 +33,15 @@ public class CompanyServiceImpl implements CompanyService {
     private final MinorIndustryService minorIndustryService;
     private final MajorIndustryService majorIndustryService;
     private final CompanyRepository companyRepository;
-    private final ModelMapper modelMapper;
+    private final ModelMapper mapper;
 
     @Autowired
     public CompanyServiceImpl(MinorIndustryService minorIndustryService, MajorIndustryService majorIndustryService,
-                              CompanyRepository companyRepository, ModelMapper modelMapper) {
+                              CompanyRepository companyRepository, ModelMapper mapper) {
         this.minorIndustryService = minorIndustryService;
         this.majorIndustryService = majorIndustryService;
         this.companyRepository = companyRepository;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public List<CompanyListVO> getCompanies(Pageable pageable) {
         return companyRepository.findAll(pageable).stream()
-                .map(c -> modelMapper.map(c, CompanyListVO.class))
+                .map(c -> mapper.map(c, CompanyListVO.class))
                 .collect(Collectors.toList());
     }
 
@@ -72,7 +73,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         if (!industries.isEmpty()) {
             return companyRepository.getCompaniesPageForIndustry(pageable, industries).stream()
-                    .map(c -> modelMapper.map(c, CompanyListVO.class))
+                    .map(c -> mapper.map(c, CompanyListVO.class))
                     .collect(Collectors.toList());
         } else {
             return getCompanies(pageable);
@@ -93,6 +94,13 @@ public class CompanyServiceImpl implements CompanyService {
         } else {
             return getTotalCompaniesCount();
         }
+    }
+
+    @Override
+    public CompanyDetailsVO getById(Long id) {
+        return companyRepository.findById(id)
+                .map(c -> mapper.map(c, CompanyDetailsVO.class))
+                .orElseThrow();
     }
 
     private String getMajorIndustry(Company company) {
@@ -139,7 +147,7 @@ public class CompanyServiceImpl implements CompanyService {
         companyDto.setStreet(company.getStreet());
         companyDto.setFax(company.getFax());
         companyDto.setInformation(company.getInformation());
-        companyDto.setCompanyProfileLink(company.getCompanyProfileLink());
+        companyDto.setXingProfileLink(company.getXingProfileLink());
         companyDto.setYearFound(company.getYearFound());
         companyDto.setProductsAndServices(company.getProductsAndServices());
         companyDto.setVATNumber(company.getVATNumber());

@@ -29,15 +29,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
+    private final ModelMapper mapper;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleService roleService,
-                           BCryptPasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+                           BCryptPasswordEncoder passwordEncoder, ModelMapper mapper) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerUser(UserRegisterBindingModel userModel) {
-        User user = modelMapper.map(userModel, User.class);
+        User user = mapper.map(userModel, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus(UserStatus.ACTIVE);
 

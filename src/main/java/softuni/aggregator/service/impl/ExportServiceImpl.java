@@ -36,17 +36,17 @@ public class ExportServiceImpl implements ExportService {
     private final ExcelWriterImpl excelWriter;
     private final CompanyService companyService;
     private final EmployeeService employeeService;
-    private final ModelMapper modelMapper;
+    private final ModelMapper mapper;
 
     @Autowired
     public ExportServiceImpl(ExportRepository exportRepository, ExcelWriterImpl excelWriter,
                              EmployeeService employeesService, CompanyService companyService,
-                             ModelMapper modelMapper) {
+                             ModelMapper mapper) {
         this.exportRepository = exportRepository;
         this.employeeService = employeesService;
         this.excelWriter = excelWriter;
         this.companyService = companyService;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ExportServiceImpl implements ExportService {
     @Override
     public List<ExportListVO> getExportsPage(Pageable pageable, User user) {
         return exportRepository.findAllByUser(user, pageable).stream()
-                .map(e -> modelMapper.map(e, ExportListVO.class))
+                .map(e -> mapper.map(e, ExportListVO.class))
                 .collect(Collectors.toList());
     }
 

@@ -2,6 +2,7 @@ package softuni.aggregator.service;
 
 import org.springframework.data.domain.Pageable;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.vo.CompanyDetailsVO;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
@@ -18,4 +19,6 @@ public interface CompanyService {
     long getTotalCompaniesCount();
 
     long getCompaniesCountForIndustry(String industry);
+
+    CompanyDetailsVO getById(Long id);
 }

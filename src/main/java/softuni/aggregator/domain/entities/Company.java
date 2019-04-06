@@ -52,8 +52,8 @@ public class Company extends BaseEntity {
     @Column(name = "fax")
     private String fax;
 
-    @Column(name = "company_profile_link")
-    private String companyProfileLink;
+    @Column(name = "xing_profile_link")
+    private String xingProfileLink;
 
     @Column(name = "year_found")
     private Integer yearFound;
@@ -187,9 +187,9 @@ public class Company extends BaseEntity {
         }
     }
 
-    public void setCompanyProfileLink(String companyProfileLink) {
-        if (companyProfileLink != null) {
-            this.companyProfileLink = companyProfileLink;
+    public void setXingProfileLink(String xingProfileLink) {
+        if (xingProfileLink != null) {
+            this.xingProfileLink = xingProfileLink;
         }
     }
 

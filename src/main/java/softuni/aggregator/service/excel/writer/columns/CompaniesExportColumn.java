@@ -40,7 +40,7 @@ public enum CompaniesExportColumn implements WriteExcelColumn<CompaniesExportDto
     INFORMATION("Information", CompaniesExportDto::getInformation),
     EMPLOYEES_LISTED("Employees listed", CompaniesExportDto::getEmployeesListed),
     EMPLOYEES_PAGE("Employees page", CompaniesExportDto::getEmployeesPage),
-    COMPANY_PROFILE_LINK("Company profile link", CompaniesExportDto::getCompanyProfileLink),
+    COMPANY_PROFILE_LINK("Xing profile", CompaniesExportDto::getXingProfileLink),
     YEAR_FOUND("Year found", CompaniesExportDto::getYearFound),
     PRODUCTS_AND_SERVICES("Products and services", CompaniesExportDto::getProductsAndServices);
 

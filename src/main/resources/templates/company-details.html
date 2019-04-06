@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{fragments/head}"></div>
+
+<body>
+<div class="container-fluid">
+
+    <div th:replace="~{fragments/navbar}"></div>
+
+    <main class="container">
+        <div class="row mt-4 mb-4">
+
+            <div class="container-fluid section-header">
+                <h1 class="container-fluid text-center mb-4">Companies Details</h1>
+            </div>
+
+            <div class="container-fluid text-center table-wrapper align-middle">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>Company name</td>
+                        <td th:text="${company.name}"></td>
+                    </tr>
+                    <tr>
+                        <td>Industry</td>
+                        <td th:text="${company.industry}"></td>
+                    </tr>
+                    <tr>
+                        <td>Website</td>
+                        <td th:text="${company.website}"></td>
+                    </tr>
+                    <tr>
+                        <td>Emails</td>
+                        <td th:text="${company.companyEmails}"></td>
+                    </tr>
+                    <tr>
+                        <td>Company phone</td>
+                        <td th:text="${company.companyPhone}"></td>
+                    </tr>
+                    <tr>
+                        <td>Fax</td>
+                        <td th:text="${company.fax}"></td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td th:text="${company.country}"></td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td th:text="${company.city}"></td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td th:text="${company.address}"></td>
+                    </tr>
+                    <tr>
+                        <td>Street</td>
+                        <td th:text="${company.street}"></td>
+                    </tr>
+                    <tr>
+                        <td>Postcode</td>
+                        <td th:text="${company.postcode}"></td>
+                    </tr>
+                    <tr>
+                        <td>Year found</td>
+                        <td th:text="${company.yearFound}"></td>
+                    </tr>
+                    <tr>
+                        <td>Xing profile</td>
+                        <td><a th:href="@{${company.xingProfileLink}}" th:text="${company.xingProfileLink}"></a></td>
+                    </tr>
+                    <tr>
+                        <td>VAT number</td>
+                        <td th:text="${company.VATNumber}"></td>
+                    </tr>
+                    <tr>
+                        <td>BvD Id number</td>
+                        <td th:text="${company.bvDIdNumber}"></td>
+                    </tr>
+                    <tr>
+                        <td>ISO Country code</td>
+                        <td th:text="${company.ISOCountryCode}"></td>
+                    </tr>
+                    <tr>
+                        <td>Nace Rev. 2 Main section</td>
+                        <td th:text="${company.naceRevMainSection}"></td>
+                    </tr>
+                    <tr>
+                        <td>Nace Rev. 2 Core code</td>
+                        <td th:text="${company.naceRevCoreCode}"></td>
+                    </tr>
+                    <tr>
+                        <td>Consolidation code</td>
+                        <td th:text="${company.consolidationCode}"></td>
+                    </tr>
+                    <tr>
+                        <td>Operating income</td>
+                        <td th:text="${company.operatingIncome}"></td>
+                    </tr>
+                    <tr>
+                        <td>Standardized legal form</td>
+                        <td th:text="${company.standardizedLegalForm}"></td>
+                    </tr>
+                    <tr>
+                        <td>Employees range</td>
+                        <td th:text="${company.employeesRange}"></td>
+                    </tr>
+                    <tr>
+                        <td>Employees count</td>
+                        <td th:text="${company.employeesCount}"></td>
+                    </tr>
+                    <tr>
+                        <td>Managers count</td>
+                        <td th:text="${company.managersCount}"></td>
+                    </tr>
+                    <tr>
+                        <td>Corporation companies count</td>
+                        <td th:text="${company.corporationCompaniesCount}"></td>
+                    </tr>
+                    <tr>
+                        <td>Subsidiaries count</td>
+                        <td th:text="${company.subsidiariesCount}"></td>
+                    </tr>
+                    <tr>
+                        <td>Information</td>
+                        <td th:text="${company.information}"></td>
+                    </tr>
+                    <tr>
+                        <td>Products and services</td>
+                        <td th:text="${company.productsAndServices}"></td>
+                    </tr>
+                    <tr>
+                        <td>Job description</td>
+                        <td th:text="${company.jobDescription}"></td>
+                    </tr>
+                    <tr>
+                        <td>Employees</td>
+                        <td th:text="${company.employees}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <div th:replace="~{fragments/notification-container}"></div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/js/service/http.js}"></script>
+<script type="text/javascript" th:src="@{/js/pages/companies.js}"></script>
+<script type="text/javascript" th:src="@{/js/service/pagination.js}"></script>
+</html>

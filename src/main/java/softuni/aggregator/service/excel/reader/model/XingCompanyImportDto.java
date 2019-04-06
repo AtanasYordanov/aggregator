@@ -19,7 +19,7 @@ public class XingCompanyImportDto extends CompanyImportDto {
     private String employeesPage;
     ////////
 
-    private String companyProfileLink;
+    private String xingProfileLink;
     private String yearFound;
     private String productsAndServices;
 }

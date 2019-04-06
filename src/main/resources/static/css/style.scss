@@ -137,4 +137,18 @@ main {
     .page-link {
         color: #6c757d;
     }
+
+    .row {
+        margin-right: 0;
+        margin-left: 0;
+
+        .card {
+            padding: 0;
+            border: none;
+
+            .list-group-item {
+                min-height: 50px;
+            }
+        }
+    }
 }

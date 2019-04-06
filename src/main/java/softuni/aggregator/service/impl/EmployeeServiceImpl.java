@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final ModelMapper modelMapper;
+    private final ModelMapper mapper;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper mapper) {
         this.employeeRepository = employeeRepository;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeListVO> getEmployeesPage(Pageable pageable) {
         return employeeRepository.findAll(pageable).stream()
-                .map(e ->  modelMapper.map(e, EmployeeListVO.class))
+                .map(e ->  mapper.map(e, EmployeeListVO.class))
                 .collect(Collectors.toList());
     }
 }
