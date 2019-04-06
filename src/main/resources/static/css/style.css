@@ -42,51 +42,55 @@ body {
   color: #FFF;
   outline: none; }
 
-main .section-header .btn-wrapper {
-  padding-top: 1.5rem !important;
-  padding-bottom: 1rem !important; }
-  main .section-header .btn-wrapper .btn {
-    width: 100%; }
-  main .section-header .btn-wrapper .btn-spinner {
-    margin-bottom: 2px;
-    margin-right: 2px; }
-  main .section-header .btn-wrapper .btn-success {
-    background-color: #60B515;
-    border-color: #60B515; }
-  main .section-header .btn-wrapper .btn-success:hover {
-    background-color: #48960C;
-    border-color: #48960C; }
-main .table-wrapper {
-  position: relative; }
-  main .table-wrapper .table {
-    text-align: left; }
-    main .table-wrapper .table th {
-      font-weight: bold;
-      color: #6c757d; }
-    main .table-wrapper .table .btn-col {
-      padding: 0.5rem; }
-    main .table-wrapper .table tbody tr:last-child td, main .table-wrapper .table tbody tr:last-child th {
-      border-bottom: 1px solid #dee2e6; }
-  main .table-wrapper .table-spinner-wrapper {
-    min-height: 500px; }
-    main .table-wrapper .table-spinner-wrapper .table-spinner {
-      width: 3rem !important;
-      height: 3rem !important;
-      position: absolute;
-      top: calc(50% - 1.5rem);
-      left: calc(50% - 1.5rem); }
-main .page-item.active .page-link {
-  background-color: #6c757d;
-  border-color: #6c757d; }
-main .page-link {
-  color: #6c757d; }
-main .row {
-  margin-right: 0;
-  margin-left: 0; }
-  main .row .card {
-    padding: 0;
-    border: none; }
-    main .row .card .list-group-item {
-      min-height: 50px; }
+main {
+  max-width: 1240px !important; }
+  main .section-header .btn-wrapper {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1rem !important; }
+    main .section-header .btn-wrapper .btn {
+      width: 100%; }
+    main .section-header .btn-wrapper .btn-spinner {
+      margin-bottom: 2px;
+      margin-right: 2px; }
+    main .section-header .btn-wrapper .btn-success {
+      background-color: #60B515;
+      border-color: #60B515; }
+    main .section-header .btn-wrapper .btn-success:hover {
+      background-color: #48960C;
+      border-color: #48960C; }
+  main .table-wrapper {
+    position: relative; }
+    main .table-wrapper .table {
+      text-align: left; }
+      main .table-wrapper .table th {
+        font-weight: bold;
+        color: #6c757d; }
+      main .table-wrapper .table .btn-col {
+        padding: 0.5rem; }
+      main .table-wrapper .table tbody tr:last-child td, main .table-wrapper .table tbody tr:last-child th {
+        border-bottom: 1px solid #dee2e6; }
+    main .table-wrapper .table-spinner-wrapper {
+      min-height: 500px; }
+      main .table-wrapper .table-spinner-wrapper .table-spinner {
+        width: 3rem !important;
+        height: 3rem !important;
+        position: absolute;
+        top: calc(50% - 1.5rem);
+        left: calc(50% - 1.5rem); }
+    main .table-wrapper .details-table tbody tr td:first-child {
+      min-width: 300px; }
+  main .page-item.active .page-link {
+    background-color: #6c757d;
+    border-color: #6c757d; }
+  main .page-link {
+    color: #6c757d; }
+  main .row {
+    margin-right: 0;
+    margin-left: 0; }
+    main .row .card {
+      padding: 0;
+      border: none; }
+      main .row .card .list-group-item {
+        min-height: 50px; }
 
 /*# sourceMappingURL=style.css.map */

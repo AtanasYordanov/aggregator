@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 public class CompanyDetailsVO {
 
+    private Long id;
     private String name;
     private String website;
     private String companyEmails;

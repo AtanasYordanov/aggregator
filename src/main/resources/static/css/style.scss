@@ -66,6 +66,8 @@ body {
 
 main {
 
+    max-width: 1240px !important;
+
     .section-header {
 
         .btn-wrapper {
@@ -126,6 +128,12 @@ main {
                 top: calc(50% - 1.5rem);
                 left: calc(50% - 1.5rem);
             }
+        }
+
+        .details-table {
+           tbody tr td:first-child {
+                min-width: 300px;
+           }
         }
     }
 

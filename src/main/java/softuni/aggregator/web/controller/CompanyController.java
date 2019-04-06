@@ -23,15 +23,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/companies")
-public class CompaniesController {
+public class CompanyController {
 
     private final CompanyService companyService;
     private final MinorIndustryService minorIndustryService;
     private final MajorIndustryService majorIndustryService;
 
     @Autowired
-    public CompaniesController(CompanyService companyService, MinorIndustryService minorIndustryService,
-                               MajorIndustryService majorIndustryService) {
+    public CompanyController(CompanyService companyService, MinorIndustryService minorIndustryService,
+                             MajorIndustryService majorIndustryService) {
         this.companyService = companyService;
         this.minorIndustryService = minorIndustryService;
         this.majorIndustryService = majorIndustryService;
@@ -40,14 +40,6 @@ public class CompaniesController {
     @GetMapping("/catalog")
     public ModelAndView companies(ModelAndView model) {
         model.setViewName("companies");
-        return model;
-    }
-
-    @GetMapping("/{id}")
-    public ModelAndView getCompanyDetails(ModelAndView model, @PathVariable Long id) {
-        CompanyDetailsVO company = companyService.getById(id);
-        model.addObject("company", company);
-        model.setViewName("company-details");
         return model;
     }
 
@@ -77,5 +69,13 @@ public class CompaniesController {
         companiesPageVO.setTotalItemsCount(companiesCount);
 
         return new ResponseEntity<>(companiesPageVO, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView getCompanyDetails(ModelAndView model, @PathVariable Long id) {
+        CompanyDetailsVO company = companyService.getById(id);
+        model.addObject("company", company);
+        model.setViewName("company-details");
+        return model;
     }
 }

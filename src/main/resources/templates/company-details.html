@@ -16,7 +16,7 @@
                 <h1 class="container-fluid text-center mb-4">Companies Details</h1>
             </div>
 
-            <div class="container-fluid text-center table-wrapper align-middle">
+            <div class="container-fluid text-center table-wrapper align-middle mt-4">
                 <table class="table">
                     <tbody>
                     <tr>
@@ -69,7 +69,9 @@
                     </tr>
                     <tr>
                         <td>Xing profile</td>
-                        <td><a th:href="@{${company.xingProfileLink}}" th:text="${company.xingProfileLink}"></a></td>
+                        <td>
+                            <a th:href="@{${company.xingProfileLink}}" th:text="${company.xingProfileLink}"></a>
+                        </td>
                     </tr>
                     <tr>
                         <td>VAT number</td>
@@ -135,9 +137,31 @@
                         <td>Job description</td>
                         <td th:text="${company.jobDescription}"></td>
                     </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="container-fluid text-center table-wrapper align-middle my-4">
+                <h3 class="mb-4">Employees</h3>
+                <table id="employees-table" class="table">
+                    <thead>
                     <tr>
-                        <td>Employees</td>
-                        <td th:text="${company.employees}"></td>
+                        <th scope="col">#</th>
+                        <th scope="col">Full name<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col">Email<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col">Company<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="employee: ${company.employees}">
+                        <td th:text="${employee.fullName}"></td>
+                        <td th:text="${employee.email}"></td>
+                        <td th:text="${employee.company}"></td>
+                        <td class="btn-col">
+                            <a th:href="@{'/employees/' + ${employee.id}}"
+                               class="btn btn-outline-secondary btn-sm">View Details</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -147,7 +171,4 @@
     <div th:replace="~{fragments/notification-container}"></div>
 </div>
 </body>
-<script type="text/javascript" th:src="@{/js/service/http.js}"></script>
-<script type="text/javascript" th:src="@{/js/pages/companies.js}"></script>
-<script type="text/javascript" th:src="@{/js/service/pagination.js}"></script>
 </html>

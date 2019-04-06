@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
 import softuni.aggregator.domain.model.vo.EmployeeListVO;
 import softuni.aggregator.domain.repository.EmployeeRepository;
 import softuni.aggregator.service.EmployeeService;
@@ -44,5 +45,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll(pageable).stream()
                 .map(e ->  mapper.map(e, EmployeeListVO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public EmployeeDetailsVO getById(Long id) {
+        return employeeRepository.findByIdEager(id)
+                .map(c -> mapper.map(c, EmployeeDetailsVO.class))
+                .orElseThrow();
     }
 }
