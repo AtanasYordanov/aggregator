@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{fragments/head}"></div>
+
+<body>
+<div class="container-fluid">
+
+    <div th:replace="~{fragments/navbar}"></div>
+
+    <main class="container">
+        <div class="row mt-4 mb-4">
+
+            <div class="container-fluid section-header">
+                <h1 class="container-fluid text-center mb-4">User Details</h1>
+            </div>
+
+            <div class="container-fluid text-center table-wrapper align-middle mt-4 w-75">
+                <table id="user-details-table" class="table details-table">
+                    <tbody>
+                        <tr>
+                            <td>First Name</td>
+                            <td th:text="${user.firstName}"></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td th:text="${user.lastName}"></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td th:text="${user.email}"></td>
+                        </tr>
+                        <tr>
+                            <td>Role</td>
+                            <td th:text="${user.role}"></td>
+                        </tr>
+                        <tr>
+                            <td>Imports</td>
+                            <td th:text="${user.importsCount}"></td>
+                        </tr>
+                        <tr >
+                            <td>Exports</td>
+                            <td th:text="${user.exportsCount}"></td>
+                        </tr>
+                        <tr>
+                            <td>Last Login</td>
+                            <td th:text="${#temporals.format(user.lastLogin, 'dd-MM-yyyy HH:mm')}"></td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td class="status" th:classappend="${#strings.toLowerCase(user.status)}" th:text="${user.status}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <a class="btn btn-outline-secondary col-lg-3 mx-auto mt-4" th:href="@{/admin/users}">
+                        Back to Users
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <div th:replace="~{fragments/notification-container}"></div>
+</div>
+</body>
+</html>

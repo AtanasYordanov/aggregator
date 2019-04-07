@@ -35,6 +35,7 @@
         function renderEmployees(employees) {
             employees.forEach((employee, i) => {
                 const $tableRow = $('<tr>');
+
                 $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
                 $tableRow.append($('<td>').text(employee['fullName']));
                 $tableRow.append($('<td>').text(employee['email']));

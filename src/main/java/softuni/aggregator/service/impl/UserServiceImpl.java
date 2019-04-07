@@ -2,6 +2,8 @@ package softuni.aggregator.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,11 +11,14 @@ import softuni.aggregator.domain.entities.Role;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.enums.UserStatus;
 import softuni.aggregator.domain.model.binding.UserRegisterBindingModel;
+import softuni.aggregator.domain.model.vo.UserDetailsVO;
+import softuni.aggregator.domain.model.vo.UserListVO;
 import softuni.aggregator.domain.repository.UserRepository;
 import softuni.aggregator.domain.enums.UserRole;
 import softuni.aggregator.service.RoleService;
 import softuni.aggregator.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.utils.performance.CustomStringUtils;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -77,6 +82,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserListVO> getUsersPage(Pageable pageable) {
+        return userRepository.findAll(pageable).stream()
+                .map(u ->  {
+                    UserListVO userVO = mapper.map(u, UserListVO.class);
+                    userVO.setRole(CustomStringUtils.getUserRole(u));
+                    return userVO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public long getTotalUsersCount() {
+        return userRepository.count();
+    }
+
+    @Override
+    public UserDetailsVO getUser(Long id) {
+        return userRepository.findById(id)
+                .map(u -> {
+                    UserDetailsVO userDetailsVO = mapper.map(u, UserDetailsVO.class);
+                    userDetailsVO.setRole(CustomStringUtils.getUserRole(u));
+                    userDetailsVO.setImportsCount(u.getImports().size());
+                    userDetailsVO.setExportsCount(u.getExports().size());
+                    return userDetailsVO;
+                })
+                .orElseThrow();
     }
 
     @Override

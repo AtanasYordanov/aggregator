@@ -24,6 +24,15 @@ body {
   #notification-container .alert:hover {
     cursor: pointer; }
 
+.status {
+  font-weight: bold; }
+
+.active {
+  color: #3ec120; }
+
+.inactive {
+  color: grey; }
+
 .navbar .navbar-brand {
   padding-top: 0;
   padding-bottom: 0; }
@@ -78,7 +87,13 @@ main {
         top: calc(50% - 1.5rem);
         left: calc(50% - 1.5rem); }
     main .table-wrapper .details-table tbody tr td:first-child {
-      min-width: 300px; }
+      min-width: 400px; }
+    main .table-wrapper #users-table .btn {
+      width: 110px; }
+    main .table-wrapper #users-table td, main .table-wrapper #users-table th {
+      max-width: 260px; }
+    main .table-wrapper #user-details-table td {
+      width: 50%; }
   main .page-item.active .page-link {
     background-color: #6c757d;
     border-color: #6c757d; }

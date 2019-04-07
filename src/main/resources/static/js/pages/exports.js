@@ -27,9 +27,10 @@
 
         function renderExports(exports) {
             exports.forEach((exp, i) => {
-                let dateString = CustomUtils.getDateString(exp['generatedOn']);
-
                 const $tableRow = $('<tr>');
+
+                const dateString = CustomUtils.getDateString(exp['generatedOn']);
+
                 $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
                 $tableRow.append($('<td>').text(exp['type']));
                 $tableRow.append($('<td>').text(exp['itemsCount']));

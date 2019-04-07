@@ -32,6 +32,18 @@ body {
     }
 }
 
+.status {
+    font-weight: bold;
+}
+
+.active {
+    color: #3ec120;
+}
+
+.inactive {
+    color: grey;
+}
+
 .navbar {
 
     .navbar-brand {
@@ -131,9 +143,26 @@ main {
         }
 
         .details-table {
-           tbody tr td:first-child {
-                min-width: 300px;
-           }
+            tbody tr td:first-child {
+                min-width: 400px;
+            }
+        }
+
+        #users-table {
+
+            .btn {
+                width: 110px;
+            }
+
+            td, th {
+                max-width: 260px;
+            }
+        }
+
+        #user-details-table {
+            td {
+                width: 50%;
+            }
         }
     }
 

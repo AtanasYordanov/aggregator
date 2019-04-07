@@ -48,6 +48,9 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Export> exports;
 
+    @OneToMany(mappedBy = "user")
+    private List<Import> imports;
+
     @Override
     public String getUsername() {
         return email;

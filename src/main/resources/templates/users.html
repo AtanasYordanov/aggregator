@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{fragments/head}"></div>
+
+<body>
+<div class="container-fluid">
+
+    <div th:replace="~{fragments/navbar}"></div>
+
+    <main class="container">
+        <div class="row mt-4 mb-4">
+
+            <div class="container-fluid section-header">
+                <h1 class="container-fluid text-center mb-4">Users</h1>
+            </div>
+
+            <div th:replace="~{fragments/pagination}"></div>
+
+            <div class="container-fluid text-center table-wrapper align-middle">
+                <table id="users-table" class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Email<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col">Role<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col">Last login<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col">Status<i class="fas fa-sort-down ml-2"></i></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="table-spinner-wrapper">
+                    <div class="table-spinner spinner-border text-info" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="~{fragments/pagination}"></div>
+
+        </div>
+    </main>
+    <div th:replace="~{fragments/notification-container}"></div>
+</div>
+</body>
+<script th:src="@{/js/service/pagination.js}"></script>
+<script th:src="@{/js/pages/users.js}"></script>
+</html>

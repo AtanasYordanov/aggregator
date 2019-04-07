@@ -67,6 +67,7 @@
         function renderCompanies(companies) {
             companies.forEach((company, i) => {
                 const $tableRow = $('<tr>');
+
                 $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
                 $tableRow.append($('<td>').text(company['name']));
                 $tableRow.append($('<td>').text(company['industry']));
