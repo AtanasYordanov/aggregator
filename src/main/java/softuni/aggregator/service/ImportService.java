@@ -13,9 +13,9 @@ public interface ImportService {
 
     long getImportsCount(User user);
 
-    void importCompaniesFromXing(User user, MultipartFile file);
+    int importCompaniesFromXing(User user, MultipartFile file);
 
-    void importCompaniesFromOrbis(User user, MultipartFile file);
+    int importCompaniesFromOrbis(User user, MultipartFile file);
 
-    void importEmployees(User user, MultipartFile file);
+    int importEmployees(User user, MultipartFile file);
 }

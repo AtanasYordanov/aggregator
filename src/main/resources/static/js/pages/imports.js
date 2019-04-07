@@ -5,11 +5,17 @@
 
         const $tableBody = $('#imports-table tbody');
         const $spinner = $('.table-spinner-wrapper');
+        const $importBtn = $('#import-btn');
 
         let totalImports;
         let currentPage = 0;
 
+        attachEvents();
         fetchImports(currentPage);
+
+        function attachEvents() {
+            $importBtn.on('click', () => displayImportModal())
+        }
 
         function fetchImports(page) {
             currentPage = page;
@@ -27,7 +33,7 @@
 
         function renderImports(imports) {
             imports.forEach((exp, i) => {
-                let dateString = getDateString(exp['date']);
+                let dateString = CustomUtils.getDateString(exp['date']);
 
                 const $tableRow = $('<tr>');
                 $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
@@ -41,29 +47,79 @@
             });
         }
 
-        function getDateString(receivedDate) {
-            let utcDate = new Date(receivedDate);
+        function displayImportModal() {
+            $('#modal').remove();
 
-            let year = utcDate.getFullYear();
-            let month = utcDate.getMonth();
-            let day = utcDate.getDate();
-            let hours = utcDate.getHours();
-            let minutes = utcDate.getMinutes();
+            const $modal = $(modal.getModalTemplate('Import data', 'CANCEL', 'IMPORT'));
 
-            let date = new Date(Date.UTC(year, month, day, hours, minutes));
+            const $selectImport = $(`
+                    <div class="form-row">
+                        <div class="form-group col-lg-6">
+                            <label for="import-select"> </label>
+                            <select id="import-select" class="form-control">
+                                <option disabled selected>Select Import Type</option>
+                            </select>
+                        </div>
+                    </div>
+                `);
 
-            year = date.getFullYear();
-            month = pad(date.getMonth());
-            day = pad(date.getDate());
-            hours = pad(date.getHours());
-            minutes = pad(date.getMinutes());
+            http.get('/imports/types'
+                , (importTypes) => {
+                    const $options = $selectImport.find('#import-select');
+                    Object.keys(importTypes)
+                        .forEach(key => $options.append($(`<option>`).val(key).text(importTypes[key])))
+                }
+                , () => notification.error("Failed to load imports."));
 
-            return `${day}-${month}-${year}\xa0\xa0${hours}:${minutes}`;
-        }
+            const $fileInputBox = $(`
+                    <div class="custom-file col-lg-8 mr-4">
+                        <input type="file" name="file" readonly class="custom-file-input" id="file-input"
+                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                        <label class="custom-file-label" for="file-input">Choose file</label>
+                    </div>
+                `);
 
-        function pad(number) {
-            number = number + '';
-            return number.length >= 2 ? number : new Array(2 - number.length + 1).join('0') + number;
+            $fileInputBox.find('#file-input').on('change', () => {
+                const file = document.getElementById('file-input').files[0];
+                $('.custom-file-label').text(file.name);
+            });
+
+            $modal.find('#confirm-btn').on('click', () => {
+                const importType = $selectImport.find('#import-select').val();
+                const file = document.getElementById('file-input').files[0];
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const $buttonSpinner = $(`<span class="btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
+                $importBtn.prepend($buttonSpinner);
+                $importBtn.find('.btn-text').text('IMPORTING');
+                $importBtn.attr('disabled', true);
+
+                document.getElementById('file-input').value = "";
+
+                http.uploadFile(`/imports/${importType}`, formData
+                    , (count) => {
+                        $buttonSpinner.remove();
+                        $importBtn.find('.btn-text').text('NEW IMPORT');
+                        $importBtn.attr('disabled', false);
+                        notification.success(`Successfully imported ${count} items.`);
+                    }
+                    , () => {
+                        $buttonSpinner.remove();
+                        $importBtn.find('.btn-text').text('NEW IMPORT');
+                        $importBtn.attr('disabled', false);
+                        notification.error('Import failed.');
+                    });
+
+                $modal.modal('hide');
+                $modal.detach();
+            });
+
+            $modal.find('.modal-body').append($selectImport);
+            $modal.find('.modal-body').append($fileInputBox);
+
+            $('body').append($modal);
+            $modal.modal();
         }
     });
 })();

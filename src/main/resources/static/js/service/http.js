@@ -1,9 +1,37 @@
 let http = (() => {
 
     function get(url, onSuccess, onError) {
-        fetch(url)
+        const options = {
+            method: "GET",
+        };
+
+        return execute(url, options, onSuccess, onError);
+    }
+
+    function post(url, data, onSuccess, onError) {
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(data),
+        };
+
+        return execute(url, options, onSuccess, onError);
+    }
+
+    function uploadFile(url, data, onSuccess, onError) {
+
+        const options = {
+            method: "POST",
+            body: data,
+        };
+
+        return execute(url, options, onSuccess, onError);
+    }
+
+    function execute(url, options, onSuccess, onError) {
+        return fetch(url, options)
             .then(res => {
-                if (!res.status >= 400) {
+                if (res.status >= 400) {
                     onError();
                     return;
                 }
@@ -15,6 +43,8 @@ let http = (() => {
     }
 
     return {
-        get
+        get,
+        post,
+        uploadFile
     };
 })();

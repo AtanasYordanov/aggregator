@@ -14,6 +14,14 @@
 
             <div class="container-fluid section-header">
                 <h1 class="container-fluid text-center mb-4">Imports</h1>
+                <form class="row">
+                    <div class="btn-wrapper col-lg-10"></div>
+                    <div class="btn-wrapper col-lg-2">
+                        <button id="import-btn" class="btn btn-success" type="button">
+                            <span class="btn-text">NEW IMPORT</span>
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <div th:replace="~{fragments/pagination}"></div>
@@ -48,7 +56,6 @@
     <div th:replace="~{fragments/notification-container}"></div>
 </div>
 </body>
-<script type="text/javascript" th:src="@{/js/service/http.js}"></script>
-<script type="text/javascript" th:src="@{/js/pages/imports.js}"></script>
-<script type="text/javascript" th:src="@{/js/service/pagination.js}"></script>
+<script th:src="@{/js/service/pagination.js}"></script>
+<script th:src="@{/js/pages/imports.js}"></script>
 </html>

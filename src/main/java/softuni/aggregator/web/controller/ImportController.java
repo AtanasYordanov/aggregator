@@ -7,18 +7,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.vo.ImportListVO;
 import softuni.aggregator.domain.model.vo.page.ImportsPageVO;
 import softuni.aggregator.service.ImportService;
+import softuni.aggregator.service.excel.reader.imports.ImportType;
 
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/imports")
@@ -38,7 +42,7 @@ public class ImportController {
     }
 
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ImportsPageVO> getExportsPage(Pageable pageable, @AuthenticationPrincipal User loggedUser) {
+    public ResponseEntity<ImportsPageVO> getImportsPage(Pageable pageable, @AuthenticationPrincipal User loggedUser) {
         List<ImportListVO> imports = importService.getImportsPage(pageable, loggedUser);
         long importsCount = importService.getImportsCount(loggedUser);
 
@@ -49,27 +53,34 @@ public class ImportController {
         return new ResponseEntity<>(importsPageVO, HttpStatus.OK);
     }
 
-    @PostMapping("/xing")
-    public ModelAndView importXingFile(ModelAndView model, @RequestParam("file") MultipartFile file,
-                                       @AuthenticationPrincipal User loggedUser) {
-        importService.importCompaniesFromXing(loggedUser, file);
-        model.setViewName("redirect:/home");
-        return model;
+    @GetMapping(value = "/types", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> getImportTypes() {
+        Map<String, String> importTypes = Arrays.stream(ImportType.values())
+                .collect(Collectors.toMap(
+                        ImportType::getEndpoint
+                        , ImportType::toString
+                        , (u, v) -> {
+                            throw new IllegalStateException(String.format("Duplicate key %s", u));
+                        }, LinkedHashMap::new));
+
+        return new ResponseEntity<>(importTypes, HttpStatus.OK);
     }
 
-    @PostMapping("/orbis")
-    public ModelAndView importOrbisFile(ModelAndView model, @RequestParam("file") MultipartFile file,
-                                        @AuthenticationPrincipal User loggedUser) {
-        importService.importCompaniesFromOrbis(loggedUser, file);
-        model.setViewName("redirect:/home");
-        return model;
+    @PostMapping(value = "/xing", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Callable<Integer> importXingFile(@RequestPart("file") MultipartFile file, @AuthenticationPrincipal User loggedUser) {
+        return () -> importService.importCompaniesFromXing(loggedUser, file);
     }
 
-    @PostMapping("/employees")
-    public ModelAndView importEmployeesFile(ModelAndView model, @RequestParam("file") MultipartFile file,
-                                            @AuthenticationPrincipal User loggedUser) {
-        importService.importEmployees(loggedUser, file);
-        model.setViewName("redirect:/home");
-        return model;
+    @PostMapping(value = "/orbis", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Callable<Integer> importOrbisFile(@RequestPart("file") MultipartFile file, @AuthenticationPrincipal User loggedUser) {
+        return () -> importService.importCompaniesFromOrbis(loggedUser, file);
+    }
+
+    @PostMapping(value = "/employees", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Callable<Integer> importEmployeesFile(@RequestPart("file") MultipartFile file, @AuthenticationPrincipal User loggedUser) {
+        return () -> importService.importEmployees(loggedUser, file);
     }
 }

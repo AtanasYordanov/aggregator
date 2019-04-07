@@ -71,7 +71,7 @@ public class ImportServiceImpl implements ImportService {
     }
 
     @Override
-    public void importCompaniesFromXing(User user, MultipartFile multipartFile) {
+    public int importCompaniesFromXing(User user, MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
         List<XingCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.XING_COMPANIES);
         deleteFile(file);
@@ -98,10 +98,11 @@ public class ImportServiceImpl implements ImportService {
         importRepository.save(new Import(user, ImportType.XING_COMPANIES, companies.size(), newEntries));
 
         log.info(String.format("Successfully imported %s companies from XING.", companies.size()));
+        return companies.size();
     }
 
     @Override
-    public void importCompaniesFromOrbis(User user, MultipartFile multipartFile) {
+    public int importCompaniesFromOrbis(User user, MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
         List<OrbisCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.ORBIS_COMPANIES);
         deleteFile(file);
@@ -124,10 +125,11 @@ public class ImportServiceImpl implements ImportService {
         importRepository.save(new Import(user, ImportType.ORBIS_COMPANIES, companies.size(), newEntries));
 
         log.info(String.format("Successfully imported %s companies from Orbis.", companies.size()));
+        return companies.size();
     }
 
     @Override
-    public void importEmployees(User user, MultipartFile multipartFile) {
+    public int importEmployees(User user, MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
         List<EmployeeImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.EMPLOYEES);
         deleteFile(file);
@@ -153,6 +155,7 @@ public class ImportServiceImpl implements ImportService {
         importRepository.save(new Import(user, ImportType.EMPLOYEES, employees.size(), newEntries));
 
         log.info(String.format("Successfully imported %s employees.", employees.size()));
+        return employees.size();
     }
 
     private Map<String, Company> getCompaniesMap(List<? extends CompanyImportDto> data) {

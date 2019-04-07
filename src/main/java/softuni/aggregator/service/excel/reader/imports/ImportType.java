@@ -17,15 +17,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public enum ImportType {
 
-    EMPLOYEES(EmployeesImportColumn.values(), EmployeeImportDto::new),
-    XING_COMPANIES(XingImportColumn.values(), XingCompanyImportDto::new),
-    ORBIS_COMPANIES(OrbisImportColumn.values(), OrbisCompanyImportDto::new);
+    EMPLOYEES("employees", EmployeesImportColumn.values(), EmployeeImportDto::new),
+    XING_COMPANIES("xing", XingImportColumn.values(), XingCompanyImportDto::new),
+    ORBIS_COMPANIES("orbis", OrbisImportColumn.values(), OrbisCompanyImportDto::new);
 
+    private String endpoint;
     private ReadExcelColumn[] columns;
     private Supplier<ExcelImportDto> instanceCreator;
 
     public ExcelImportDto createInstance() {
         return instanceCreator.get();
+    }
+
+    public String getEndpoint() {
+        return this.endpoint;
     }
 
     public ReadExcelColumn[] getColumns() {
