@@ -13,19 +13,21 @@
         <div class="row mt-4 mb-4">
 
             <div class="container-fluid section-header">
-                <h1 class="container-fluid text-center mb-4">Exports</h1>
+                <h1 class="container-fluid text-center mb-4">Imports</h1>
             </div>
 
             <div th:replace="~{fragments/pagination}"></div>
 
             <div class="container-fluid text-center table-wrapper align-middle">
-                <table id="exports-table" class="table">
+                <table id="imports-table" class="table">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Type</th>
-                        <th scope="col">Items count</th>
-                        <th scope="col">Generated on</th>
+                        <th scope="col">Total items</th>
+                        <th scope="col">New entries</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">User</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
@@ -47,6 +49,6 @@
 </div>
 </body>
 <script type="text/javascript" th:src="@{/js/service/http.js}"></script>
-<script type="text/javascript" th:src="@{/js/pages/exports.js}"></script>
+<script type="text/javascript" th:src="@{/js/pages/imports.js}"></script>
 <script type="text/javascript" th:src="@{/js/service/pagination.js}"></script>
 </html>

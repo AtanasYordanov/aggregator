@@ -1,15 +1,15 @@
 package softuni.aggregator.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import softuni.aggregator.domain.entities.*;
-import softuni.aggregator.domain.repository.CompanyRepository;
-import softuni.aggregator.domain.repository.EmployeeRepository;
-import softuni.aggregator.domain.repository.MajorIndustryRepository;
-import softuni.aggregator.domain.repository.MinorIndustryRepository;
-import softuni.aggregator.service.ImportService;
+import softuni.aggregator.domain.model.vo.ImportListVO;
+import softuni.aggregator.domain.repository.*;
+import softuni.aggregator.service.*;
 import softuni.aggregator.service.excel.reader.ExcelReader;
 import softuni.aggregator.service.excel.reader.imports.ImportType;
 import softuni.aggregator.service.excel.reader.model.*;
@@ -18,10 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -33,68 +30,85 @@ public class ImportServiceImpl implements ImportService {
 
     private static final String EXTRACT_INTEGER_REGEX = "\\d+";
 
-    private final CompanyRepository companyRepository;
-    private final EmployeeRepository employeeRepository;
-    private final MinorIndustryRepository minorIndustryRepository;
-    private final MajorIndustryRepository majorIndustryRepository;
+    private final ImportRepository importRepository;
+    private final CompanyService companyService;
+    private final EmployeeService employeeService;
+    private final MinorIndustryService minorIndustryService;
+    private final MajorIndustryService majorIndustryService;
     private final ServletContext servletContext;
     private final ExcelReader excelReader;
+    private final ModelMapper mapper;
 
     @Autowired
-    public ImportServiceImpl(CompanyRepository companyRepository, EmployeeRepository employeeRepository,
-                             MinorIndustryRepository minorIndustryRepository,
-                             MajorIndustryRepository majorIndustryRepository, ServletContext servletContext,
-                             ExcelReader excelReader) {
-        this.companyRepository = companyRepository;
-        this.employeeRepository = employeeRepository;
-        this.minorIndustryRepository = minorIndustryRepository;
-        this.majorIndustryRepository = majorIndustryRepository;
+    public ImportServiceImpl(CompanyService companyService, EmployeeService employeeService,
+                             MinorIndustryService minorIndustryService,
+                             MajorIndustryService majorIndustryService, ImportRepository importRepository,
+                             ServletContext servletContext, ExcelReader excelReader, ModelMapper mapper) {
+        this.companyService = companyService;
+        this.employeeService = employeeService;
+        this.minorIndustryService = minorIndustryService;
+        this.majorIndustryService = majorIndustryService;
+        this.importRepository = importRepository;
         this.servletContext = servletContext;
         this.excelReader = excelReader;
+        this.mapper = mapper;
     }
 
     @Override
-    public void importCompaniesFromXing(MultipartFile multipartFile) {
+    public List<ImportListVO> getImportsPage(Pageable pageable, User user) {
+        return importRepository.findAllByUser(user, pageable).stream()
+                .map(i -> {
+                    ImportListVO importVO = mapper.map(i, ImportListVO.class);
+                    importVO.setUserEmail(i.getUser().getEmail());
+                    return importVO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public long getImportsCount(User user) {
+        return importRepository.countByUser(user);
+    }
+
+    @Override
+    public void importCompaniesFromXing(User user, MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
         List<XingCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.XING_COMPANIES);
         deleteFile(file);
 
-        Map<String, MajorIndustry> majorIndustriesMap = majorIndustryRepository.findAll().stream()
-                .collect(Collectors.toMap(MajorIndustry::getName, i -> i));
+        Map<String, MajorIndustry> majorIndustriesMap = majorIndustryService.getAllIndustriesByName();
+        Map<String, MinorIndustry> minorIndustriesMap = minorIndustryService.getAllIndustriesByName();
 
-        Map<String, MinorIndustry> minorIndustriesMap = minorIndustryRepository.findAll().stream()
-                .collect(Collectors.toMap(MinorIndustry::getName, i -> i));
+        Map<String, Company> companies = getCompaniesMap(data);
 
-        List<String> companyWebsites = data.stream()
-                .map(XingCompanyImportDto::getWebsite)
-                .collect(Collectors.toList());
-
-        Map<String, Company> companies = getCompaniesMap(companyWebsites);
+        int existingCompaniesCount = companies.size();
 
         for (XingCompanyImportDto companyDto : data) {
             Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
                 setXingCompanyProperties(company, companyDto, majorIndustriesMap, minorIndustriesMap);
+
                 companies.putIfAbsent(company.getWebsite(), company);
             }
         }
 
-        companyRepository.saveAll(companies.values());
+        companyService.saveCompanies(companies.values());
+
+        int newEntries = companies.size() - existingCompaniesCount;
+        importRepository.save(new Import(user, ImportType.XING_COMPANIES, companies.size(), newEntries));
+
         log.info(String.format("Successfully imported %s companies from XING.", companies.size()));
     }
 
     @Override
-    public void importCompaniesFromOrbis(MultipartFile multipartFile) {
+    public void importCompaniesFromOrbis(User user, MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
         List<OrbisCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.ORBIS_COMPANIES);
         deleteFile(file);
 
-        List<String> companyWebistes = data.stream()
-                .map(OrbisCompanyImportDto::getWebsite)
-                .distinct()
-                .collect(Collectors.toList());
+        Map<String, Company> companies = getCompaniesMap(data);
 
-        Map<String, Company> companies = getCompaniesMap(companyWebistes);
+        int existingCompaniesCount = companies.size();
 
         for (OrbisCompanyImportDto companyDto : data) {
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
@@ -104,27 +118,50 @@ public class ImportServiceImpl implements ImportService {
             }
         }
 
-        companyRepository.saveAll(companies.values());
+        companyService.saveCompanies(companies.values());
+
+        int newEntries = companies.size() - existingCompaniesCount;
+        importRepository.save(new Import(user, ImportType.ORBIS_COMPANIES, companies.size(), newEntries));
+
         log.info(String.format("Successfully imported %s companies from Orbis.", companies.size()));
     }
 
     @Override
-    public void importEmployees(MultipartFile multipartFile) {
+    public void importEmployees(User user, MultipartFile multipartFile) {
         File file = saveTempFile(multipartFile);
         List<EmployeeImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.EMPLOYEES);
         deleteFile(file);
 
-        List<Employee> employees = new ArrayList<>();
+        List<String> emails = data.stream()
+                .map(EmployeeImportDto::getEmail)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        Map<String, Employee> employees = employeeService.getEmployeesByEmail(emails);
+
+        int existingCompaniesCount = employees.size();
 
         for (EmployeeImportDto employeeDto : data) {
-            Employee employee = employeeRepository.findByEmail(employeeDto.getEmail())
-                    .orElse(new Employee());
+            Employee employee = employees.getOrDefault(employeeDto.getEmail(), new Employee());
             setEmployeeProperties(employeeDto, employee);
-            employees.add(employee);
+            employees.putIfAbsent(employee.getEmail(), employee);
         }
 
-        employeeRepository.saveAll(employees);
+        employeeService.saveEmployees(employees.values());
+
+        int newEntries = employees.size() - existingCompaniesCount;
+        importRepository.save(new Import(user, ImportType.EMPLOYEES, employees.size(), newEntries));
+
         log.info(String.format("Successfully imported %s employees.", employees.size()));
+    }
+
+    private Map<String, Company> getCompaniesMap(List<? extends CompanyImportDto> data) {
+        List<String> companyWebsites = data.stream()
+                .map(CompanyImportDto::getWebsite)
+                .distinct()
+                .collect(Collectors.toList());
+
+        return companyService.getCompaniesByWebsite(companyWebsites);
     }
 
     private void setXingCompanyProperties(Company company, XingCompanyImportDto companyDto, Map<String,
@@ -187,7 +224,10 @@ public class ImportServiceImpl implements ImportService {
     }
 
     private void setEmployeeProperties(EmployeeImportDto employeeDto, Employee employee) {
-        Company company = companyRepository.findByName(employeeDto.getCompanyName()).orElse(null);
+        Company company = employee.getCompany();
+        if (company == null) {
+            company = companyService.findByName(employeeDto.getCompanyName());
+        }
 
         employee.setCompany(company);
         employee.setEmail(employeeDto.getEmail());
@@ -217,11 +257,6 @@ public class ImportServiceImpl implements ImportService {
         if (!file.delete()) {
             log.warn("Failed to delete {}", file.getName());
         }
-    }
-
-    private Map<String, Company> getCompaniesMap(List<String> companyWebsites) {
-        return companyRepository.findAllByWebsiteIn(companyWebsites).stream()
-                .collect(Collectors.toMap(Company::getWebsite, c -> c));
     }
 
     private Integer getPropertyValueAsInteger(String property) {

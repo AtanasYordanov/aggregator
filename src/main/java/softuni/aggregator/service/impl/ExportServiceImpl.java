@@ -23,7 +23,6 @@ import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,7 +89,7 @@ public class ExportServiceImpl implements ExportService {
 
     @Override
     public void deleteOldExports() {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC).minusMonths(1);
+        LocalDateTime now = LocalDateTime.now().minusMonths(1);
 
         List<Export> exports = exportRepository.findAllByGeneratedOnBefore(now);
 

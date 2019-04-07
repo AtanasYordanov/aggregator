@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -27,7 +26,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         User user = (User) authentication.getPrincipal();
-        user.setLastLogin(LocalDateTime.now(ZoneOffset.UTC));
+        user.setLastLogin(LocalDateTime.now());
         user.setStatus(UserStatus.ACTIVE);
         userService.saveUser(user);
         response.sendRedirect("/home");

@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.domain.entities.Employee;
 import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
 import softuni.aggregator.domain.model.vo.EmployeeListVO;
 import softuni.aggregator.domain.repository.EmployeeRepository;
@@ -12,7 +13,9 @@ import softuni.aggregator.service.excel.writer.model.EmployeesExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,5 +55,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findByIdEager(id)
                 .map(c -> mapper.map(c, EmployeeDetailsVO.class))
                 .orElseThrow();
+    }
+
+    @Override
+    public void saveEmployees(Collection<Employee> employees) {
+        employeeRepository.saveAll(employees);
+    }
+
+    @Override
+    public Map<String, Employee> getEmployeesByEmail(List<String> emails) {
+        return employeeRepository.findByEmailIn(emails).stream()
+                .collect(Collectors.toMap(Employee::getEmail, e -> e));
     }
 }

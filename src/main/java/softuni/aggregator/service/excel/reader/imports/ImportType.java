@@ -10,7 +10,9 @@ import softuni.aggregator.service.excel.reader.model.ExcelImportDto;
 import softuni.aggregator.service.excel.reader.model.OrbisCompanyImportDto;
 import softuni.aggregator.service.excel.reader.model.XingCompanyImportDto;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public enum ImportType {
@@ -28,5 +30,12 @@ public enum ImportType {
 
     public ReadExcelColumn[] getColumns() {
         return columns;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.stream(name().split("_"))
+                .map(word -> word.charAt(0) + word.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
     }
 }

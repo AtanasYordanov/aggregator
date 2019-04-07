@@ -7,8 +7,6 @@ import softuni.aggregator.service.excel.writer.exports.ExportType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 
 @Getter
 @Setter
@@ -39,6 +37,6 @@ public class Export extends BaseEntity {
         this.exportType = exportType;
         this.itemsCount = itemsCount;
         this.user = user;
-        this.generatedOn = LocalDateTime.now(ZoneOffset.UTC);
+        this.generatedOn = LocalDateTime.now();
     }
 }

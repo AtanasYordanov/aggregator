@@ -18,8 +18,7 @@ import softuni.aggregator.service.excel.writer.model.CompaniesExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -101,6 +100,22 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.findById(id)
                 .map(c -> mapper.map(c, CompanyDetailsVO.class))
                 .orElseThrow();
+    }
+
+    @Override
+    public void saveCompanies(Collection<Company> companies) {
+        companyRepository.saveAll(companies);
+    }
+
+    @Override
+    public Map<String, Company> getCompaniesByWebsite(List<String> companyWebsites) {
+        return companyRepository.findAllByWebsiteIn(companyWebsites).stream()
+                .collect(Collectors.toMap(Company::getWebsite, c -> c));
+    }
+
+    @Override
+    public Company findByName(String companyName) {
+        return companyRepository.findByName(companyName).orElse(null);
     }
 
     private String getMajorIndustry(Company company) {

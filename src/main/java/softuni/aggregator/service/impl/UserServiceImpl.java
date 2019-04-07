@@ -16,7 +16,6 @@ import softuni.aggregator.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,7 +83,7 @@ public class UserServiceImpl implements UserService {
     public void updateUserStatus() {
         List<User> users = userRepository.findAll().stream()
                 .filter(u -> u.getLastLogin() == null
-                        || u.getLastLogin().isBefore(LocalDateTime.now(ZoneOffset.UTC).minusDays(1)))
+                        || u.getLastLogin().isBefore(LocalDateTime.now().minusDays(1)))
                 .peek(u -> u.setStatus(UserStatus.INACTIVE))
                 .collect(Collectors.toList());
 

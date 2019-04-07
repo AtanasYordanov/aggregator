@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -116,7 +115,7 @@ public class ExcelWriterImpl implements ExcelWriter {
     }
 
     private String generateFileName(ExportType exportType) {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        LocalDateTime now = LocalDateTime.now();
         return String.format("%s_%02d-%02d-%d_%02d-%02d-%02d%s",
                 exportType.getExportName(),
                 now.getDayOfMonth(),

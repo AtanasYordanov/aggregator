@@ -9,6 +9,7 @@ import softuni.aggregator.service.MinorIndustryService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,5 +33,11 @@ public class MinorIndustryServiceImpl implements MinorIndustryService {
     @Override
     public MinorIndustry getIndustryByName(String name) {
         return minorIndustryRepository.findByName(name).orElseThrow();
+    }
+
+    @Override
+    public Map<String, MinorIndustry> getAllIndustriesByName() {
+        return minorIndustryRepository.findAll().stream()
+                .collect(Collectors.toMap(MinorIndustry::getName, i -> i));
     }
 }
