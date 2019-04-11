@@ -1,8 +1,9 @@
 body {
-  font-family: 'Montserrat', sans-serif !important; }
+  font-family: 'Montserrat', sans-serif !important;
+  background-color: #F3F6FA !important; }
 
 .bg-custom {
-  background-color: #c44725 !important; }
+  background-color: #495A67 !important; }
 
 .btn {
   width: 100%; }
@@ -12,7 +13,6 @@ body {
   margin-right: 2px; }
 
 .rounded-form {
-  background: #e7efda;
   border-radius: 10px; }
 
 #notification-container {
@@ -38,12 +38,12 @@ body {
   margin-right: 2px; }
 
 .btn-success {
-  background-color: #60B515 !important;
-  border-color: #60B515 !important; }
+  background-color: #85C81A !important;
+  border-color: #85C81A !important; }
 
 .btn-success:hover {
-  background-color: #48960C !important;
-  border-color: #48960C !important; }
+  background-color: #6fba23 !important;
+  border-color: #6fba23 !important; }
 
 .navbar .navbar-brand {
   padding-top: 0;
@@ -52,11 +52,12 @@ body {
     max-width: 35px; }
 .navbar .dropdown-menu {
   background-color: inherit;
+  border: 1px solid #61717D;
   min-width: 8.5rem; }
 .navbar .active {
   font-weight: 600; }
 .navbar a:hover, .navbar button.nav-link:hover {
-  color: #75ea7b !important; }
+  color: #89d334 !important; }
 .navbar button.nav-link {
   background: no-repeat;
   border: none;
@@ -65,7 +66,7 @@ body {
 
 .jumbotron {
   width: 98% !important;
-  max-width: 1600px !important;
+  max-width: 1400px !important;
   margin: 1rem auto;
   padding: 4rem 4rem !important; }
 
@@ -104,10 +105,10 @@ main {
     main .table-wrapper #user-details-table td {
       width: 50%; }
   main .page-item.active .page-link {
-    background-color: #6c757d;
-    border-color: #6c757d; }
+    background-color: #495A67;
+    border-color: #495A67; }
   main .page-link {
-    color: #6c757d; }
+    color: #495A67; }
   main .row {
     margin-right: 0;
     margin-left: 0; }

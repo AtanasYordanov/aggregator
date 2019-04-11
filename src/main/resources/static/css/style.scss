@@ -1,9 +1,14 @@
+$dark-blue: #495A67;
+$green-button-color: #85C81A;
+$green-button-hover-color: #6fba23;
+
 body {
     font-family: 'Montserrat', sans-serif !important;
+    background-color: #F3F6FA !important;;
 }
 
 .bg-custom {
-    background-color: #c44725 !important;
+    background-color: $dark-blue !important;
 }
 
 .btn {
@@ -16,7 +21,6 @@ body {
 }
 
 .rounded-form {
-    background: #e7efda;
     border-radius: 10px;
 }
 
@@ -50,13 +54,13 @@ body {
 }
 
 .btn-success {
-    background-color: #60B515 !important;
-    border-color: #60B515 !important;
+    background-color: $green-button-color !important;
+    border-color: $green-button-color !important;
 }
 
 .btn-success:hover {
-    background-color: #48960C !important;
-    border-color: #48960C !important;
+    background-color: $green-button-hover-color !important;
+    border-color: $green-button-hover-color !important;
 }
 
 .navbar {
@@ -72,6 +76,7 @@ body {
 
     .dropdown-menu {
         background-color: inherit;
+        border: 1px solid #61717D;
         min-width: 8.5rem;
     }
 
@@ -80,7 +85,7 @@ body {
     }
 
     a:hover, button.nav-link:hover {
-        color: #75ea7b !important;
+        color: #89d334 !important;
     }
 
     button.nav-link {
@@ -93,7 +98,7 @@ body {
 
 .jumbotron {
     width: 98% !important;
-    max-width: 1600px !important;
+    max-width: 1400px !important;
     margin: 1rem auto;
     padding: 4rem 4rem !important;
 }
@@ -174,12 +179,12 @@ main {
     }
 
     .page-item.active .page-link {
-        background-color: #6c757d;
-        border-color: #6c757d;
+        background-color: $dark-blue;
+        border-color: $dark-blue;
     }
 
     .page-link {
-        color: #6c757d;
+        color: $dark-blue;
     }
 
     .row {

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <div th:replace="~{fragments/head}"></div>
 
@@ -10,7 +10,7 @@
     <div th:replace="~{fragments/navbar}"></div>
 
     <div class="container-fluid">
-        <div class="jumbotron bg-custom text-white">
+        <div class="jumbotron bg-custom text-white mt-5">
             <h1 class="display-4">Welcome to Aggregator!</h1>
             <p class="lead">The fastest growing CRM system.</p>
             <hr class="my-4">
@@ -22,7 +22,7 @@
                 <div class="col-lg-2">
                     <a class="btn btn-success btn-lg" th:href="@{/employees/catalog}" role="button">Employees</a>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2" sec:authorize="isAuthenticated()">
                     <a class="btn btn-success btn-lg" th:href="@{/exports}" role="button">My Exports</a>
                 </div>
             </div>
