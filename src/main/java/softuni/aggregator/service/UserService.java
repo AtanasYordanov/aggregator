@@ -3,6 +3,7 @@ package softuni.aggregator.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import softuni.aggregator.domain.entities.User;
+import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
 import softuni.aggregator.domain.model.binding.UserRegisterBindingModel;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
 import softuni.aggregator.domain.model.vo.UserListVO;
@@ -13,7 +14,7 @@ public interface UserService extends UserDetailsService {
 
     void registerUser(UserRegisterBindingModel userModel);
 
-    void updateRole(String username, String role);
+    void updateRole(ChangeUserRoleBindingModel bindingModel);
 
     boolean existsByEmail(String username);
 
@@ -25,5 +26,5 @@ public interface UserService extends UserDetailsService {
 
     long getTotalUsersCount();
 
-    UserDetailsVO getUser(Long id);
+    UserDetailsVO getUserDetails(Long id);
 }

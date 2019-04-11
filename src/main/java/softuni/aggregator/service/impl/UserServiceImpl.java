@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Role;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.enums.UserStatus;
+import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
 import softuni.aggregator.domain.model.binding.UserRegisterBindingModel;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
 import softuni.aggregator.domain.model.vo.UserListVO;
@@ -66,10 +67,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateRole(String email, String role) {
-        User user = userRepository.findByEmail(email).orElseThrow();
+    public void updateRole(ChangeUserRoleBindingModel bindingModel) {
+        User user = userRepository.findById(bindingModel.getUserId()).orElseThrow();
+        if (userIsRootAdmin(user)) {
+            // TODO
+            throw new IllegalArgumentException();
+        }
         Set<Role> authorities = new HashSet<>();
-        authorities.add(roleService.getRoleByName(role));
+        Role role = getUserRole(bindingModel.getRoleName());
+        authorities.add(role);
         user.setAuthorities(authorities);
         saveUser(user);
     }
@@ -101,7 +107,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetailsVO getUser(Long id) {
+    public UserDetailsVO getUserDetails(Long id) {
         return userRepository.findById(id)
                 .map(u -> {
                     UserDetailsVO userDetailsVO = mapper.map(u, UserDetailsVO.class);
@@ -122,5 +128,24 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
 
         userRepository.saveAll(users);
+    }
+
+    private boolean userIsRootAdmin(User user) {
+        return user.getAuthorities().stream()
+                .anyMatch(role -> role.getAuthority().equals(UserRole.ROLE_ROOT_ADMIN.toString()));
+    }
+
+    private Role getUserRole(String roleName) {
+        for (UserRole role : UserRole.values()) {
+            if (role.getName().equals(roleName)) {
+                if (!role.equals(UserRole.ROLE_ROOT_ADMIN)) {
+                    return roleService.getRoleByName(role.toString());
+                } else {
+                    // TODO
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+        throw new IllegalArgumentException();
     }
 }

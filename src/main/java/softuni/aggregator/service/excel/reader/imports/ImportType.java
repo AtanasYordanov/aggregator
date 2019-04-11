@@ -1,6 +1,7 @@
 package softuni.aggregator.service.excel.reader.imports;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import softuni.aggregator.service.excel.reader.columns.EmployeesImportColumn;
 import softuni.aggregator.service.excel.reader.columns.OrbisImportColumn;
 import softuni.aggregator.service.excel.reader.columns.ReadExcelColumn;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+@Getter
 @AllArgsConstructor
 public enum ImportType {
 
@@ -31,10 +33,6 @@ public enum ImportType {
 
     public String getEndpoint() {
         return this.endpoint;
-    }
-
-    public ReadExcelColumn[] getColumns() {
-        return columns;
     }
 
     @Override

@@ -19,6 +19,7 @@ import softuni.aggregator.service.excel.constants.ExcelConstants;
 import softuni.aggregator.service.excel.writer.exports.ExportType;
 import softuni.aggregator.service.excel.writer.ExcelWriterImpl;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
+import softuni.aggregator.utils.performance.PerformanceUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;

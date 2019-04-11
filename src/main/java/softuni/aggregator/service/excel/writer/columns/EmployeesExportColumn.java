@@ -1,10 +1,12 @@
 package softuni.aggregator.service.excel.writer.columns;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import softuni.aggregator.service.excel.writer.model.EmployeesExportDto;
 
 import java.util.function.Function;
 
+@Getter
 @AllArgsConstructor
 public enum EmployeesExportColumn implements WriteExcelColumn<EmployeesExportDto> {
 
@@ -16,14 +18,4 @@ public enum EmployeesExportColumn implements WriteExcelColumn<EmployeesExportDto
 
     private String columnName;
     private Function<EmployeesExportDto, ?> getter;
-
-    @Override
-    public String getColumnName() {
-        return columnName;
-    }
-
-    @Override
-    public Function<EmployeesExportDto, ?> getGetter() {
-        return getter;
-    }
 }

@@ -1,10 +1,12 @@
 package softuni.aggregator.service.excel.reader.columns;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import softuni.aggregator.service.excel.reader.model.EmployeeImportDto;
 
 import java.util.function.BiConsumer;
 
+@Getter
 @AllArgsConstructor
 public enum EmployeesImportColumn implements ReadExcelColumn {
 
@@ -16,14 +18,4 @@ public enum EmployeesImportColumn implements ReadExcelColumn {
 
     private String columnName;
     private BiConsumer<EmployeeImportDto, String> setter;
-
-    @Override
-    public String getColumnName() {
-        return columnName;
-    }
-
-    @Override
-    public BiConsumer<EmployeeImportDto, String> getSetter() {
-        return setter;
-    }
 }

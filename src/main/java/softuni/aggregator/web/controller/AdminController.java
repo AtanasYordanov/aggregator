@@ -6,18 +6,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.aggregator.domain.model.vo.EmployeeListVO;
+import softuni.aggregator.domain.enums.UserRole;
+import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
 import softuni.aggregator.domain.model.vo.UserListVO;
-import softuni.aggregator.domain.model.vo.page.EmployeesPageVO;
 import softuni.aggregator.domain.model.vo.page.UsersPageVO;
 import softuni.aggregator.service.UserService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -50,9 +51,25 @@ public class AdminController {
 
     @GetMapping(value = "/users/{id}")
     public ModelAndView getUserDetails(ModelAndView model, @PathVariable Long id) {
-        UserDetailsVO user = userService.getUser(id);
+        UserDetailsVO user = userService.getUserDetails(id);
         model.addObject("user", user);
         model.setViewName("user-details");
         return model;
+    }
+
+    @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<String>> getModifiableRoles() {
+        List<String> roles = Arrays.stream(UserRole.values())
+                .filter(role -> !role.equals(UserRole.ROLE_ROOT_ADMIN))
+                .map(UserRole::getName)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(roles, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/roles/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> changeUserRole(@RequestBody ChangeUserRoleBindingModel bindingModel) {
+        userService.updateRole(bindingModel);
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 }

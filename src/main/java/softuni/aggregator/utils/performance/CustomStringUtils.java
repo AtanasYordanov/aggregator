@@ -1,6 +1,7 @@
 package softuni.aggregator.utils.performance;
 
 import softuni.aggregator.domain.entities.User;
+import softuni.aggregator.domain.enums.UserRole;
 
 public final class CustomStringUtils {
 
@@ -9,7 +10,6 @@ public final class CustomStringUtils {
     }
 
     public static String getUserRole(User user) {
-        String authority = user.getAuthorities().iterator().next().getAuthority();
-        return authority.substring(authority.lastIndexOf("_") + 1);
+        return UserRole.valueOf(user.getAuthorities().iterator().next().getAuthority()).getName();
     }
 }
