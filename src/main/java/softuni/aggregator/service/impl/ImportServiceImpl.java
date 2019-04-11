@@ -85,14 +85,14 @@ public class ImportServiceImpl implements ImportService {
         int existingCompaniesCount = companies.size();
 
         for (XingCompanyImportDto companyDto : data) {
-            Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
+                Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
                 setXingCompanyProperties(company, companyDto, majorIndustriesMap, minorIndustriesMap);
-
                 companies.putIfAbsent(company.getWebsite(), company);
             }
         }
 
+        minorIndustryService.saveAll(minorIndustriesMap.values());
         companyService.saveCompanies(companies.values());
 
         int newEntries = companies.size() - existingCompaniesCount;

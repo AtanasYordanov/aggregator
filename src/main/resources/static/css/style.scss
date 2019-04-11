@@ -3,7 +3,7 @@ body {
 }
 
 .bg-custom {
-    background-color: #c44725;
+    background-color: #c44725 !important;
 }
 
 .btn {
@@ -44,6 +44,21 @@ body {
     color: grey;
 }
 
+.btn-spinner {
+    margin-bottom: 2px;
+    margin-right: 2px;
+}
+
+.btn-success {
+    background-color: #60B515 !important;
+    border-color: #60B515 !important;
+}
+
+.btn-success:hover {
+    background-color: #48960C !important;
+    border-color: #48960C !important;
+}
+
 .navbar {
 
     .navbar-brand {
@@ -76,6 +91,13 @@ body {
     }
 }
 
+.jumbotron {
+    width: 98% !important;
+    max-width: 1600px !important;
+    margin: 1rem auto;
+    padding: 4rem 4rem !important;
+}
+
 main {
 
     max-width: 1240px !important;
@@ -88,21 +110,6 @@ main {
 
             .btn {
                 width: 100%;
-            }
-
-            .btn-spinner {
-                margin-bottom: 2px;
-                margin-right: 2px;
-            }
-
-            .btn-success {
-                background-color: #60B515;
-                border-color: #60B515;
-            }
-
-            .btn-success:hover {
-                background-color: #48960C;
-                border-color: #48960C;
             }
         }
     }

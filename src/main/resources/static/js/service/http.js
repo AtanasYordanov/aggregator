@@ -21,6 +21,18 @@ let http = (() => {
         return execute(url, options, onSuccess, onError);
     }
 
+    function del(url, onSuccess, onError) {
+
+        const options = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+
+        return execute(url, options, onSuccess, onError);
+    }
+
     function uploadFile(url, data, onSuccess, onError) {
 
         const options = {
@@ -31,7 +43,8 @@ let http = (() => {
         return execute(url, options, onSuccess, onError);
     }
 
-    function execute(url, options, onSuccess, onError) {
+    function execute(url, options, onSuccess, onError = () => notification.error('Something went wrong.')) {
+
         return fetch(url, options)
             .then(res => {
                 if (res.status >= 400) {
@@ -43,7 +56,7 @@ let http = (() => {
                 }
                 res.json().then((data) => {
                     onSuccess(data);
-                }).catch(() => onError());
+                }).catch(() => onSuccess());
             })
             .catch(notification.handleError);
     }
@@ -51,6 +64,7 @@ let http = (() => {
     return {
         get,
         post,
+        del,
         uploadFile
     };
 })();

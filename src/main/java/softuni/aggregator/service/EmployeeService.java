@@ -28,4 +28,6 @@ public interface EmployeeService {
     void saveEmployees(Collection<Employee> employees);
 
     Map<String, Employee> getEmployeesByEmail(List<String> emails);
+
+    void deleteEmployee(Long id);
 }

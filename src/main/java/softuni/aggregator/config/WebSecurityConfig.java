@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
              .and()
                 .csrf()
-                .ignoringAntMatchers("/imports/**", "/exports/**", "/admin/roles/update")
+                .ignoringAntMatchers("/imports/**", "/exports/**", "/companies/delete/**", "/employees/delete/**", "/admin/roles/update")
                 .csrfTokenRepository(csrfTokenRepository())
              .and()
                 .authorizeRequests()

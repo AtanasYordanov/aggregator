@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.web.exceptions.NotFoundException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,5 +64,10 @@ public class MinorIndustryServiceImpl implements MinorIndustryService {
             industries.add(minorIndustry);
         }
         return industries;
+    }
+
+    @Override
+    public void saveAll(Collection<MinorIndustry> minorIndustries) {
+        minorIndustryRepository.saveAll(minorIndustries);
     }
 }

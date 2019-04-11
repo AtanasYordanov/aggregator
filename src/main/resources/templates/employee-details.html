@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <div th:replace="~{fragments/head}"></div>
 
@@ -14,6 +14,14 @@
 
             <div class="container-fluid section-header">
                 <h1 class="container-fluid text-center mb-4">Employee Details</h1>
+                <div class="row" sec:authorize="hasAnyRole('ROOT_ADMIN', 'ADMIN', 'MODERATOR')">
+                    <div class="btn-wrapper col-lg-10"></div>
+                    <div class="btn-wrapper col-lg-2">
+                        <button id="remove-btn" class="btn btn-danger bg-custom" type="button">
+                            <span class="btn-text">REMOVE</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="container-fluid text-center table-wrapper align-middle mt-4">
@@ -37,11 +45,11 @@
                         </tr>
                         <tr>
                             <td>Company</td>
-                            <td th:text="${employee.company.name}"></td>
+                            <td th:text="${employee.company != null ? employee.company.name : 'n/a'}"></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="row">
+                <div class="row" th:if="${employee.company != null}">
                     <a class="btn btn-outline-secondary col-lg-3 mx-auto mt-4" th:href="@{'/companies/' + ${employee.company.id}}">
                         View Company Details
                     </a>
@@ -53,4 +61,5 @@
     <div th:replace="~{fragments/notification-container}"></div>
 </div>
 </body>
+<script th:src="@{/js/pages/employee-details.js}"></script>
 </html>

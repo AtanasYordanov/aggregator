@@ -9,43 +9,26 @@
 
     <div th:replace="~{fragments/navbar}"></div>
 
-    <main class="container">
-        <div class="row mt-4">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-8">
-                <form th:action="@{/imports/xing}" method="post" enctype="multipart/form-data" class="row">
-                    <div class="custom-file col-lg-8 mr-4">
-                        <input type="file" name="file" readonly class="custom-file-input" id="xing-input"
-                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-                        <label class="custom-file-label" for="xing-input">Choose XING file</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
-                </form>
-                <form th:action="@{/imports/orbis}" method="post" enctype="multipart/form-data" class="row">
-                    <div class="custom-file col-lg-8 mr-4">
-                        <input type="file" name="file" readonly class="custom-file-input" id="orbis-input"
-                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-                        <label class="custom-file-label" for="orbis-input">Choose Orbis file</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
-                </form>
-                <form th:action="@{/imports/employees}" method="post" enctype="multipart/form-data" class="row">
-                    <div class="custom-file col-lg-8 mr-4">
-                        <input type="file" name="file" readonly class="custom-file-input" id="employees-input"
-                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-                        <label class="custom-file-label" for="employees-input">Choose Employees file</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary mb-2 col-lg-3">Import</button>
-                </form>
-                <div class="row mt-4">
-                    <a th:href="@{/exports/employees}" class="btn btn-success mb-2 col-lg-4">Export Employees</a>
-                    <div class="col-lg-1"></div>
-                    <a th:href="@{/exports/1}" class="btn btn-success mb-2 col-lg-4">Export Companies</a>
+    <div class="container-fluid">
+        <div class="jumbotron bg-custom text-white">
+            <h1 class="display-4">Welcome to Aggregator!</h1>
+            <p class="lead">The fastest growing CRM system.</p>
+            <hr class="my-4">
+            <p>We have accumulated information about more than 20 000 companies. Check out our rich catalog.</p>
+            <div class="row mt-5">
+                <div class="col-lg-2">
+                    <a class="btn btn-success btn-lg" th:href="@{/companies/catalog}" role="button">Companies</a>
+                </div>
+                <div class="col-lg-2">
+                    <a class="btn btn-success btn-lg" th:href="@{/employees/catalog}" role="button">Employees</a>
+                </div>
+                <div class="col-lg-2">
+                    <a class="btn btn-success btn-lg" th:href="@{/exports}" role="button">My Exports</a>
                 </div>
             </div>
-            <div class="col-lg-2"></div>
         </div>
-    </main>
+    </div>
+
     <div th:replace="~{fragments/notification-container}"></div>
 </div>
 </body>

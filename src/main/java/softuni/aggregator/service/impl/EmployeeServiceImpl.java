@@ -120,6 +120,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toMap(Employee::getEmail, e -> e));
     }
 
+    @Override
+    public void deleteEmployee(Long id) {
+        employeeRepository.deleteById(id);
+    }
+
     private EmployeeWithCompanyExportDto mapToEmployeeWithCompanyDto(Employee employee) {
         EmployeeWithCompanyExportDto exportDto = new EmployeeWithCompanyExportDto();
         exportDto.setEmployeeExportDto(new EmployeeExportDto(employee));

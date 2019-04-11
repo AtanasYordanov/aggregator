@@ -32,7 +32,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee e WHERE e.company.industry IN :industries")
     List<Employee> getEmployeesPageForIndustry(Pageable pageable, List<MinorIndustry> industries);
 
-    @Query("SELECT COUNT(e) FROM Employee e WHERE e.company.industry IN :industries")
+    @Query("SELECT COUNT(e.id) FROM Employee e WHERE e.company.industry IN :industries")
     long getCompaniesCountForIndustry(List<MinorIndustry> industries);
 
     @Query("SELECT e FROM Employee e WHERE e.company.industry IN :industries")

@@ -2,6 +2,7 @@ package softuni.aggregator.service;
 
 import softuni.aggregator.domain.entities.MinorIndustry;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -12,4 +13,6 @@ public interface MinorIndustryService {
     Map<String, MinorIndustry> getAllIndustriesByName();
 
     List<MinorIndustry> getIndustries(String industryName);
+
+    void saveAll(Collection<MinorIndustry> minorIndustries);
 }

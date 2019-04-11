@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,5 +23,10 @@ public class MajorIndustry extends BaseEntity {
 
     public MajorIndustry(String name) {
         this.name = name;
+        this.minorIndustries = new ArrayList<>();
+    }
+
+    public void addMinorIndustry(MinorIndustry minorIndustry) {
+        this.minorIndustries.add(minorIndustry);
     }
 }
