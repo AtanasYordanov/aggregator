@@ -13,9 +13,7 @@ import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
 import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
-import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.model.vo.ExportListVO;
-import softuni.aggregator.domain.model.vo.page.CompaniesPageVO;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.service.ExportService;
 

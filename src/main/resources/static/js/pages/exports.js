@@ -22,7 +22,7 @@
                     renderExports(data['exports']);
                     totalExports = data['totalItemsCount'];
                     pagination.render(fetchExports, currentPage, totalExports, itemsPerPage);
-                }, () => ("Failed to load exports."));
+                }, () => $spinner.hide());
         }
 
         function renderExports(exports) {

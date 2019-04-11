@@ -35,12 +35,15 @@ let http = (() => {
         return fetch(url, options)
             .then(res => {
                 if (res.status >= 400) {
+                    res.json().then((e) => {
+                        notification.error(e.message);
+                    }).catch(() => onError());
                     onError();
                     return;
                 }
                 res.json().then((data) => {
                     onSuccess(data);
-                }).catch((e) => onError(e));
+                }).catch(() => onError());
             })
             .catch(notification.handleError);
     }

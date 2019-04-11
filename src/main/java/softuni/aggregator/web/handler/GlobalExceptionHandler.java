@@ -2,10 +2,16 @@ package softuni.aggregator.web.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.web.exceptions.ForbiddenActionException;
 import softuni.aggregator.web.exceptions.NotFoundException;
@@ -30,10 +36,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ServiceException.class)
-    public String handleServiceException(HttpServletRequest request, Exception ex) {
+    public ResponseEntity<?> handleServiceException(HttpServletRequest request, Exception ex) {
         log.warn("Error when trying to access {}", request.getRequestURL());
-        ex.printStackTrace();
-        return "error/generic-error";
+        return new ResponseEntity<>(new Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgumentException(HttpServletRequest request, Exception ex) {
+        return new ResponseEntity<>(new Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
@@ -41,5 +52,13 @@ public class GlobalExceptionHandler {
         log.warn("Error when trying to access {}", request.getRequestURL());
         ex.printStackTrace();
         return "error/generic-error";
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class Error {
+
+        private String message;
     }
 }

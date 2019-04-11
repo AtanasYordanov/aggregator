@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserListVO> getUsersPage(Pageable pageable) {
         return userRepository.findAll(pageable).stream()
-                .map(u ->  {
+                .map(u -> {
                     UserListVO userVO = mapper.map(u, UserListVO.class);
                     userVO.setRole(CustomStringUtils.getUserRole(u));
                     return userVO;

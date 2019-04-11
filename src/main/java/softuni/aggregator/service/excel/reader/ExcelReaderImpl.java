@@ -45,8 +45,6 @@ public class ExcelReaderImpl implements ExcelReader {
         } catch (IOException e) {
             e.printStackTrace();
             return new ArrayList<>();
-        } catch (IllegalArgumentException e) {
-            return new ArrayList<>();
         }
     }
 

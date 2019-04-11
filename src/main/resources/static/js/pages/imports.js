@@ -14,7 +14,7 @@
         fetchImports(currentPage);
 
         function attachEvents() {
-            $importBtn.on('click', () => displayImportModal())
+            $importBtn.on('click', displayImportModal)
         }
 
         function fetchImports(page) {
@@ -28,7 +28,7 @@
                     renderImports(data['imports']);
                     totalImports = data['totalItemsCount'];
                     pagination.render(fetchImports, currentPage, totalImports, itemsPerPage);
-                }, () => ("Failed to load imports."));
+                }, () => $spinner.hide());
         }
 
         function renderImports(imports) {
@@ -81,8 +81,7 @@
                     const $options = $selectImport.find('#import-select');
                     Object.keys(importTypes)
                         .forEach(key => $options.append($(`<option>`).val(key).text(importTypes[key])))
-                }
-                , () => notification.error("Failed to load imports."));
+                });
 
             return $selectImport;
         }
@@ -128,7 +127,6 @@
                     $buttonSpinner.remove();
                     $importBtn.find('.btn-text').text('NEW IMPORT');
                     $importBtn.attr('disabled', false);
-                    notification.error('Import failed.');
                 });
 
             $modal.modal('hide');

@@ -10,7 +10,6 @@
         let totalEmployees;
         let currentPage = 0;
         let selectedIndustry = 'all';
-        let includeCompanies = false;
 
         attachEvents();
         fetchData();
@@ -33,7 +32,7 @@
                     totalEmployees = data['totalItemsCount'];
                     pagination.render(fetchEmployees, currentPage, totalEmployees, itemsPerPage);
                 }
-                , () => notification.error("Failed to load the companies catalog."));
+                , () => $spinner.hide());
         }
 
         function fetchEmployees(page) {
@@ -48,7 +47,7 @@
                     totalEmployees = data['totalItemsCount'];
                     pagination.render(fetchEmployees, currentPage, totalEmployees, itemsPerPage);
                 }
-                , () => notification.error("Failed to load the employees catalog."));
+                , () => $spinner.hide());
         }
 
         function renderMajorIndustries(industries) {
@@ -120,13 +119,9 @@
             const exportName = $exportNameInput.val();
             const includeCompanies = $includeCompaniesSelect.find('#include-companies-select').prop("checked");
 
-            const data = {
-                exportName: exportName,
-                includeCompanies: includeCompanies
-            };
-
-            http.post(`/exports/employees?industry=${selectedIndustry}`, data
+            http.post(`/exports/employees?industry=${selectedIndustry}`, {exportName, includeCompanies}
                 , (count) => {
+                    console.log('success');
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
                     $exportBtn.attr('disabled', false);
@@ -136,7 +131,6 @@
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
                     $exportBtn.attr('disabled', false);
-                    notification.error("Failed to generate report.");
                 });
 
             $modal.modal('hide');

@@ -32,7 +32,7 @@
                     totalCompanies = data['totalItemsCount'];
                     pagination.render(fetchCompanies, currentPage, totalCompanies, itemsPerPage);
                 }
-                , () => notification.error("Failed to load the companies catalog."));
+                , () => $spinner.hide());
         }
 
         function fetchCompanies(page) {
@@ -47,7 +47,7 @@
                     totalCompanies = data['totalItemsCount'];
                     pagination.render(fetchCompanies, page, totalCompanies, itemsPerPage);
                 }
-                , () => notification.error("Failed to load companies."));
+                , () => $spinner.hide());
         }
 
         function renderMajorIndustries(industries) {
@@ -113,7 +113,7 @@
 
             const exportName = $exportNameInput.val();
 
-            http.post(`/exports/companies?sort=industry&industry=${selectedIndustry}`, {exportName: exportName}
+            http.post(`/exports/companies?sort=industry&industry=${selectedIndustry}`, {exportName}
                 , (count) => {
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
@@ -124,7 +124,6 @@
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
                     $exportBtn.attr('disabled', false);
-                    notification.error("Failed to generate report.")
                 });
 
             $modal.modal('hide');

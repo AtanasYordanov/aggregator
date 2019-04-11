@@ -19,7 +19,6 @@
         const password = $passwordInput.val();
         const confirmPassword = $confirmPasswordInput.val();
 
-
         let error = false;
 
         if (!firstName || firstName.length < 2) {

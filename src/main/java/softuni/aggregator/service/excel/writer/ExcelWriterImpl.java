@@ -25,6 +25,10 @@ public class ExcelWriterImpl implements ExcelWriter {
 
     @Override
     public File writeExcel(List<ExcelExportDto> excelDtos, ExportType exportType) {
+        if (excelDtos.isEmpty()) {
+            throw new IllegalArgumentException("Zero items selected.");
+        }
+
         createDirectoryIfNotExists();
 
         String fileName = UUID.randomUUID().toString();

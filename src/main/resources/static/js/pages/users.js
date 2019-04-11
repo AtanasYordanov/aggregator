@@ -23,7 +23,7 @@
                     totalUsers = data['totalItemsCount'];
                     pagination.render(fetchUsers, currentPage, totalUsers, itemsPerPage);
                 }
-                , () => notification.error("Failed to load the employees catalog."));
+                , () => $spinner.hide());
         }
 
         function renderUsers(users) {
@@ -83,10 +83,7 @@
                     $tableRow.find('.role-column').text(selectedRole);
                     $modal.modal('hide');
                     notification.success('Successfully changed user role.');
-                }, () => {
-                    $modal.modal('hide');
-                    notification.error('Failed to change user role.');
-                });
+                }, () => $modal.modal('hide'));
         }
 
         function buildRoleSelectBox() {
@@ -105,8 +102,8 @@
                 , (roles) => {
                     const $options = $selectImport.find('#role-select');
                     roles.forEach(role => $options.append($(`<option>`).val(role).text(role)));
-                }
-                , () => notification.error("Failed to load roles."));
+                });
+
             return $selectImport;
         }
     });

@@ -82,7 +82,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employeeRepository.findAll(pageable).stream()
-                .map(e ->  mapper.map(e, EmployeeListVO.class))
+                .map(e -> mapper.map(e, EmployeeListVO.class))
                 .collect(Collectors.toList());
     }
 
