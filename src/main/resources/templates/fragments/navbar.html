@@ -43,7 +43,7 @@
                         EXPORTS
                     </a>
                 </li>
-                <li class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="hasAnyRole('ROOT_ADMIN', 'ADMIN', 'MODERATOR')">
                     <a class="nav-link text-white" th:href="@{/imports}"
                        th:classappend="${#httpServletRequest.requestURI.contains('imports') ? 'active' : ''}">
                         IMPORTS

@@ -45,6 +45,8 @@ public class ExcelReaderImpl implements ExcelReader {
         } catch (IOException e) {
             e.printStackTrace();
             return new ArrayList<>();
+        } catch (IllegalArgumentException e) {
+            return new ArrayList<>();
         }
     }
 
@@ -73,6 +75,10 @@ public class ExcelReaderImpl implements ExcelReader {
                 columnsByIndex[cellIndex] = columns.get(columnName);
             }
             cellIndex++;
+        }
+
+        if (Arrays.stream(columnsByIndex).filter(Objects::isNull).count() > columnsByIndex.length / 2) {
+            throw new IllegalArgumentException("Wrong export type selected.");
         }
 
         return columnsByIndex;

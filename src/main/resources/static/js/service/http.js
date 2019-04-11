@@ -40,7 +40,7 @@ let http = (() => {
                 }
                 res.json().then((data) => {
                     onSuccess(data);
-                }).catch(() => onError());
+                }).catch((e) => onError(e));
             })
             .catch(notification.handleError);
     }

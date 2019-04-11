@@ -35,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**", "/images/**", "/js/**", "/home").permitAll()
                 .antMatchers("/register", "/login").anonymous()
                 .antMatchers("/admin/**").hasAnyRole("ROOT_ADMIN", "ADMIN")
+                .antMatchers("/imports/**").hasAnyRole("ROOT_ADMIN", "ADMIN", "MODERATOR")
                 .anyRequest().authenticated()
              .and()
                 .formLogin()
@@ -46,8 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository =
-                new HttpSessionCsrfTokenRepository();
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setSessionAttributeName("_csrf");
         return repository;
     }
