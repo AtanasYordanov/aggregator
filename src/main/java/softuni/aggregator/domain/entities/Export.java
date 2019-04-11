@@ -16,7 +16,10 @@ import java.time.LocalDateTime;
 public class Export extends BaseEntity {
 
     @Column(name = "name", nullable = false)
-    private String name;
+    private String exportName;
+
+    @Column(name = "file_name", nullable = false)
+    private String fileName;
 
     @Column(name = "generated_on", nullable = false)
     private LocalDateTime generatedOn;
@@ -32,8 +35,9 @@ public class Export extends BaseEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Export(String name, ExportType exportType, int itemsCount, User user) {
-        this.name = name;
+    public Export(String exportName, String fileName, ExportType exportType, int itemsCount, User user) {
+        this.exportName = exportName;
+        this.fileName = fileName;
         this.exportType = exportType;
         this.itemsCount = itemsCount;
         this.user = user;

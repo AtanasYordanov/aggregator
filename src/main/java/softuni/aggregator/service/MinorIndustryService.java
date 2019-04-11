@@ -9,7 +9,7 @@ public interface MinorIndustryService {
 
     List<String> getAllIndustryNames();
 
-    MinorIndustry getIndustryByName(String name);
-
     Map<String, MinorIndustry> getAllIndustriesByName();
+
+    List<MinorIndustry> getIndustries(String industryName);
 }

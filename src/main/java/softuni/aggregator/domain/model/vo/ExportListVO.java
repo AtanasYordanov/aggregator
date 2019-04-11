@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class ExportListVO {
 
     private Long id;
+    private String exportName;
     private LocalDateTime generatedOn;
     private String type;
     private int itemsCount;

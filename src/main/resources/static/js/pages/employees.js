@@ -7,14 +7,32 @@
         const $spinner = $('.table-spinner-wrapper');
         const $exportBtn = $('#export-btn');
 
-        let totalExports;
+        let totalEmployees;
         let currentPage = 0;
+        let selectedIndustry = 'all';
 
         attachEvents();
-        fetchEmployees(currentPage);
+        fetchData();
 
         function attachEvents() {
+            $('#industry-select').on('change', (e) => {
+                selectedIndustry = e.target.value;
+                fetchEmployees(currentPage);
+            });
             $exportBtn.on('click', exportEmployees)
+        }
+
+        function fetchData() {
+            http.get(`/employees/data?page=0&size=${itemsPerPage}&industry=${selectedIndustry}`
+                , (data) => {
+                    $spinner.hide();
+                    renderMajorIndustries(data['majorIndustries']);
+                    renderMinorIndustries(data['minorIndustries']);
+                    renderEmployees(data['employees']);
+                    totalEmployees = data['totalItemsCount'];
+                    pagination.render(fetchEmployees, currentPage, totalEmployees, itemsPerPage);
+                }
+                , () => notification.error("Failed to load the companies catalog."));
         }
 
         function fetchEmployees(page) {
@@ -22,14 +40,28 @@
             $tableBody.empty();
             $spinner.show();
 
-            http.get(`/employees/page?page=${page}&size=${itemsPerPage}`
+            http.get(`/employees/page?page=${page}&size=${itemsPerPage}&industry=${selectedIndustry}`
                 , (data) => {
                     $spinner.hide();
                     renderEmployees(data['employees']);
-                    totalExports = data['totalItemsCount'];
-                    pagination.render(fetchEmployees, currentPage, totalExports, itemsPerPage);
+                    totalEmployees = data['totalItemsCount'];
+                    pagination.render(fetchEmployees, currentPage, totalEmployees, itemsPerPage);
                 }
                 , () => notification.error("Failed to load the employees catalog."));
+        }
+
+        function renderMajorIndustries(industries) {
+            const $industries = $('#major-industries');
+            industries.forEach(industry => {
+                $industries.append($(`<option>`).val('Maj:' + industry).text(industry));
+            });
+        }
+
+        function renderMinorIndustries(industries) {
+            const $industries = $('#minor-industries');
+            industries.forEach(industry => {
+                $industries.append($(`<option>`).val('Min:' + industry).text(industry));
+            });
         }
 
         function renderEmployees(employees) {

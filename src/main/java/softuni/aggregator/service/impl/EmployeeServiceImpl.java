@@ -5,10 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Employee;
+import softuni.aggregator.domain.entities.MinorIndustry;
+import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
+import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
 import softuni.aggregator.domain.model.vo.EmployeeListVO;
 import softuni.aggregator.domain.repository.EmployeeRepository;
 import softuni.aggregator.service.EmployeeService;
+import softuni.aggregator.service.MinorIndustryService;
 import softuni.aggregator.service.excel.writer.model.EmployeesExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +28,13 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final MinorIndustryService minorIndustryService;
     private final ModelMapper mapper;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper mapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, MinorIndustryService minorIndustryService, ModelMapper mapper) {
         this.employeeRepository = employeeRepository;
+        this.minorIndustryService = minorIndustryService;
         this.mapper = mapper;
     }
 
@@ -40,15 +46,35 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<EmployeeListVO> getEmployeesPage(Pageable pageable, EmployeesFilterDataModel filterData) {
+        String industry = filterData.getIndustry();
+        List<MinorIndustry> industries = minorIndustryService.getIndustries(industry);
+
+        if (!industries.isEmpty()) {
+            return employeeRepository.getEmployeesPageForIndustry(pageable, industries).stream()
+                    .map(e -> mapper.map(e, EmployeeListVO.class))
+                    .collect(Collectors.toList());
+        }
+
+        return employeeRepository.findAll(pageable).stream()
+                .map(e ->  mapper.map(e, EmployeeListVO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public long getTotalEmployeesCount() {
         return employeeRepository.count();
     }
 
     @Override
-    public List<EmployeeListVO> getEmployeesPage(Pageable pageable) {
-        return employeeRepository.findAll(pageable).stream()
-                .map(e ->  mapper.map(e, EmployeeListVO.class))
-                .collect(Collectors.toList());
+    public long getEmployeesCountForIndustry(String industry) {
+        List<MinorIndustry> industries = minorIndustryService.getIndustries(industry);
+
+        if (!industries.isEmpty()) {
+            return employeeRepository.getCompaniesCountForIndustry(industries);
+        } else {
+            return getTotalEmployeesCount();
+        }
     }
 
     @Override

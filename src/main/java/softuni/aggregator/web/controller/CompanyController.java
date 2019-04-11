@@ -44,8 +44,8 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CompaniesPageVO> getCompaniesData(Pageable pageable) {
-        List<CompanyListVO> companies = companyService.getCompanies(pageable);
+    public ResponseEntity<CompaniesPageVO> getCompaniesData(Pageable pageable, CompaniesFilterDataModel filterData) {
+        List<CompanyListVO> companies = companyService.getCompaniesPage(pageable, filterData);
         List<String> minorIndustries = minorIndustryService.getAllIndustryNames();
         List<String> majorIndustries = majorIndustryService.getAllIndustryNames();
         long companiesCount = companyService.getTotalCompaniesCount();

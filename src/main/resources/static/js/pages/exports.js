@@ -32,6 +32,7 @@
                 const dateString = CustomUtils.getDateString(exp['generatedOn']);
 
                 $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
+                $tableRow.append($('<td>').text(exp['exportName']));
                 $tableRow.append($('<td>').text(exp['type']));
                 $tableRow.append($('<td>').text(exp['itemsCount']));
                 $tableRow.append($('<td>').text(dateString));

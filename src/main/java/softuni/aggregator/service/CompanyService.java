@@ -15,8 +15,6 @@ public interface CompanyService {
 
     List<ExcelExportDto> getCompaniesForExport(CompaniesFilterDataModel filterData);
 
-    List<CompanyListVO> getCompanies(Pageable pageable);
-
     List<CompanyListVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData);
 
     long getTotalCompaniesCount();

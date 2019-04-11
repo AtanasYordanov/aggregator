@@ -42,7 +42,6 @@
                 $tableRow.append($('<td>').text(exp['totalItemsCount']));
                 $tableRow.append($('<td>').text(exp['newEntriesCount']));
                 $tableRow.append($('<td>').text(dateString));
-                $tableRow.append($('<td>').text(exp['userEmail']));
 
                 $tableBody.append($tableRow);
             });
@@ -84,6 +83,7 @@
                         .forEach(key => $options.append($(`<option>`).val(key).text(importTypes[key])))
                 }
                 , () => notification.error("Failed to load imports."));
+
             return $selectImport;
         }
 
@@ -100,6 +100,7 @@
                 const file = document.getElementById('file-input').files[0];
                 $('.custom-file-label').text(file.name);
             });
+
             return $fileInputBox;
         }
 

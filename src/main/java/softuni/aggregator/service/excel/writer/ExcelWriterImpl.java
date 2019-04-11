@@ -13,8 +13,8 @@ import softuni.aggregator.web.exceptions.ServiceException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -27,11 +27,12 @@ public class ExcelWriterImpl implements ExcelWriter {
     public File writeExcel(List<ExcelExportDto> excelDtos, ExportType exportType) {
         createDirectoryIfNotExists();
 
-        String fileName = ExcelConstants.EXPORT_BASE_PATH + generateFileName(exportType);
+        String fileName = UUID.randomUUID().toString();
+        String filePath = ExcelConstants.EXPORT_BASE_PATH + fileName + ExcelConstants.EXPORT_FILE_EXTENSION;
 
         WriteExcelColumn[] columns = exportType.getColumns();
 
-        try (FileOutputStream fileOut = new FileOutputStream(fileName);
+        try (FileOutputStream fileOut = new FileOutputStream(filePath);
              Workbook workbook = new XSSFWorkbook()) {
 
             Sheet sheet = workbook.createSheet();
@@ -39,7 +40,7 @@ public class ExcelWriterImpl implements ExcelWriter {
             autosizeColumns(columns, sheet);
 
             workbook.write(fileOut);
-            return new File(fileName);
+            return new File(filePath);
         } catch (IOException e) {
             log.error("Failed to export %s.", exportType.getExportName());
             throw new ServiceException("Export failed.");
@@ -112,19 +113,6 @@ public class ExcelWriterImpl implements ExcelWriter {
         } else if (property instanceof String) {
             cell.setCellValue((String) property);
         }
-    }
-
-    private String generateFileName(ExportType exportType) {
-        LocalDateTime now = LocalDateTime.now();
-        return String.format("%s_%02d-%02d-%d_%02d-%02d-%02d%s",
-                exportType.getExportName(),
-                now.getDayOfMonth(),
-                now.getMonthValue(),
-                now.getYear(),
-                now.getHour(),
-                now.getMinute(),
-                now.getSecond(),
-                ExcelConstants.EXPORT_FILE_EXTENSION);
     }
 
     private void createDirectoryIfNotExists() {

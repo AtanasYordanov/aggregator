@@ -19,11 +19,11 @@
                 selectedIndustry = e.target.value;
                 fetchCompanies(currentPage);
             });
-            $exportBtn.on('click', exportCompanies)
+            $exportBtn.on('click', displayExportModal)
         }
 
         function fetchData() {
-            http.get(`/companies/data?page=0&size=${itemsPerPage}&sort=industry`
+            http.get(`/companies/data?page=0&size=${itemsPerPage}&sort=industry&industry=${selectedIndustry}`
                 , (data) => {
                     $spinner.hide();
                     renderMajorIndustries(data['majorIndustries']);
@@ -81,13 +81,39 @@
             });
         }
 
-        function exportCompanies() {
+        function displayExportModal() {
+            $('#modal').remove();
+
+            const $modal = $(modal.getModalTemplate('Export companies', 'CANCEL', 'EXPORT'));
+
+            const $exportNameImport = $(`
+                    <div class="form-group px-4">
+                        <label for="export-name w-100">Export name</label>
+                        <input type="text" name="exportName" class="form-control w-100" id="export-name"
+                               placeholder="Export name">
+                    </div>
+                `);
+
+            const $exportNameInput = $exportNameImport.find('#export-name');
+            $exportNameInput.val(buildExportName());
+
+            $modal.find('#confirm-btn').on('click', () => exportCompanies($modal, $exportNameInput));
+
+            $modal.find('.modal-body').append($exportNameImport);
+
+            $('body').append($modal);
+            $modal.modal();
+        }
+
+        function exportCompanies($modal, $exportNameInput) {
             const $buttonSpinner = $(`<span class="btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
             $exportBtn.prepend($buttonSpinner);
             $exportBtn.find('.btn-text').text('EXPORTING');
             $exportBtn.attr('disabled', true);
 
-            http.get(`/exports/companies?sort=industry&industry=${selectedIndustry}`
+            const exportName = $exportNameInput.val();
+
+            http.post(`/exports/companies?sort=industry&industry=${selectedIndustry}`, {exportName: exportName}
                 , (count) => {
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
@@ -100,6 +126,32 @@
                     $exportBtn.attr('disabled', false);
                     notification.error("Failed to generate report.")
                 });
+
+            $modal.modal('hide');
+            $modal.detach();
+        }
+
+        function buildExportName() {
+            let name;
+            if (selectedIndustry === 'all') {
+                name = 'All_Industries'
+            } else {
+                name = selectedIndustry.substring(4);
+                while(name.includes(" ")) {
+                    name = name.replace(/\s+/, "_");
+                }
+            }
+
+            const date = new Date();
+
+            let year = CustomUtils.pad(date.getFullYear());
+            let month = CustomUtils.pad(date.getMonth() + 1);
+            let day = CustomUtils.pad(date.getDate());
+            let hours = CustomUtils.pad(date.getHours());
+            let minutes = CustomUtils.pad(date.getMinutes());
+            let seconds = CustomUtils.pad(date.getSeconds());
+
+            return `${name}_${day}-${month}-${year}_${hours}-${minutes}-${seconds}`;
         }
     });
 })();

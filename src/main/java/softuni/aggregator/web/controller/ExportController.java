@@ -7,14 +7,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.binding.ExportBindingModel;
+import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.model.vo.ExportListVO;
+import softuni.aggregator.domain.model.vo.page.CompaniesPageVO;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.service.ExportService;
 
@@ -53,14 +53,16 @@ public class ExportController {
 
     @GetMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Callable<Integer> exportEmployees(@AuthenticationPrincipal User loggedUser) {
-        return () -> exportService.exportEmployees(loggedUser);
+    public Callable<Integer> exportEmployees(CompaniesFilterDataModel filterData
+            , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
+        return () -> exportService.exportEmployees(loggedUser, exportModel);
     }
 
-    @GetMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Callable<Integer> exportCompanies(CompaniesFilterDataModel filterData, @AuthenticationPrincipal User loggedUser) {
-        return () -> exportService.exportCompanies(filterData, loggedUser);
+    public Callable<Integer> exportCompanies(CompaniesFilterDataModel filterData
+            , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
+        return () -> exportService.exportCompanies(filterData, loggedUser, exportModel);
     }
 
     @GetMapping(value = "/{exportId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)

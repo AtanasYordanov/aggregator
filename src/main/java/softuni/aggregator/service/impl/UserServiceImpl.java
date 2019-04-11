@@ -1,5 +1,6 @@
 package softuni.aggregator.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -125,6 +127,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserStatus() {
+        log.info("Updating user status...");
         List<User> users = userRepository.findAll().stream()
                 .filter(u -> u.getLastLogin() == null
                         || u.getLastLogin().isBefore(LocalDateTime.now().minusDays(1)))
