@@ -1,6 +1,8 @@
 $dark-blue: #495A67;
 $green-button-color: #85C81A;
 $green-button-hover-color: #6fba23;
+$red-button-color: #C92100;
+$red-button-hover-color: #A32100;
 
 body {
     font-family: 'Montserrat', sans-serif !important;
@@ -61,6 +63,16 @@ body {
 .btn-success:hover {
     background-color: $green-button-hover-color !important;
     border-color: $green-button-hover-color !important;
+}
+
+.btn-danger {
+    background-color: $red-button-color !important;
+    border-color: $red-button-color !important;
+}
+
+.btn-danger:hover {
+    background-color: $red-button-hover-color !important;
+    border-color: $red-button-hover-color !important;
 }
 
 .navbar {

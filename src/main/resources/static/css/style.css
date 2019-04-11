@@ -45,6 +45,14 @@ body {
   background-color: #6fba23 !important;
   border-color: #6fba23 !important; }
 
+.btn-danger {
+  background-color: #C92100 !important;
+  border-color: #C92100 !important; }
+
+.btn-danger:hover {
+  background-color: #A32100 !important;
+  border-color: #A32100 !important; }
+
 .navbar .navbar-brand {
   padding-top: 0;
   padding-bottom: 0; }

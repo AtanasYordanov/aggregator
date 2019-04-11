@@ -67,11 +67,9 @@
         function buildSelectImportTypeBox() {
             const $selectImport = $(`
                     <div class="form-row">
-                        <div class="form-group col-lg-6">
-                            <label for="import-select"> </label>
-                            <select id="import-select" class="form-control">
-                                <option disabled selected>Select Import Type</option>
-                            </select>
+                        <div class="form-group col-lg-8">
+                            <p>Select import type</p>
+                            <select id="import-select" class="form-control"></select>
                         </div>
                     </div>
                 `);
@@ -88,7 +86,8 @@
 
         function buildFileInput() {
             const $fileInputBox = $(`
-                    <div class="custom-file col-lg-8 mr-4">
+                    <p>Select file</p>
+                    <div class="custom-file col-lg-12 mr-4">
                         <input type="file" name="file" readonly class="custom-file-input" id="file-input"
                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
                         <label class="custom-file-label" for="file-input">Choose file</label>
