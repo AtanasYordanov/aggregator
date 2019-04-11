@@ -102,11 +102,6 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company findByName(String companyName) {
-        return companyRepository.findByName(companyName).orElse(null);
-    }
-
-    @Override
     public void deleteCompany(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("No such company."));

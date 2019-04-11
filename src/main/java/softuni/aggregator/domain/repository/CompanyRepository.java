@@ -10,14 +10,11 @@ import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.MinorIndustry;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     List<Company> findAllByWebsiteIn(List<String> website);
-
-    Optional<Company> findByName(String website);
 
     List<Company> findAllByIndustryIn(List<MinorIndustry> industries);
 
@@ -26,4 +23,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     @Query(value = "SELECT COUNT(c.id) FROM Company c WHERE c.industry IN :industries")
     long getCompaniesCountForIndustry(@Param("industries") List<MinorIndustry> industries);
+
+    List<Company> findByNameIn(List<String> emails);
 }

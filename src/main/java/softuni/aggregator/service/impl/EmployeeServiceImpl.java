@@ -45,11 +45,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<MinorIndustry> industries = minorIndustryService.getIndustries(filterData.getIndustry());
 
         if (!industries.isEmpty()) {
-            return employeeRepository.findAllByIndustryIn(industries).stream()
+            return employeeRepository.findAllByIndustryInEager(industries).stream()
                     .map(EmployeeExportDto::new)
                     .collect(Collectors.toList());
         }
-        return employeeRepository.findAll().stream()
+        return employeeRepository.findAllEager().stream()
                 .map(EmployeeExportDto::new)
                 .collect(Collectors.toList());
     }
@@ -60,12 +60,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         if (!industries.isEmpty()) {
             return employeeRepository.findAllByIndustryInEager(industries).stream()
-                    .filter(e -> e.getCompany() != null)
                     .map(this::mapToEmployeeWithCompanyDto)
                     .collect(Collectors.toList());
         }
         return employeeRepository.findAllEager().stream()
-                .filter(e -> e.getCompany() != null)
                 .map(this::mapToEmployeeWithCompanyDto)
                 .collect(Collectors.toList());
     }

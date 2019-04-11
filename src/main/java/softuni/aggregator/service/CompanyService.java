@@ -27,7 +27,5 @@ public interface CompanyService {
 
     Map<String, Company> getCompaniesByWebsite(List<String> companyWebsites);
 
-    Company findByName(String companyName);
-
     void deleteCompany(Long id);
 }

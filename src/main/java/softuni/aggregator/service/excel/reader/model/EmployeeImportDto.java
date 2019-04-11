@@ -12,4 +12,5 @@ public class EmployeeImportDto extends ExcelImportDto {
     private String position;
     private String email;
     private String hunterIoScore;
+    private String companyWebsite;
 }

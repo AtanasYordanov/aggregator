@@ -121,7 +121,6 @@
 
             http.post(`/exports/employees?industry=${selectedIndustry}`, {exportName, includeCompanies}
                 , (count) => {
-                    console.log('success');
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
                     $exportBtn.attr('disabled', false);

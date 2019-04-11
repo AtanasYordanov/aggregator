@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import softuni.aggregator.domain.entities.Employee;
 import softuni.aggregator.domain.entities.MinorIndustry;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +33,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("SELECT COUNT(e.id) FROM Employee e WHERE e.company.industry IN :industries")
     long getCompaniesCountForIndustry(List<MinorIndustry> industries);
-
-    @Query("SELECT e FROM Employee e WHERE e.company.industry IN :industries")
-    List<Employee> findAllByIndustryIn(List<MinorIndustry> industries);
 
     @EntityGraph(attributePaths = "company")
     @Query("SELECT e FROM Employee e WHERE e.company.industry IN :industries")

@@ -43,6 +43,10 @@ public class CompanyExportDto extends ExcelExportDto {
     private Integer subsidiariesCount;
 
     public CompanyExportDto(Company company) {
+        if (company == null) {
+            return;
+        }
+
         setName(company.getName());
         setWebsite(company.getWebsite());
         setPostcode(company.getPostcode());

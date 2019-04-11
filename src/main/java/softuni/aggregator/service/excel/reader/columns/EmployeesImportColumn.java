@@ -11,6 +11,7 @@ import java.util.function.BiConsumer;
 public enum EmployeesImportColumn implements ReadExcelColumn {
 
     COMPANY_NAME("Company name", EmployeeImportDto::setCompanyName),
+    COMPANY_WEBSITE("Company website", EmployeeImportDto::setCompanyWebsite),
     FULL_NAME("Full name", EmployeeImportDto::setFullName),
     POSITION("Position", EmployeeImportDto::setPosition),
     EMAIL("CEO Email", EmployeeImportDto::setEmail),

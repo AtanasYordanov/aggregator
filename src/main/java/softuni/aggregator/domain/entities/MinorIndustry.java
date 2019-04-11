@@ -26,11 +26,6 @@ public class MinorIndustry extends BaseEntity {
 
     public MinorIndustry(String name, MajorIndustry majorIndustry) {
         this.name = name;
-        this.setMajorIndustry(majorIndustry);
-    }
-
-    public void setMajorIndustry(MajorIndustry majorIndustry) {
         this.majorIndustry = majorIndustry;
-        majorIndustry.addMinorIndustry(this);
     }
 }

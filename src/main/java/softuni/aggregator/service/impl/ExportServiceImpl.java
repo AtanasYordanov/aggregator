@@ -21,6 +21,7 @@ import softuni.aggregator.service.excel.constants.ExcelConstants;
 import softuni.aggregator.service.excel.writer.exports.ExportType;
 import softuni.aggregator.service.excel.writer.ExcelWriterImpl;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
+import softuni.aggregator.utils.performance.PerformanceUtils;
 import softuni.aggregator.web.exceptions.NotFoundException;
 import softuni.aggregator.web.exceptions.ServiceException;
 
@@ -54,7 +55,10 @@ public class ExportServiceImpl implements ExportService {
 
     @Override
     public int exportEmployees(User user, ExportBindingModel exportModel, EmployeesFilterDataModel filterData) {
+        PerformanceUtils.startTimer("asdasdadasd");
         List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport(filterData);
+        PerformanceUtils.stopTimer("asdasdadasd");
+
         File file = excelWriter.writeExcel(allEmployees, ExportType.EMPLOYEES);
         int itemsCount = allEmployees.size();
         Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.EMPLOYEES, itemsCount, user);

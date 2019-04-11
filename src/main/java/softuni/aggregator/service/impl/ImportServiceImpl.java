@@ -14,6 +14,7 @@ import softuni.aggregator.service.excel.reader.ExcelReader;
 import softuni.aggregator.service.excel.reader.imports.ImportType;
 import softuni.aggregator.service.excel.reader.model.*;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.utils.performance.PerformanceUtils;
 import softuni.aggregator.web.exceptions.ServiceException;
 
 import javax.servlet.ServletContext;
@@ -83,7 +84,6 @@ public class ImportServiceImpl implements ImportService {
         Map<String, Company> companies = getCompaniesMap(data);
 
         int existingCompaniesCount = companies.size();
-
         for (XingCompanyImportDto companyDto : data) {
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
                 Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
@@ -111,7 +111,6 @@ public class ImportServiceImpl implements ImportService {
         Map<String, Company> companies = getCompaniesMap(data);
 
         int existingCompaniesCount = companies.size();
-
         for (OrbisCompanyImportDto companyDto : data) {
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
                 Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
@@ -140,13 +139,19 @@ public class ImportServiceImpl implements ImportService {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
+        List<String> companyWebsites = data.stream()
+                .map(EmployeeImportDto::getCompanyWebsite)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
         Map<String, Employee> employees = employeeService.getEmployeesByEmail(emails);
+        Map<String, Company> companies = companyService.getCompaniesByWebsite(companyWebsites);
 
         int existingCompaniesCount = employees.size();
 
         for (EmployeeImportDto employeeDto : data) {
             Employee employee = employees.getOrDefault(employeeDto.getEmail(), new Employee());
-            setEmployeeProperties(employeeDto, employee);
+            setEmployeeProperties(employeeDto, employee, companies);
             employees.putIfAbsent(employee.getEmail(), employee);
         }
 
@@ -227,10 +232,10 @@ public class ImportServiceImpl implements ImportService {
         company.setCompanyPhone(companyDto.getCompanyPhone());
     }
 
-    private void setEmployeeProperties(EmployeeImportDto employeeDto, Employee employee) {
+    private void setEmployeeProperties(EmployeeImportDto employeeDto, Employee employee, Map<String, Company> companies) {
         Company company = employee.getCompany();
         if (company == null) {
-            company = companyService.findByName(employeeDto.getCompanyName());
+            company = companies.get(employeeDto.getCompanyWebsite());
         }
 
         employee.setCompany(company);
