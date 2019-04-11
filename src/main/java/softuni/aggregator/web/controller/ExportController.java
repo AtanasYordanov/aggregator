@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.model.vo.ExportListVO;
@@ -51,18 +52,18 @@ public class ExportController {
         return new ResponseEntity<>(exportsPageVO, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Callable<Integer> exportEmployees(CompaniesFilterDataModel filterData
+    public Callable<Integer> exportEmployees(EmployeesFilterDataModel filterData
             , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
-        return () -> exportService.exportEmployees(loggedUser, exportModel);
+        return () -> exportService.exportEmployees(loggedUser, exportModel, filterData);
     }
 
     @PostMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Callable<Integer> exportCompanies(CompaniesFilterDataModel filterData
             , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
-        return () -> exportService.exportCompanies(filterData, loggedUser, exportModel);
+        return () -> exportService.exportCompanies(loggedUser, exportModel,filterData);
     }
 
     @GetMapping(value = "/{exportId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)

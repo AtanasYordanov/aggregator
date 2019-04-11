@@ -95,7 +95,7 @@
                 `);
 
             const $exportNameInput = $exportNameImport.find('#export-name');
-            $exportNameInput.val(buildExportName());
+            $exportNameInput.val(CustomUtils.buildExportName(selectedIndustry));
 
             $modal.find('#confirm-btn').on('click', () => exportCompanies($modal, $exportNameInput));
 
@@ -129,29 +129,6 @@
 
             $modal.modal('hide');
             $modal.detach();
-        }
-
-        function buildExportName() {
-            let name;
-            if (selectedIndustry === 'all') {
-                name = 'All_Industries'
-            } else {
-                name = selectedIndustry.substring(4);
-                while(name.includes(" ")) {
-                    name = name.replace(/\s+/, "_");
-                }
-            }
-
-            const date = new Date();
-
-            let year = CustomUtils.pad(date.getFullYear());
-            let month = CustomUtils.pad(date.getMonth() + 1);
-            let day = CustomUtils.pad(date.getDate());
-            let hours = CustomUtils.pad(date.getHours());
-            let minutes = CustomUtils.pad(date.getMinutes());
-            let seconds = CustomUtils.pad(date.getSeconds());
-
-            return `${name}_${day}-${month}-${year}_${hours}-${minutes}-${seconds}`;
         }
     });
 })();

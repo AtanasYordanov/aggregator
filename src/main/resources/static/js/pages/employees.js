@@ -19,7 +19,7 @@
                 selectedIndustry = e.target.value;
                 fetchEmployees(currentPage);
             });
-            $exportBtn.on('click', exportEmployees)
+            $exportBtn.on('click', displayExportModal)
         }
 
         function fetchData() {
@@ -79,13 +79,39 @@
             });
         }
 
-        function exportEmployees() {
+        function displayExportModal() {
+            $('#modal').remove();
+
+            const $modal = $(modal.getModalTemplate('Export employees', 'CANCEL', 'EXPORT'));
+
+            const $exportNameImport = $(`
+                    <div class="form-group px-4">
+                        <label for="export-name w-100">Export name</label>
+                        <input type="text" name="exportName" class="form-control w-100" id="export-name"
+                               placeholder="Export name">
+                    </div>
+                `);
+
+            const $exportNameInput = $exportNameImport.find('#export-name');
+            $exportNameInput.val(CustomUtils.buildExportName(selectedIndustry));
+
+            $modal.find('#confirm-btn').on('click', () => exportEmployees($modal, $exportNameInput));
+
+            $modal.find('.modal-body').append($exportNameImport);
+
+            $('body').append($modal);
+            $modal.modal();
+        }
+
+        function exportEmployees($modal, $exportNameInput) {
             const $buttonSpinner = $(`<span class="btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
             $exportBtn.prepend($buttonSpinner);
             $exportBtn.find('.btn-text').text('EXPORTING');
             $exportBtn.attr('disabled', true);
 
-            http.get(`/exports/employees`
+            const exportName = $exportNameInput.val();
+
+            http.post(`/exports/employees?industry=${selectedIndustry}`, {exportName: exportName}
                 , (count) => {
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
@@ -98,6 +124,9 @@
                     $exportBtn.attr('disabled', false);
                     notification.error("Failed to generate report.");
                 });
+
+            $modal.modal('hide');
+            $modal.detach();
         }
     });
 })();

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.domain.entities.Export;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
 import softuni.aggregator.domain.repository.ExportRepository;
@@ -52,8 +53,8 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public int exportEmployees(User user, ExportBindingModel exportModel) {
-        List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport();
+    public int exportEmployees(User user, ExportBindingModel exportModel, EmployeesFilterDataModel filterData) {
+        List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport(filterData);
         File file = excelWriter.writeExcel(allEmployees, ExportType.EMPLOYEES);
         int itemsCount = allEmployees.size();
         Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.EMPLOYEES, itemsCount, user);
@@ -62,7 +63,7 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public int exportCompanies(CompaniesFilterDataModel filterData, User user, ExportBindingModel exportModel) {
+    public int exportCompanies(User user, ExportBindingModel exportModel, CompaniesFilterDataModel filterData) {
         List<ExcelExportDto> companies = companyService.getCompaniesForExport(filterData);
         File file = excelWriter.writeExcel(companies, ExportType.COMPANIES);
         int itemsCount = companies.size();

@@ -45,11 +45,11 @@ public class CompanyServiceImpl implements CompanyService {
             return companyRepository.findAllByIndustryIn(industries).stream()
                     .map(this::mapToExcelDto)
                     .collect(Collectors.toList());
-        } else {
-            return companyRepository.findAll().stream()
-                    .map(this::mapToExcelDto)
-                    .collect(Collectors.toList());
         }
+        return companyRepository.findAll().stream()
+                .map(this::mapToExcelDto)
+                .collect(Collectors.toList());
+
     }
 
     @Override

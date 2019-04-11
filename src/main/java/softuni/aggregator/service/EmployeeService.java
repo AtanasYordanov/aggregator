@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface EmployeeService {
 
-    List<ExcelExportDto> getEmployeesForExport();
+    List<ExcelExportDto> getEmployeesForExport(EmployeesFilterDataModel filterData);
 
     long getTotalEmployeesCount();
 

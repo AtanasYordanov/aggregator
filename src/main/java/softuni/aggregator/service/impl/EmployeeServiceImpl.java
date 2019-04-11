@@ -39,7 +39,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<ExcelExportDto> getEmployeesForExport() {
+    public List<ExcelExportDto> getEmployeesForExport(EmployeesFilterDataModel filterData) {
+        List<MinorIndustry> industries = minorIndustryService.getIndustries(filterData.getIndustry());
+
+        if (!industries.isEmpty()) {
+            return employeeRepository.findAllByCompany_IndustryIn(industries).stream()
+                    .map(EmployeesExportDto::new)
+                    .collect(Collectors.toList());
+        }
         return employeeRepository.findAll().stream()
                 .map(EmployeesExportDto::new)
                 .collect(Collectors.toList());
