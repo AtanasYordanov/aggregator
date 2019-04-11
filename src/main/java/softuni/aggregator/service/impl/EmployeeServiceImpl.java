@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Employee;
 import softuni.aggregator.domain.entities.MinorIndustry;
 import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
-import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
 import softuni.aggregator.domain.model.vo.EmployeeListVO;
 import softuni.aggregator.domain.repository.EmployeeRepository;
 import softuni.aggregator.service.EmployeeService;
 import softuni.aggregator.service.MinorIndustryService;
-import softuni.aggregator.service.excel.writer.model.EmployeesExportDto;
+import softuni.aggregator.service.excel.writer.model.CompanyExportDto;
+import softuni.aggregator.service.excel.writer.model.EmployeeExportDto;
+import softuni.aggregator.service.excel.writer.model.EmployeeWithCompanyExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.web.exceptions.NotFoundException;
@@ -39,16 +40,33 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public List<ExcelExportDto> getEmployeesForExport(EmployeesFilterDataModel filterData) {
         List<MinorIndustry> industries = minorIndustryService.getIndustries(filterData.getIndustry());
 
         if (!industries.isEmpty()) {
-            return employeeRepository.findAllByCompany_IndustryIn(industries).stream()
-                    .map(EmployeesExportDto::new)
+            return employeeRepository.findAllByIndustryIn(industries).stream()
+                    .map(EmployeeExportDto::new)
                     .collect(Collectors.toList());
         }
         return employeeRepository.findAll().stream()
-                .map(EmployeesExportDto::new)
+                .map(EmployeeExportDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ExcelExportDto> getEmployeesWithCompaniesForExport(EmployeesFilterDataModel filterData) {
+        List<MinorIndustry> industries = minorIndustryService.getIndustries(filterData.getIndustry());
+
+        if (!industries.isEmpty()) {
+            return employeeRepository.findAllByIndustryInEager(industries).stream()
+                    .filter(e -> e.getCompany() != null)
+                    .map(this::mapToEmployeeWithCompanyDto)
+                    .collect(Collectors.toList());
+        }
+        return employeeRepository.findAllEager().stream()
+                .filter(e -> e.getCompany() != null)
+                .map(this::mapToEmployeeWithCompanyDto)
                 .collect(Collectors.toList());
     }
 
@@ -100,5 +118,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Map<String, Employee> getEmployeesByEmail(List<String> emails) {
         return employeeRepository.findByEmailIn(emails).stream()
                 .collect(Collectors.toMap(Employee::getEmail, e -> e));
+    }
+
+    private EmployeeWithCompanyExportDto mapToEmployeeWithCompanyDto(Employee employee) {
+        EmployeeWithCompanyExportDto exportDto = new EmployeeWithCompanyExportDto();
+        exportDto.setEmployeeExportDto(new EmployeeExportDto(employee));
+        exportDto.setCompanyExportDto(new CompanyExportDto(employee.getCompany()));
+        return exportDto;
     }
 }

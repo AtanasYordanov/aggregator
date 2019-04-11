@@ -12,7 +12,7 @@ let modal = (() => {
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body"></div>
+                        <div class="modal-body px-4"></div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">${cancellationText}</button>
                             <button id="confirm-btn" type="button" class="btn btn-primary">${confirmationText}</button>

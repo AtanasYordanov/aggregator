@@ -8,4 +8,5 @@ import lombok.Setter;
 public class ExportBindingModel {
 
     private String exportName;
+    private Boolean includeCompanies;
 }

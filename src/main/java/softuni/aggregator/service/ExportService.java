@@ -24,4 +24,6 @@ public interface ExportService {
     long getExportsCount(User user);
 
     void deleteOldExports();
+
+    int exportEmployeesWithCompanies(User loggedUser, ExportBindingModel exportModel, EmployeesFilterDataModel filterData);
 }

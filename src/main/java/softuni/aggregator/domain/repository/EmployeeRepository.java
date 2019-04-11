@@ -35,5 +35,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT COUNT(e) FROM Employee e WHERE e.company.industry IN :industries")
     long getCompaniesCountForIndustry(List<MinorIndustry> industries);
 
-    List<Employee> findAllByCompany_IndustryIn(List<MinorIndustry> industries);
+    @Query("SELECT e FROM Employee e WHERE e.company.industry IN :industries")
+    List<Employee> findAllByIndustryIn(List<MinorIndustry> industries);
+
+    @EntityGraph(attributePaths = "company")
+    @Query("SELECT e FROM Employee e WHERE e.company.industry IN :industries")
+    List<Employee> findAllByIndustryInEager(List<MinorIndustry> industries);
 }

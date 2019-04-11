@@ -10,6 +10,7 @@
         let totalEmployees;
         let currentPage = 0;
         let selectedIndustry = 'all';
+        let includeCompanies = false;
 
         attachEvents();
         fetchData();
@@ -85,33 +86,46 @@
             const $modal = $(modal.getModalTemplate('Export employees', 'CANCEL', 'EXPORT'));
 
             const $exportNameImport = $(`
-                    <div class="form-group px-4">
+                    <div class="form-group">
                         <label for="export-name w-100">Export name</label>
                         <input type="text" name="exportName" class="form-control w-100" id="export-name"
                                placeholder="Export name">
                     </div>
                 `);
 
+            const $includeCompaniesSelect = $(`
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="include-companies-select">
+                        <label class="form-check-label" for="include-companies-select">Include companies</label>
+                    </div>`);
+
             const $exportNameInput = $exportNameImport.find('#export-name');
             $exportNameInput.val(CustomUtils.buildExportName(selectedIndustry));
 
-            $modal.find('#confirm-btn').on('click', () => exportEmployees($modal, $exportNameInput));
+            $modal.find('#confirm-btn').on('click', () => exportEmployees($modal, $exportNameInput, $includeCompaniesSelect));
 
             $modal.find('.modal-body').append($exportNameImport);
+            $modal.find('.modal-body').append($includeCompaniesSelect);
 
             $('body').append($modal);
             $modal.modal();
         }
 
-        function exportEmployees($modal, $exportNameInput) {
+        function exportEmployees($modal, $exportNameInput, $includeCompaniesSelect) {
             const $buttonSpinner = $(`<span class="btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
             $exportBtn.prepend($buttonSpinner);
             $exportBtn.find('.btn-text').text('EXPORTING');
             $exportBtn.attr('disabled', true);
 
             const exportName = $exportNameInput.val();
+            const includeCompanies = $includeCompaniesSelect.find('#include-companies-select').prop("checked");
 
-            http.post(`/exports/employees?industry=${selectedIndustry}`, {exportName: exportName}
+            const data = {
+                exportName: exportName,
+                includeCompanies: includeCompanies
+            };
+
+            http.post(`/exports/employees?industry=${selectedIndustry}`, data
                 , (count) => {
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');

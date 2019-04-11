@@ -73,6 +73,16 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
+    public int exportEmployeesWithCompanies(User user, ExportBindingModel exportModel, EmployeesFilterDataModel filterData) {
+        List<ExcelExportDto> data = employeeService.getEmployeesWithCompaniesForExport(filterData);
+        File file = excelWriter.writeExcel(data, ExportType.MIXED);
+        int itemsCount = data.size();
+        Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.MIXED, itemsCount, user);
+        exportRepository.save(export);
+        return itemsCount;
+    }
+
+    @Override
     public byte[] getExport(HttpServletResponse response, Long exportId) {
         Export export = exportRepository.findById(exportId)
                 .orElseThrow(() -> new NotFoundException("No such export."));

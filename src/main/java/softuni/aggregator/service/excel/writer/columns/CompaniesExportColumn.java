@@ -2,48 +2,46 @@ package softuni.aggregator.service.excel.writer.columns;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import softuni.aggregator.service.excel.writer.model.CompaniesExportDto;
+import softuni.aggregator.service.excel.writer.model.CompanyExportDto;
 
 import java.util.function.Function;
 
 @Getter
 @AllArgsConstructor
-public enum CompaniesExportColumn implements WriteExcelColumn<CompaniesExportDto> {
+public enum CompaniesExportColumn implements WriteExcelColumn<CompanyExportDto> {
 
-    COMPANY_NAME("Company name", CompaniesExportDto::getName),
-    WEBSITE("Website", CompaniesExportDto::getWebsite),
-    VAT_NUMBER("VAT/Steuernummer", CompaniesExportDto::getVATNumber),
-    BVD_ID_NUMBER("BvD ID Nummer", CompaniesExportDto::getBvDIdNumber),
-    ISO_COUNTRY_CODE("ISO Ländercode", CompaniesExportDto::getISOCountryCode),
-    NACE_REV_MAIN_SECTION("NACE Rev. 2 Hauptsektion", CompaniesExportDto::getNaceRevMainSection),
-    NACE_REV_CORE_CODE("NACE Rev. 2 Core Code (4 Ziffern)", CompaniesExportDto::getNaceRevCoreCode),
-    CONSOLIDATION_CODE("Konsolidierungscode", CompaniesExportDto::getConsolidationCode),
-    OPERATING_INCOME("Betriebsertrag (Umsatz)\ntsd EUR Letztes verf. Jahr", CompaniesExportDto::getOperatingIncome),
-    EMPLOYEES_COUNT("Anzahl der Mitarbeiter\nLetztes verf. Jahr", CompaniesExportDto::getEmployeesCount),
-    ADDRESS("Straße, Hausnr., Gebäude, etc., Zeile 1", CompaniesExportDto::getAddress),
-    POSTCODE("Postleitzahl", CompaniesExportDto::getPostcode),
-    LOCATION("Ort", CompaniesExportDto::getCity),
-    COUNTRY("Land", CompaniesExportDto::getCountry),
-    PHONE_NUMBER("Telefon", CompaniesExportDto::getCompanyPhone),
-    COMPANY_EMAIL("E-Mail Adresse", CompaniesExportDto::getCompanyEmails),
-    JOB_DESCRIPTION("Tätigkeitsbeschreibung (Englisch)", CompaniesExportDto::getJobDescription),
-    STANDARDIZED_LEGAL_FORM("Standardisierte Rechtsform", CompaniesExportDto::getStandardizedLegalForm),
-    MANAGERS_COUNT("Anzahl der Geschäftsführer & Manager", CompaniesExportDto::getManagersCount),
-    CORPORATION_COMPANIES_COUNT("Anzahl Unternehmen in der Konzerngruppe", CompaniesExportDto::getCorporationCompaniesCount),
-    EMPLOYEES_COUNT_SKIP("Anzahl der Mitarbeiter\nLetztes verf. Jahr.1", CompaniesExportDto::getEmployeesCount),
-    SUBSIDIARIES_COUNT("Anzahl der dokumentierten Tochtergesellschaften", CompaniesExportDto::getSubsidiariesCount),
-    XING_INDUSTRY_1("Xing industry 1", CompaniesExportDto::getXingIndustry1),
-    XING_INDUSTRY_2("Xing industry 2", CompaniesExportDto::getXingIndustry2),
-    EMPLOYEES_RANGE("Employee range", CompaniesExportDto::getEmployeesRange),
-    STREET("Street", CompaniesExportDto::getStreet),
-    COMPANY_PHONE("Company phone", CompaniesExportDto::getCompanyPhone),
-    FAX("Fax", CompaniesExportDto::getFax),
-    INFORMATION("Information", CompaniesExportDto::getInformation),
-    EMPLOYEES_PAGE("Employees page", CompaniesExportDto::getEmployeesPage),
-    COMPANY_PROFILE_LINK("Xing profile", CompaniesExportDto::getXingProfileLink),
-    YEAR_FOUND("Year found", CompaniesExportDto::getYearFound),
-    PRODUCTS_AND_SERVICES("Products and services", CompaniesExportDto::getProductsAndServices);
+    COMPANY_NAME("Company name", CompanyExportDto::getName),
+    XING_INDUSTRY_1("Xing industry 1", CompanyExportDto::getXingIndustry1),
+    XING_INDUSTRY_2("Xing industry 2", CompanyExportDto::getXingIndustry2),
+    WEBSITE("Website", CompanyExportDto::getWebsite),
+    COMPANY_PHONE("Company phone", CompanyExportDto::getCompanyPhone),
+    COMPANY_EMAIL("E-Mail Address", CompanyExportDto::getCompanyEmails),
+    FAX("Fax", CompanyExportDto::getFax),
+    ADDRESS("Address", CompanyExportDto::getAddress),
+    STREET("Street", CompanyExportDto::getStreet),
+    COUNTRY("Country", CompanyExportDto::getCountry),
+    CITY("City", CompanyExportDto::getCity),
+    VAT_NUMBER("VAT Number", CompanyExportDto::getVATNumber),
+    BVD_ID_NUMBER("BvD ID Number", CompanyExportDto::getBvDIdNumber),
+    ISO_COUNTRY_CODE("ISO Country code", CompanyExportDto::getISOCountryCode),
+    YEAR_FOUND("Year found", CompanyExportDto::getYearFound),
+    NACE_REV_MAIN_SECTION("NACE Rev. 2 Main section", CompanyExportDto::getNaceRevMainSection),
+    NACE_REV_CORE_CODE("NACE Rev. 2 Core Code", CompanyExportDto::getNaceRevCoreCode),
+    CONSOLIDATION_CODE("Consolidation code", CompanyExportDto::getConsolidationCode),
+    OPERATING_INCOME("Operating income", CompanyExportDto::getOperatingIncome),
+    POSTCODE("Postcode", CompanyExportDto::getPostcode),
+    EMPLOYEES_COUNT("Employees count", CompanyExportDto::getEmployeesCount),
+    EMPLOYEES_RANGE("Employee range", CompanyExportDto::getEmployeesRange),
+    EMPLOYEES_PAGE("Employees page", CompanyExportDto::getEmployeesPage),
+    CORPORATION_COMPANIES_COUNT("Corporation companies count", CompanyExportDto::getCorporationCompaniesCount),
+    MANAGERS_COUNT("Managers count", CompanyExportDto::getManagersCount),
+    SUBSIDIARIES_COUNT("Subsidiaries count", CompanyExportDto::getSubsidiariesCount),
+    STANDARDIZED_LEGAL_FORM("Standardized legal form", CompanyExportDto::getStandardizedLegalForm),
+    JOB_DESCRIPTION("Job description", CompanyExportDto::getJobDescription),
+    INFORMATION("Information", CompanyExportDto::getInformation),
+    COMPANY_PROFILE_LINK("Xing profile", CompanyExportDto::getXingProfileLink),
+    PRODUCTS_AND_SERVICES("Products and services", CompanyExportDto::getProductsAndServices);
 
     private String columnName;
-    private Function<CompaniesExportDto, ?> getter;
+    private Function<CompanyExportDto, ?> getter;
 }

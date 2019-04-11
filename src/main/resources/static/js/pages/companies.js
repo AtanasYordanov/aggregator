@@ -87,7 +87,7 @@
             const $modal = $(modal.getModalTemplate('Export companies', 'CANCEL', 'EXPORT'));
 
             const $exportNameImport = $(`
-                    <div class="form-group px-4">
+                    <div class="form-group">
                         <label for="export-name w-100">Export name</label>
                         <input type="text" name="exportName" class="form-control w-100" id="export-name"
                                placeholder="Export name">

@@ -13,7 +13,7 @@ import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.service.CompanyService;
 import softuni.aggregator.service.MinorIndustryService;
-import softuni.aggregator.service.excel.writer.model.CompaniesExportDto;
+import softuni.aggregator.service.excel.writer.model.CompanyExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.web.exceptions.NotFoundException;
@@ -38,18 +38,18 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public List<ExcelExportDto> getCompaniesForExport(CompaniesFilterDataModel filterData) {
         List<MinorIndustry> industries = minorIndustryService.getIndustries(filterData.getIndustry());
 
         if (!industries.isEmpty()) {
             return companyRepository.findAllByIndustryIn(industries).stream()
-                    .map(this::mapToExcelDto)
+                    .map(CompanyExportDto::new)
                     .collect(Collectors.toList());
         }
         return companyRepository.findAll().stream()
-                .map(this::mapToExcelDto)
+                .map(CompanyExportDto::new)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -105,57 +105,5 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company findByName(String companyName) {
         return companyRepository.findByName(companyName).orElse(null);
-    }
-
-    private String getMajorIndustry(Company company) {
-        MinorIndustry industry = company.getIndustry();
-        if (industry == null) {
-            return null;
-        }
-        MajorIndustry majorIndustry = industry.getMajorIndustry();
-        return majorIndustry != null ? majorIndustry.getName() : null;
-    }
-
-    private String getMinorIndustry(Company company) {
-        MinorIndustry industry = company.getIndustry();
-        return industry != null ? industry.getName() : null;
-    }
-
-    private ExcelExportDto mapToExcelDto(Company company) {
-        CompaniesExportDto companyDto = new CompaniesExportDto();
-
-        companyDto.setName(company.getName());
-        companyDto.setWebsite(company.getWebsite());
-        companyDto.setPostcode(company.getPostcode());
-        companyDto.setCity(company.getCity());
-        companyDto.setCountry(company.getCountry());
-        companyDto.setCompanyPhone(company.getCompanyPhone());
-        companyDto.setCompanyEmails(String.join(System.lineSeparator(), company.getCompanyEmails()));
-        companyDto.setXingIndustry1(getMajorIndustry(company));
-        companyDto.setXingIndustry2(getMinorIndustry(company));
-        companyDto.setEmployeesRange(company.getEmployeesRange());
-        companyDto.setEmployeesPage(company.getEmployeesPage());
-        companyDto.setStreet(company.getStreet());
-        companyDto.setFax(company.getFax());
-        companyDto.setInformation(company.getInformation());
-        companyDto.setXingProfileLink(company.getXingProfileLink());
-        companyDto.setYearFound(company.getYearFound());
-        companyDto.setProductsAndServices(company.getProductsAndServices());
-        companyDto.setVATNumber(company.getVATNumber());
-        companyDto.setBvDIdNumber(company.getBvDIdNumber());
-        companyDto.setISOCountryCode(company.getISOCountryCode());
-        companyDto.setNaceRevMainSection(company.getNaceRevMainSection());
-        companyDto.setNaceRevCoreCode(company.getNaceRevCoreCode());
-        companyDto.setConsolidationCode(company.getConsolidationCode());
-        companyDto.setOperatingIncome(company.getOperatingIncome());
-        companyDto.setEmployeesCount(company.getEmployeesCount());
-        companyDto.setAddress(company.getAddress());
-        companyDto.setJobDescription(company.getJobDescription());
-        companyDto.setStandardizedLegalForm(company.getStandardizedLegalForm());
-        companyDto.setManagersCount(company.getManagersCount());
-        companyDto.setCorporationCompaniesCount(company.getCorporationCompaniesCount());
-        companyDto.setSubsidiariesCount(company.getSubsidiariesCount());
-
-        return companyDto;
     }
 }

@@ -7,7 +7,7 @@ import softuni.aggregator.domain.entities.Employee;
 
 @Getter
 @Setter
-public class EmployeesExportDto extends ExcelExportDto {
+public class EmployeeExportDto extends ExcelExportDto {
 
     private String companyName;
     private String fullName;
@@ -15,7 +15,7 @@ public class EmployeesExportDto extends ExcelExportDto {
     private String email;
     private Integer hunterIoScore;
 
-    public EmployeesExportDto(Employee employee) {
+    public EmployeeExportDto(Employee employee) {
         setCompanyName(employee.getCompany());
         setFullName(employee.getFullName());
         setEmail(employee.getEmail());

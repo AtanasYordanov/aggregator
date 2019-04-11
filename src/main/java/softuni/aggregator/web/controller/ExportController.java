@@ -56,14 +56,21 @@ public class ExportController {
     @ResponseBody
     public Callable<Integer> exportEmployees(EmployeesFilterDataModel filterData
             , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
-        return () -> exportService.exportEmployees(loggedUser, exportModel, filterData);
+
+        return () -> {
+            if (exportModel.getIncludeCompanies()) {
+                return exportService.exportEmployeesWithCompanies(loggedUser, exportModel, filterData);
+            } else {
+                return exportService.exportEmployees(loggedUser, exportModel, filterData);
+            }
+        };
     }
 
     @PostMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Callable<Integer> exportCompanies(CompaniesFilterDataModel filterData
             , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
-        return () -> exportService.exportCompanies(loggedUser, exportModel,filterData);
+        return () -> exportService.exportCompanies(loggedUser, exportModel, filterData);
     }
 
     @GetMapping(value = "/{exportId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
