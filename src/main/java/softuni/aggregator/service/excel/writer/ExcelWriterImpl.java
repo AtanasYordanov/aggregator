@@ -8,6 +8,7 @@ import softuni.aggregator.service.excel.constants.ExcelConstants;
 import softuni.aggregator.service.excel.writer.columns.WriteExcelColumn;
 import softuni.aggregator.service.excel.writer.exports.ExportType;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
+import softuni.aggregator.web.exceptions.ServiceException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,8 +42,7 @@ public class ExcelWriterImpl implements ExcelWriter {
             return new File(fileName);
         } catch (IOException e) {
             log.error("Failed to export %s.", exportType.getExportName());
-            // TODO
-            return null;
+            throw new ServiceException("Export failed.");
         }
     }
 
@@ -131,8 +131,8 @@ public class ExcelWriterImpl implements ExcelWriter {
         File dir = new File(ExcelConstants.EXPORT_BASE_PATH);
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
-                log.error("Failed to create Directory!");
-                throw new IllegalArgumentException("Failed to create Directory!");
+                log.error("Failed to create directory: {}!", dir.getPath());
+                throw new ServiceException("Failed to write excel file!");
             }
         }
     }

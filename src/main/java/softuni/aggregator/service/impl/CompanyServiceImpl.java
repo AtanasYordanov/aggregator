@@ -17,6 +17,7 @@ import softuni.aggregator.service.MinorIndustryService;
 import softuni.aggregator.service.excel.writer.model.CompaniesExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.web.exceptions.NotFoundException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -99,7 +100,7 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyDetailsVO getById(Long id) {
         return companyRepository.findById(id)
                 .map(c -> mapper.map(c, CompanyDetailsVO.class))
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("No such company."));
     }
 
     @Override

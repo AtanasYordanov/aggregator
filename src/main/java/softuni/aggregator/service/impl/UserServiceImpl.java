@@ -3,7 +3,6 @@ package softuni.aggregator.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,8 @@ import softuni.aggregator.service.RoleService;
 import softuni.aggregator.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.utils.performance.CustomStringUtils;
+import softuni.aggregator.web.exceptions.ForbiddenActionException;
+import softuni.aggregator.web.exceptions.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -47,7 +48,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("No such user."));
     }
 
     @Override
@@ -68,11 +70,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateRole(ChangeUserRoleBindingModel bindingModel) {
-        User user = userRepository.findById(bindingModel.getUserId()).orElseThrow();
+        User user = userRepository.findById(bindingModel.getUserId())
+                .orElseThrow(() -> new NotFoundException("No such user."));
+
         if (userIsRootAdmin(user)) {
-            // TODO
-            throw new IllegalArgumentException();
+            throw new ForbiddenActionException("You cannot change the ROOT ADMIN's role.");
         }
+
         Set<Role> authorities = new HashSet<>();
         Role role = getUserRole(bindingModel.getRoleName());
         authorities.add(role);
@@ -116,7 +120,7 @@ public class UserServiceImpl implements UserService {
                     userDetailsVO.setExportsCount(u.getExports().size());
                     return userDetailsVO;
                 })
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("No such user."));
     }
 
     @Override
@@ -141,11 +145,10 @@ public class UserServiceImpl implements UserService {
                 if (!role.equals(UserRole.ROLE_ROOT_ADMIN)) {
                     return roleService.getRoleByName(role.toString());
                 } else {
-                    // TODO
-                    throw new IllegalArgumentException();
+                    throw new ForbiddenActionException("You cannot assign ROOT ADMIN role.");
                 }
             }
         }
-        throw new IllegalArgumentException();
+        throw new NotFoundException("No such role.");
     }
 }

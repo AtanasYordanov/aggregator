@@ -7,6 +7,7 @@ import softuni.aggregator.domain.entities.MinorIndustry;
 import softuni.aggregator.domain.repository.MinorIndustryRepository;
 import softuni.aggregator.service.MinorIndustryService;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.web.exceptions.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,8 @@ public class MinorIndustryServiceImpl implements MinorIndustryService {
 
     @Override
     public MinorIndustry getIndustryByName(String name) {
-        return minorIndustryRepository.findByName(name).orElseThrow();
+        return minorIndustryRepository.findByName(name)
+                .orElseThrow(() -> new NotFoundException("No such industry."));
     }
 
     @Override

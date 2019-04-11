@@ -7,6 +7,7 @@ import softuni.aggregator.domain.repository.RoleRepository;
 import softuni.aggregator.domain.enums.UserRole;
 import softuni.aggregator.service.RoleService;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.web.exceptions.NotFoundException;
 
 import javax.annotation.PostConstruct;
 
@@ -23,7 +24,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getRoleByName(String name) {
-        return roleRepository.findByName(name).orElseThrow();
+        return roleRepository.findByName(name)
+                .orElseThrow(() -> new NotFoundException("No such role."));
     }
 
     @PostConstruct

@@ -14,6 +14,7 @@ import softuni.aggregator.service.excel.reader.ExcelReader;
 import softuni.aggregator.service.excel.reader.imports.ImportType;
 import softuni.aggregator.service.excel.reader.model.*;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.web.exceptions.ServiceException;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -244,14 +245,12 @@ public class ImportServiceImpl implements ImportService {
         String uuid = UUID.randomUUID().toString();
         String filePath = String.format("%s\\%s-%s", basePath, uuid, multipartFile.getOriginalFilename());
 
-        // TODO -> handle
         File file;
         try {
             file = new File(filePath);
             multipartFile.transferTo(file);
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException();
+            throw new ServiceException("Failed to save excel file.");
         }
         return file;
     }

@@ -12,6 +12,7 @@ import softuni.aggregator.service.EmployeeService;
 import softuni.aggregator.service.excel.writer.model.EmployeesExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.web.exceptions.NotFoundException;
 
 import java.util.Collection;
 import java.util.List;
@@ -54,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDetailsVO getById(Long id) {
         return employeeRepository.findByIdEager(id)
                 .map(c -> mapper.map(c, EmployeeDetailsVO.class))
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("No such employee."));
     }
 
     @Override

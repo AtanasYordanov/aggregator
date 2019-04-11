@@ -6,6 +6,7 @@ import softuni.aggregator.domain.entities.MajorIndustry;
 import softuni.aggregator.domain.repository.MajorIndustryRepository;
 import softuni.aggregator.service.MajorIndustryService;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.web.exceptions.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,8 @@ public class MajorIndustryServiceImpl implements MajorIndustryService {
 
     @Override
     public MajorIndustry getMajorIndustryByName(String name) {
-        return majorIndustryRepository.findByName(name).orElseThrow();
+        return majorIndustryRepository.findByName(name)
+                .orElseThrow(() -> new NotFoundException("No such industry."));
     }
 
     @Override

@@ -20,6 +20,8 @@ import softuni.aggregator.service.excel.writer.exports.ExportType;
 import softuni.aggregator.service.excel.writer.ExcelWriterImpl;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 import softuni.aggregator.utils.performance.PerformanceUtils;
+import softuni.aggregator.web.exceptions.NotFoundException;
+import softuni.aggregator.web.exceptions.ServiceException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -71,7 +73,8 @@ public class ExportServiceImpl implements ExportService {
 
     @Override
     public byte[] getExport(HttpServletResponse response, Long exportId) {
-        Export export = exportRepository.findById(exportId).orElseThrow();
+        Export export = exportRepository.findById(exportId)
+                .orElseThrow(() -> new NotFoundException("No such export."));
         File file = new File(ExcelConstants.EXPORT_BASE_PATH + export.getName());
         return getBytes(response, file);
     }
@@ -111,8 +114,7 @@ public class ExportServiceImpl implements ExportService {
             in.close();
             return byteResponse;
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException(String.format("Failed to export file: %s", file.getName()));
+            throw new ServiceException(String.format("Failed to export file: %s", file.getName()));
         }
     }
 }
