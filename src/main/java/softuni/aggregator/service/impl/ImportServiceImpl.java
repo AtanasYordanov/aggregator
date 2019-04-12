@@ -14,7 +14,6 @@ import softuni.aggregator.service.excel.reader.ExcelReader;
 import softuni.aggregator.service.excel.reader.imports.ImportType;
 import softuni.aggregator.service.excel.reader.model.*;
 import org.springframework.transaction.annotation.Transactional;
-import softuni.aggregator.utils.performance.PerformanceUtils;
 import softuni.aggregator.web.exceptions.ServiceException;
 
 import javax.servlet.ServletContext;
@@ -35,21 +34,21 @@ public class ImportServiceImpl implements ImportService {
     private final ImportRepository importRepository;
     private final CompanyService companyService;
     private final EmployeeService employeeService;
-    private final MinorIndustryService minorIndustryService;
-    private final MajorIndustryService majorIndustryService;
+    private final SubIndustryService subIndustryService;
+    private final MainIndustryService mainIndustryService;
     private final ServletContext servletContext;
     private final ExcelReader excelReader;
     private final ModelMapper mapper;
 
     @Autowired
     public ImportServiceImpl(CompanyService companyService, EmployeeService employeeService,
-                             MinorIndustryService minorIndustryService,
-                             MajorIndustryService majorIndustryService, ImportRepository importRepository,
+                             SubIndustryService subIndustryService,
+                             MainIndustryService mainIndustryService, ImportRepository importRepository,
                              ServletContext servletContext, ExcelReader excelReader, ModelMapper mapper) {
         this.companyService = companyService;
         this.employeeService = employeeService;
-        this.minorIndustryService = minorIndustryService;
-        this.majorIndustryService = majorIndustryService;
+        this.subIndustryService = subIndustryService;
+        this.mainIndustryService = mainIndustryService;
         this.importRepository = importRepository;
         this.servletContext = servletContext;
         this.excelReader = excelReader;
@@ -78,8 +77,8 @@ public class ImportServiceImpl implements ImportService {
         List<XingCompanyImportDto> data = excelReader.readExcel(file.getAbsolutePath(), ImportType.XING_COMPANIES);
         deleteFile(file);
 
-        Map<String, MajorIndustry> majorIndustriesMap = majorIndustryService.getAllIndustriesByName();
-        Map<String, MinorIndustry> minorIndustriesMap = minorIndustryService.getAllIndustriesByName();
+        Map<String, MainIndustry> mainIndustriesMap = mainIndustryService.getAllIndustriesByName();
+        Map<String, SubIndustry> subIndustriesMap = subIndustryService.getAllIndustriesByName();
 
         Map<String, Company> companies = getCompaniesMap(data);
 
@@ -87,12 +86,12 @@ public class ImportServiceImpl implements ImportService {
         for (XingCompanyImportDto companyDto : data) {
             if (companyDto.getWebsite() != null && !companyDto.getWebsite().isBlank()) {
                 Company company = companies.getOrDefault(companyDto.getWebsite(), new Company());
-                setXingCompanyProperties(company, companyDto, majorIndustriesMap, minorIndustriesMap);
+                setXingCompanyProperties(company, companyDto, mainIndustriesMap, subIndustriesMap);
                 companies.putIfAbsent(company.getWebsite(), company);
             }
         }
 
-        minorIndustryService.saveAll(minorIndustriesMap.values());
+        subIndustryService.saveAll(subIndustriesMap.values());
         companyService.saveCompanies(companies.values());
 
         int newEntries = companies.size() - existingCompaniesCount;
@@ -174,7 +173,7 @@ public class ImportServiceImpl implements ImportService {
     }
 
     private void setXingCompanyProperties(Company company, XingCompanyImportDto companyDto, Map<String,
-            MajorIndustry> majorIndustryMap, Map<String, MinorIndustry> minorIndustryMap) {
+            MainIndustry> mainIndustriesMap, Map<String, SubIndustry> subIndustryMap) {
         setCommonCompanyProperties(company, companyDto);
 
         company.setEmployeesRange(companyDto.getEmployeesRange());
@@ -188,19 +187,19 @@ public class ImportServiceImpl implements ImportService {
         company.setProductsAndServices(companyDto.getProductsAndServices());
         company.setXingProfileLink(companyDto.getXingProfileLink());
 
-        String majorIndustryName = companyDto.getXingIndustry1();
-        MajorIndustry majorIndustry = majorIndustryMap
-                .getOrDefault(majorIndustryName, new MajorIndustry(companyDto.getXingIndustry1()));
+        String mainIndustryName = companyDto.getXingIndustry1();
+        MainIndustry mainIndustry = mainIndustriesMap
+                .getOrDefault(mainIndustryName, new MainIndustry(companyDto.getXingIndustry1()));
 
-        majorIndustryMap.putIfAbsent(majorIndustryName, majorIndustry);
+        mainIndustriesMap.putIfAbsent(mainIndustryName, mainIndustry);
 
-        String minorIndustryName = companyDto.getXingIndustry2();
-        MinorIndustry minorIndustry = minorIndustryMap
-                .getOrDefault(minorIndustryName, new MinorIndustry(minorIndustryName, majorIndustry));
+        String subIndustryName = companyDto.getXingIndustry2();
+        SubIndustry subIndustry = subIndustryMap
+                .getOrDefault(subIndustryName, new SubIndustry(subIndustryName, mainIndustry));
 
-        minorIndustryMap.putIfAbsent(minorIndustryName, minorIndustry);
+        subIndustryMap.putIfAbsent(subIndustryName, subIndustry);
 
-        company.setIndustry(minorIndustry);
+        company.setIndustry(subIndustry);
     }
 
     private void setOrbisCompanyProperties(Company company, OrbisCompanyImportDto companyDto) {

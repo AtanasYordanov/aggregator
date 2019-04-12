@@ -2,7 +2,7 @@ package softuni.aggregator.domain.model.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import softuni.aggregator.domain.entities.MinorIndustry;
+import softuni.aggregator.domain.entities.SubIndustry;
 import softuni.aggregator.utils.performance.CustomStringUtils;
 
 @Getter
@@ -22,7 +22,7 @@ public class CompanyListVO {
         this.website = CustomStringUtils.truncate(website, 25);
     }
 
-    public void setIndustry(MinorIndustry industry) {
+    public void setIndustry(SubIndustry industry) {
         if (industry == null) {
             return;
         }

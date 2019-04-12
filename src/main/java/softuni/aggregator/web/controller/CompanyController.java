@@ -15,8 +15,8 @@ import softuni.aggregator.domain.model.vo.page.CompaniesPageVO;
 import softuni.aggregator.service.CompanyService;
 
 import org.springframework.data.domain.Pageable;
-import softuni.aggregator.service.MajorIndustryService;
-import softuni.aggregator.service.MinorIndustryService;
+import softuni.aggregator.service.MainIndustryService;
+import softuni.aggregator.service.SubIndustryService;
 
 import java.util.List;
 
@@ -25,15 +25,15 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyService companyService;
-    private final MinorIndustryService minorIndustryService;
-    private final MajorIndustryService majorIndustryService;
+    private final SubIndustryService subIndustryService;
+    private final MainIndustryService mainIndustryService;
 
     @Autowired
-    public CompanyController(CompanyService companyService, MinorIndustryService minorIndustryService,
-                             MajorIndustryService majorIndustryService) {
+    public CompanyController(CompanyService companyService, SubIndustryService subIndustryService,
+                             MainIndustryService mainIndustryService) {
         this.companyService = companyService;
-        this.minorIndustryService = minorIndustryService;
-        this.majorIndustryService = majorIndustryService;
+        this.subIndustryService = subIndustryService;
+        this.mainIndustryService = mainIndustryService;
     }
 
     @GetMapping("/catalog")
@@ -45,14 +45,14 @@ public class CompanyController {
     @GetMapping(value = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompaniesPageVO> getCompaniesData(Pageable pageable, CompaniesFilterDataModel filterData) {
         List<CompanyListVO> companies = companyService.getCompaniesPage(pageable, filterData);
-        List<String> minorIndustries = minorIndustryService.getAllIndustryNames();
-        List<String> majorIndustries = majorIndustryService.getAllIndustryNames();
-        long companiesCount = companyService.getTotalCompaniesCount();
+        List<String> subIndustries = subIndustryService.getAllIndustryNames();
+        List<String> mainIndustries = mainIndustryService.getAllIndustryNames();
+        long companiesCount = companyService.getFilteredCompaniesCount(filterData);
 
         CompaniesPageVO companiesPageVO = new CompaniesPageVO();
         companiesPageVO.setCompanies(companies);
-        companiesPageVO.setMinorIndustries(minorIndustries);
-        companiesPageVO.setMajorIndustries(majorIndustries);
+        companiesPageVO.setSubIndustries(subIndustries);
+        companiesPageVO.setMainIndustries(mainIndustries);
         companiesPageVO.setTotalItemsCount(companiesCount);
 
         return new ResponseEntity<>(companiesPageVO, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class CompanyController {
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompaniesPageVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData) {
         List<CompanyListVO> companies = companyService.getCompaniesPage(pageable, filterData);
-        long companiesCount = companyService.getCompaniesCountForIndustry(filterData.getIndustry());
+        long companiesCount = companyService.getFilteredCompaniesCount(filterData);
 
         CompaniesPageVO companiesPageVO = new CompaniesPageVO();
         companiesPageVO.setCompanies(companies);

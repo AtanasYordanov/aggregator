@@ -17,9 +17,7 @@ public interface CompanyService {
 
     List<CompanyListVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData);
 
-    long getTotalCompaniesCount();
-
-    long getCompaniesCountForIndustry(String industry);
+    long getFilteredCompaniesCount(CompaniesFilterDataModel filterData);
 
     CompanyDetailsVO getById(Long id);
 

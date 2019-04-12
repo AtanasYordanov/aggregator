@@ -7,12 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import softuni.aggregator.domain.entities.Employee;
-import softuni.aggregator.domain.entities.MinorIndustry;
+import softuni.aggregator.domain.entities.SubIndustry;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.LOAD;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -21,20 +19,19 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee AS e WHERE e.id = :id")
     Optional<Employee> findByIdEager(@Param("id") Long id);
 
-    @EntityGraph(attributePaths = "company", type = LOAD)
-    @Query("SELECT e FROM Employee AS e")
-    List<Employee> findAllEager();
-
-    @EntityGraph(attributePaths = "company")
+    @EntityGraph(attributePaths = {"company"})
     List<Employee> findByEmailIn(List<String> emails);
 
-    @Query("SELECT e FROM Employee e WHERE e.company.industry IN :industries")
-    List<Employee> getEmployeesPageForIndustry(Pageable pageable, List<MinorIndustry> industries);
+    @Query("SELECT e FROM Employee e " +
+            "WHERE (e.company.industry IN :industries OR :industries IS NULL)")
+    List<Employee> getFilteredEmployeesPage(Pageable pageable, List<SubIndustry> industries);
 
-    @Query("SELECT COUNT(e.id) FROM Employee e WHERE e.company.industry IN :industries")
-    long getCompaniesCountForIndustry(List<MinorIndustry> industries);
+    @Query("SELECT COUNT(e.id) FROM Employee e " +
+            "WHERE (e.company.industry IN :industries  OR :industries IS NULL)")
+    long getFilteredEmployeesCount(List<SubIndustry> industries);
 
-    @EntityGraph(attributePaths = "company")
-    @Query("SELECT e FROM Employee e WHERE e.company.industry IN :industries")
-    List<Employee> findAllByIndustryInEager(List<MinorIndustry> industries);
+    @EntityGraph(attributePaths = {"company"})
+    @Query("SELECT e FROM Employee e WHERE " +
+            "(e.company.industry IN :industries OR :industries IS NULL)")
+    List<Employee> getFilteredEmployees(List<SubIndustry> industries);
 }

@@ -2,12 +2,12 @@ package softuni.aggregator.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import softuni.aggregator.domain.entities.MajorIndustry;
+import softuni.aggregator.domain.entities.MainIndustry;
 
 import java.util.Optional;
 
 @Repository
-public interface MajorIndustryRepository extends JpaRepository<MajorIndustry, Long> {
+public interface MainIndustryRepository extends JpaRepository<MainIndustry, Long> {
 
-    Optional<MajorIndustry> findByName(String name);
+    Optional<MainIndustry> findByName(String name);
 }

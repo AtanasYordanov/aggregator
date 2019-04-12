@@ -26,7 +26,7 @@ public class Company extends BaseEntity {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "industry_id", referencedColumnName = "id")
-    private MinorIndustry industry;
+    private SubIndustry industry;
 
     @OneToMany(mappedBy = "company")
     private List<Employee> employees;
@@ -125,7 +125,7 @@ public class Company extends BaseEntity {
         }
     }
 
-    public void setIndustry(MinorIndustry industry) {
+    public void setIndustry(SubIndustry industry) {
         if (industry != null) {
             this.industry = industry;
         }

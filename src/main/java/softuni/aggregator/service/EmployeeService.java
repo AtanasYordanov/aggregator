@@ -17,11 +17,9 @@ public interface EmployeeService {
 
     List<ExcelExportDto> getEmployeesWithCompaniesForExport(EmployeesFilterDataModel filterData);
 
-    long getTotalEmployeesCount();
-
     List<EmployeeListVO> getEmployeesPage(Pageable pageable, EmployeesFilterDataModel filterData);
 
-    long getEmployeesCountForIndustry(String industry);
+    long getFilteredEmployeesCount(EmployeesFilterDataModel filterData);
 
     EmployeeDetailsVO getById(Long id);
 

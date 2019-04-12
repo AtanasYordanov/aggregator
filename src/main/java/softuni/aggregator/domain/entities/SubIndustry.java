@@ -11,21 +11,21 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "minor_industries")
-public class MinorIndustry extends BaseEntity {
+@Table(name = "sub_industries")
+public class SubIndustry extends BaseEntity {
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "major_industry_id", referencedColumnName = "id")
-    private MajorIndustry majorIndustry;
+    @JoinColumn(name = "main_industry_id", referencedColumnName = "id")
+    private MainIndustry mainIndustry;
 
     @OneToMany(mappedBy = "industry")
     private List<Company> companies;
 
-    public MinorIndustry(String name, MajorIndustry majorIndustry) {
+    public SubIndustry(String name, MainIndustry mainIndustry) {
         this.name = name;
-        this.majorIndustry = majorIndustry;
+        this.mainIndustry = mainIndustry;
     }
 }

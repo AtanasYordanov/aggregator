@@ -11,6 +11,6 @@ import java.util.List;
 public class EmployeesPageVO extends BasePageVO {
 
     private List<EmployeeListVO> employees;
-    private List<String> minorIndustries;
-    private List<String> majorIndustries;
+    private List<String> subIndustries;
+    private List<String> mainIndustries;
 }

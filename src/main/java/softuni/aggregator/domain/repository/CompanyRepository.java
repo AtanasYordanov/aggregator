@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
 import softuni.aggregator.domain.entities.Company;
-import softuni.aggregator.domain.entities.MinorIndustry;
+import softuni.aggregator.domain.entities.SubIndustry;
 
 import java.util.List;
 
@@ -16,13 +16,15 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     List<Company> findAllByWebsiteIn(List<String> website);
 
-    List<Company> findAllByIndustryIn(List<MinorIndustry> industries);
+    @Query("SELECT c FROM Company c " +
+            "WHERE (c.industry IN :industries OR :industries IS NULL)")
+    Page<Company> getFilteredCompaniesPage(Pageable pageable, @Param("industries") List<SubIndustry> industries);
 
-    @Query("SELECT c FROM Company c WHERE c.industry IN :industries")
-    Page<Company> getCompaniesPageForIndustry(Pageable pageable, @Param("industries") List<MinorIndustry> industries);
+    @Query(value = "SELECT COUNT(c.id) FROM Company c " +
+            "WHERE (c.industry IN :industries OR :industries IS NULL)")
+    long getFilteredCompaniesCount(@Param("industries") List<SubIndustry> industries);
 
-    @Query(value = "SELECT COUNT(c.id) FROM Company c WHERE c.industry IN :industries")
-    long getCompaniesCountForIndustry(@Param("industries") List<MinorIndustry> industries);
-
-    List<Company> findByNameIn(List<String> emails);
+    @Query("SELECT c FROM Company c " +
+            "WHERE (c.industry IN :industries OR :industries IS NULL)")
+    List<Company> getFilteredCompanies(List<SubIndustry> industries);
 }

@@ -26,8 +26,8 @@
             http.get(`/employees/data?page=0&size=${itemsPerPage}&industry=${selectedIndustry}`
                 , (data) => {
                     $spinner.hide();
-                    renderMajorIndustries(data['majorIndustries']);
-                    renderMinorIndustries(data['minorIndustries']);
+                    renderMainIndustries(data['mainIndustries']);
+                    renderSubIndustries(data['subIndustries']);
                     renderEmployees(data['employees']);
                     totalEmployees = data['totalItemsCount'];
                     pagination.render(fetchEmployees, currentPage, totalEmployees, itemsPerPage);
@@ -50,17 +50,17 @@
                 , () => $spinner.hide());
         }
 
-        function renderMajorIndustries(industries) {
-            const $industries = $('#major-industries');
+        function renderMainIndustries(industries) {
+            const $industries = $('#main-industries');
             industries.forEach(industry => {
-                $industries.append($(`<option>`).val('Maj:' + industry).text(industry));
+                $industries.append($(`<option>`).val('Main:' + industry).text(industry));
             });
         }
 
-        function renderMinorIndustries(industries) {
-            const $industries = $('#minor-industries');
+        function renderSubIndustries(industries) {
+            const $industries = $('#sub-industries');
             industries.forEach(industry => {
-                $industries.append($(`<option>`).val('Min:' + industry).text(industry));
+                $industries.append($(`<option>`).val('Sub:' + industry).text(industry));
             });
         }
 

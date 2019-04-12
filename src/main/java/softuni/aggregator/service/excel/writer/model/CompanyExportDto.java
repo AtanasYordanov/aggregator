@@ -3,8 +3,8 @@ package softuni.aggregator.service.excel.writer.model;
 import lombok.Getter;
 import lombok.Setter;
 import softuni.aggregator.domain.entities.Company;
-import softuni.aggregator.domain.entities.MajorIndustry;
-import softuni.aggregator.domain.entities.MinorIndustry;
+import softuni.aggregator.domain.entities.MainIndustry;
+import softuni.aggregator.domain.entities.SubIndustry;
 
 @Getter
 @Setter
@@ -54,8 +54,8 @@ public class CompanyExportDto extends ExcelExportDto {
         setCountry(company.getCountry());
         setCompanyPhone(company.getCompanyPhone());
         setCompanyEmails(String.join(System.lineSeparator(), company.getCompanyEmails()));
-        setXingIndustry1(getMajorIndustry(company));
-        setXingIndustry2(getMinorIndustry(company));
+        setXingIndustry1(getMainIndustry(company));
+        setXingIndustry2(getSubIndustry(company));
         setEmployeesRange(company.getEmployeesRange());
         setEmployeesPage(company.getEmployeesPage());
         setStreet(company.getStreet());
@@ -80,17 +80,17 @@ public class CompanyExportDto extends ExcelExportDto {
         setSubsidiariesCount(company.getSubsidiariesCount());
     }
 
-    private String getMajorIndustry(Company company) {
-        MinorIndustry industry = company.getIndustry();
+    private String getMainIndustry(Company company) {
+        SubIndustry industry = company.getIndustry();
         if (industry == null) {
             return null;
         }
-        MajorIndustry majorIndustry = industry.getMajorIndustry();
-        return majorIndustry != null ? majorIndustry.getName() : null;
+        MainIndustry mainIndustry = industry.getMainIndustry();
+        return mainIndustry != null ? mainIndustry.getName() : null;
     }
 
-    private String getMinorIndustry(Company company) {
-        MinorIndustry industry = company.getIndustry();
+    private String getSubIndustry(Company company) {
+        SubIndustry industry = company.getIndustry();
         return industry != null ? industry.getName() : null;
     }
 }

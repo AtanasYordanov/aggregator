@@ -2,7 +2,7 @@ package softuni.aggregator.domain.model.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import softuni.aggregator.domain.entities.MinorIndustry;
+import softuni.aggregator.domain.entities.SubIndustry;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class CompanyDetailsVO {
     private Integer subsidiariesCount;
     private List<EmployeeListVO> employees;
 
-    public void setIndustry(MinorIndustry industry) {
+    public void setIndustry(SubIndustry industry) {
         this.industry = industry != null ? industry.getName() : null;
     }
 
