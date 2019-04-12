@@ -21,8 +21,6 @@ public interface UserService extends UserDetailsService {
 
     boolean existsByEmail(String username);
 
-    void saveUser(User user);
-
     void updateUserStatus();
 
     List<UserListVO> getUsersPage(Pageable pageable);
@@ -34,4 +32,10 @@ public interface UserService extends UserDetailsService {
     void updateProfile(User loggedUser, UserEditProfileBindingModel bindingModel);
 
     void updatePassword(User loggedUser, UserChangePasswordBindingModel bindingModel, BindingResult bindingResult);
+
+    void suspendUser(Long userId);
+
+    void activateUser(Long userId);
+
+    void processUserLogin(User user);
 }

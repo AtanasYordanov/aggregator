@@ -2,66 +2,6 @@ body {
   font-family: 'Montserrat', sans-serif !important;
   background-color: #F3F6FA !important; }
 
-.bg-custom {
-  background-color: #495A67 !important;
-  border-color: #495A67; }
-
-.btn {
-  width: 100%; }
-
-.btn-spinner {
-  margin-bottom: 2px;
-  margin-right: 2px; }
-
-.rounded-form {
-  border-radius: 10px; }
-
-#notification-container {
-  width: 500px;
-  max-width: 98%;
-  position: fixed;
-  top: 65px;
-  right: 5px; }
-  #notification-container .alert:hover {
-    cursor: pointer; }
-
-.status {
-  font-weight: bold; }
-
-.active {
-  color: #3ec120; }
-
-.inactive {
-  color: grey; }
-
-.btn-spinner {
-  margin-bottom: 2px;
-  margin-right: 2px; }
-
-.btn-success {
-  background-color: #85C81A !important;
-  border-color: #85C81A !important; }
-
-.btn-success:hover {
-  background-color: #6fba23 !important;
-  border-color: #6fba23 !important; }
-
-.btn-primary {
-  background-color: #3e63a0 !important;
-  border-color: #3e63a0 !important; }
-
-.btn-primary:hover {
-  background-color: #295399 !important;
-  border-color: #295399 !important; }
-
-.btn-danger {
-  background-color: #C92100 !important;
-  border-color: #C92100 !important; }
-
-.btn-danger:hover {
-  background-color: #A32100 !important;
-  border-color: #A32100 !important; }
-
 .navbar .navbar-brand {
   padding-top: 0;
   padding-bottom: 0; }
@@ -136,5 +76,95 @@ main {
       border: none; }
       main .row .card .list-group-item {
         min-height: 50px; }
+
+.bg-custom {
+  background-color: #495A67 !important;
+  border-color: #495A67; }
+
+.btn {
+  width: 100%; }
+
+.btn-spinner {
+  margin-bottom: 2px;
+  margin-right: 2px; }
+
+.rounded-form {
+  border-radius: 10px; }
+
+#notification-container {
+  width: 500px;
+  max-width: 98%;
+  position: fixed;
+  top: 65px;
+  right: 5px; }
+  #notification-container .alert:hover {
+    cursor: pointer; }
+
+.status {
+  font-weight: bold; }
+
+.active {
+  color: #3ec120; }
+
+.inactive {
+  color: grey; }
+
+.suspended {
+  color: red; }
+
+.btn-spinner {
+  margin-bottom: 2px;
+  margin-right: 2px; }
+
+.btn-success {
+  background-color: #85C81A !important;
+  border-color: #85C81A !important; }
+
+.btn-success:hover {
+  background-color: #6fba23 !important;
+  border-color: #6fba23 !important; }
+
+.btn-outline-success {
+  color: #6fba23 !important;
+  border-color: #6fba23 !important; }
+
+.btn-outline-success:hover {
+  color: #fff !important;
+  background-color: #6fba23 !important;
+  border-color: #6fba23 !important; }
+
+.btn-primary {
+  background-color: #3e6ea0 !important;
+  border-color: #3e6ea0 !important; }
+
+.btn-primary:hover {
+  background-color: #3e6ea0 !important;
+  border-color: #3e6ea0 !important; }
+
+.btn-outline-primary {
+  color: #3e6ea0 !important;
+  border-color: #3e6ea0 !important; }
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+  background-color: #3e6ea0 !important;
+  border-color: #3e6ea0 !important; }
+
+.btn-danger {
+  background-color: #C92100 !important;
+  border-color: #C92100 !important; }
+
+.btn-danger:hover {
+  background-color: #A32100 !important;
+  border-color: #A32100 !important; }
+
+.btn-outline-danger {
+  color: #A32100 !important;
+  border-color: #A32100 !important; }
+
+.btn-outline-danger:hover {
+  color: #fff !important;
+  background-color: #A32100 !important;
+  border-color: #A32100 !important; }
 
 /*# sourceMappingURL=style.css.map */

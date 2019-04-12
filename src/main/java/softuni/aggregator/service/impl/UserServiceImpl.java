@@ -71,13 +71,13 @@ public class UserServiceImpl implements UserService {
         authorities.add(role);
         user.setAuthorities(authorities);
 
-        saveUser(user);
+        userRepository.save(user);
     }
 
     @Override
     public void updateProfile(User user, UserEditProfileBindingModel bindingModel) {
         mapper.map(bindingModel, user);
-        saveUser(user);
+        userRepository.save(user);
     }
 
     @Override
@@ -88,13 +88,33 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(bindingModel.getNewPassword()));
-        saveUser(user);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void suspendUser(Long userId) {
+        User user = getUser(userId);
+        user.setStatus(UserStatus.SUSPENDED);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void activateUser(Long userId) {
+        User user = getUser(userId);
+        user.setStatus(userIsInactive(user) ? UserStatus.INACTIVE : UserStatus.ACTIVE);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void processUserLogin(User user) {
+        user.setLastLogin(LocalDateTime.now());
+        user.setStatus(UserStatus.ACTIVE);
+        userRepository.save(user);
     }
 
     @Override
     public void updateRole(ChangeUserRoleBindingModel bindingModel) {
-        User user = userRepository.findById(bindingModel.getUserId())
-                .orElseThrow(() -> new NotFoundException("No such user."));
+        User user = getUser(bindingModel.getUserId());
 
         if (userIsRootAdmin(user)) {
             throw new ForbiddenActionException("You cannot change the ROOT ADMIN's role.");
@@ -104,17 +124,12 @@ public class UserServiceImpl implements UserService {
         Role role = getUserRole(bindingModel.getRoleName());
         authorities.add(role);
         user.setAuthorities(authorities);
-        saveUser(user);
+        userRepository.save(user);
     }
 
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
-    }
-
-    @Override
-    public void saveUser(User user) {
-        userRepository.save(user);
     }
 
     @Override
@@ -150,12 +165,16 @@ public class UserServiceImpl implements UserService {
     public void updateUserStatus() {
         log.info("Updating user status...");
         List<User> users = userRepository.findAll().stream()
-                .filter(u -> u.getLastLogin() == null
-                        || u.getLastLogin().isBefore(LocalDateTime.now().minusDays(1)))
+                .filter(this::userIsInactive)
+                .filter(u -> u.getStatus().equals(UserStatus.ACTIVE))
                 .peek(u -> u.setStatus(UserStatus.INACTIVE))
                 .collect(Collectors.toList());
 
         userRepository.saveAll(users);
+    }
+
+    private boolean userIsInactive(User user) {
+        return user.getLastLogin() == null || user.getLastLogin().isBefore(LocalDateTime.now().minusDays(1));
     }
 
     private boolean userIsRootAdmin(User user) {
@@ -174,5 +193,10 @@ public class UserServiceImpl implements UserService {
             }
         }
         throw new NotFoundException("No such role.");
+    }
+
+    private User getUser(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("No such user."));
     }
 }

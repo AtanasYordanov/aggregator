@@ -21,6 +21,19 @@ let http = (() => {
         return execute(url, options, onSuccess, onError);
     }
 
+    function put(url, data, onSuccess, onError) {
+
+        const options = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        return execute(url, options, onSuccess, onError);
+    }
+
     function del(url, onSuccess, onError) {
 
         const options = {
@@ -64,6 +77,7 @@ let http = (() => {
     return {
         get,
         post,
+        put,
         del,
         uploadFile
     };

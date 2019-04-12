@@ -118,4 +118,16 @@ public class AdminController {
 
         return new ResponseEntity<>(importsPageVO, HttpStatus.OK);
     }
+
+    @PutMapping(value = "/suspend/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> suspendUser(@PathVariable Long userId) {
+        userService.suspendUser(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "/activate/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activateUser(@PathVariable Long userId) {
+        userService.activateUser(userId);
+        return ResponseEntity.ok().build();
+    }
 }

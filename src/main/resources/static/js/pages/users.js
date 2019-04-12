@@ -46,16 +46,61 @@
                         </td>
                     `));
 
-                $tableRow.find('.btn-group')
-                    .append($('<button class="btn btn-outline-info">Change Role</button>')
-                        .on('click', () => displayRolesModal(user['id'], $tableRow)));
+                const $btnGroup = $tableRow.find('.btn-group');
 
-                $tableRow.find('.btn-group')
-                    .append($('<button class="btn btn-outline-danger">Suspend</button>'));
+                $btnGroup.append($('<button class="btn btn-outline-primary">Change Role</button>')
+                    .on('click', () => displayRolesModal(user['id'], $tableRow)));
+
+                if (status !== 'SUSPENDED') {
+                    appendSuspendButton(user, $btnGroup, $tableRow);
+                } else {
+                    appendActivateButton(user, $btnGroup, $tableRow);
+                }
 
                 $tableBody.append($tableRow);
             });
         }
+
+        function appendSuspendButton(user, $btnGroup, $tableRow) {
+            const $suspendBtn = $('<button class="btn btn-outline-danger">Suspend</button>');
+            $btnGroup.append($suspendBtn
+                .on('click', () => suspendUser(user, $btnGroup, $tableRow, $suspendBtn))
+            );
+        }
+
+        function appendActivateButton(user, $btnGroup, $tableRow) {
+            const $activateBtn = $('<button class="btn btn-outline-success">Activate</button>');
+            $btnGroup.append($activateBtn
+                .on('click', () => activateUser(user, $btnGroup, $tableRow, $activateBtn))
+            );
+        }
+
+        function suspendUser(user, $btnGroup, $tableRow, $suspendBtn) {
+            http.put(`/admin/suspend/${user['id']}`, {},
+                () => {
+                    const $statusField = $tableRow.find('.status');
+                    $statusField.text('SUSPENDED');
+                    $statusField.removeClass(user['status'].toLowerCase());
+                    $statusField.addClass('suspended');
+                    $suspendBtn.remove();
+                    user['status'] = 'SUSPENDED';
+                    appendActivateButton(user, $btnGroup, $tableRow)
+                });
+        }
+
+        function activateUser(user, $btnGroup, $tableRow, $activateBtn) {
+            http.put(`/admin/activate/${user['id']}`, {},
+                () => {
+                    const $statusField = $tableRow.find('.status');
+                    $statusField.text('ACTIVE');
+                    $statusField.removeClass(user['status'].toLowerCase());
+                    $statusField.addClass('active');
+                    $activateBtn.remove();
+                    user['status'] = 'ACTIVE';
+                    appendSuspendButton(user, $btnGroup, $tableRow)
+                });
+        }
+
 
         function displayRolesModal(userId, $tableRow) {
             $('#modal').remove();

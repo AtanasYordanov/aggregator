@@ -1,89 +1,13 @@
-$dark-blue: #495A67;
+$dark-blue-matted: #495A67;
 $green-button-color: #85C81A;
 $green-button-hover-color: #6fba23;
 $red-button-color: #C92100;
 $red-button-hover-color: #A32100;
+$dark-blue: #3e6ea0;
 
 body {
     font-family: 'Montserrat', sans-serif !important;
     background-color: #F3F6FA !important;;
-}
-
-.bg-custom {
-    background-color: $dark-blue !important;
-    border-color: $dark-blue;
-}
-
-.btn {
-    width: 100%;
-}
-
-.btn-spinner {
-    margin-bottom: 2px;
-    margin-right: 2px;
-}
-
-.rounded-form {
-    border-radius: 10px;
-}
-
-#notification-container {
-    width: 500px;
-    max-width: 98%;
-    position: fixed;
-    top: 65px;
-    right: 5px;
-
-    .alert:hover {
-        cursor: pointer;
-    }
-}
-
-.status {
-    font-weight: bold;
-}
-
-.active {
-    color: #3ec120;
-}
-
-.inactive {
-    color: grey;
-}
-
-.btn-spinner {
-    margin-bottom: 2px;
-    margin-right: 2px;
-}
-
-.btn-success {
-    background-color: $green-button-color !important;
-    border-color: $green-button-color !important;
-}
-
-.btn-success:hover {
-    background-color: $green-button-hover-color !important;
-    border-color: $green-button-hover-color !important;
-}
-
-.btn-primary {
-    background-color: #3e63a0 !important;
-    border-color: #3e63a0 !important;
-}
-
-.btn-primary:hover {
-    background-color: #295399 !important;
-    border-color: #295399 !important;
-}
-
-.btn-danger {
-    background-color: $red-button-color !important;
-    border-color: $red-button-color !important;
-}
-
-.btn-danger:hover {
-    background-color: $red-button-hover-color !important;
-    border-color: $red-button-hover-color !important;
 }
 
 .navbar {
@@ -206,12 +130,12 @@ main {
     }
 
     .page-item.active .page-link {
-        background-color: $dark-blue;
-        border-color: $dark-blue;
+        background-color: $dark-blue-matted;
+        border-color: $dark-blue-matted;
     }
 
     .page-link {
-        color: $dark-blue;
+        color: $dark-blue-matted;
     }
 
     .row {
@@ -227,5 +151,118 @@ main {
             }
         }
     }
+}
 
+.bg-custom {
+    background-color: $dark-blue-matted !important;
+    border-color: $dark-blue-matted;
+}
+
+.btn {
+    width: 100%;
+}
+
+.btn-spinner {
+    margin-bottom: 2px;
+    margin-right: 2px;
+}
+
+.rounded-form {
+    border-radius: 10px;
+}
+
+#notification-container {
+    width: 500px;
+    max-width: 98%;
+    position: fixed;
+    top: 65px;
+    right: 5px;
+
+    .alert:hover {
+        cursor: pointer;
+    }
+}
+
+.status {
+    font-weight: bold;
+}
+
+.active {
+    color: #3ec120;
+}
+
+.inactive {
+    color: grey;
+}
+
+.suspended {
+    color: red;
+}
+
+.btn-spinner {
+    margin-bottom: 2px;
+    margin-right: 2px;
+}
+
+.btn-success {
+    background-color: $green-button-color !important;
+    border-color: $green-button-color !important;
+}
+
+.btn-success:hover {
+    background-color: $green-button-hover-color !important;
+    border-color: $green-button-hover-color !important;
+}
+
+.btn-outline-success {
+    color: $green-button-hover-color !important;
+    border-color: $green-button-hover-color !important;
+}
+
+.btn-outline-success:hover {
+    color: #fff !important;
+    background-color: $green-button-hover-color !important;
+    border-color: $green-button-hover-color !important;
+}
+
+.btn-primary {
+    background-color: $dark-blue !important;
+    border-color: $dark-blue !important;
+}
+
+.btn-primary:hover {
+    background-color: $dark-blue !important;
+    border-color: $dark-blue !important;
+}
+
+.btn-outline-primary {
+    color: $dark-blue !important;
+    border-color: $dark-blue !important;
+}
+
+.btn-outline-primary:hover {
+    color: #fff !important;
+    background-color: $dark-blue !important;
+    border-color: $dark-blue !important;
+}
+
+.btn-danger {
+    background-color: $red-button-color !important;
+    border-color: $red-button-color !important;
+}
+
+.btn-danger:hover {
+    background-color: $red-button-hover-color !important;
+    border-color: $red-button-hover-color !important;
+}
+
+.btn-outline-danger {
+    color: $red-button-hover-color !important;
+    border-color: $red-button-hover-color !important;
+}
+
+.btn-outline-danger:hover {
+    color: #fff !important;
+    background-color: $red-button-hover-color !important;
+    border-color: $red-button-hover-color !important;
 }
