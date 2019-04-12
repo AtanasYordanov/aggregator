@@ -285,9 +285,9 @@ public class ImportServiceImpl implements ImportService {
     }
 
     private File saveTempFile(MultipartFile multipartFile) {
-        String basePath = servletContext.getRealPath("\\");
+        String basePath = servletContext.getRealPath("/");
         String uuid = UUID.randomUUID().toString();
-        String filePath = String.format("%s\\%s-%s", basePath, uuid, multipartFile.getOriginalFilename());
+        String filePath = String.format("%s/%s-%s", basePath, uuid, multipartFile.getOriginalFilename());
 
         File file;
         try {

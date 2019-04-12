@@ -36,10 +36,6 @@ public class ExcelWriterImpl implements ExcelWriter {
         String fileName = UUID.randomUUID().toString();
         String filePath = ExcelConstants.EXPORT_BASE_PATH + fileName + ExcelConstants.EXPORT_FILE_EXTENSION;
 
-        log.info("______________________________________________________");
-        log.info("FILEEEEEE" + filePath);
-        log.info("______________________________________________________");
-
         WriteExcelColumn[] columns = exportType.getColumns();
 
         try (FileOutputStream fileOut = new FileOutputStream(filePath);
@@ -51,12 +47,6 @@ public class ExcelWriterImpl implements ExcelWriter {
 
             workbook.write(fileOut);
 
-
-            File file = new File(filePath);
-
-            log.info("______________________________________________________");
-            log.error("FINAL"+ file.getCanonicalPath());
-            log.info("______________________________________________________");
             return new File(filePath);
         } catch (IOException e) {
             log.error("Failed to export %s.", exportType.getExportName());
@@ -134,11 +124,6 @@ public class ExcelWriterImpl implements ExcelWriter {
 
     private void createDirectoryIfNotExists() {
         File dir = new File(ExcelConstants.EXPORT_BASE_PATH);
-            log.error("_____________________________________________________");
-            log.error("DIRRRRRRRRRRRRR" +  dir.getPath());
-            log.error("DIRRRRRRRRRRRRR" +  dir.getAbsolutePath());
-            log.error("_____________________________________________________");
-
         if (!dir.exists()) {
             if (!dir.mkdir()) {
                 log.error("Failed to create directory: {}!", dir.getPath());
