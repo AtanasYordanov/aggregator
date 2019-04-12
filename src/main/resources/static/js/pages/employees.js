@@ -92,8 +92,8 @@
 
                 $tableRow.append($('<td>').text(currentPage * itemsPerPage + i + 1));
                 $tableRow.append($('<td>').text(employee['fullName']));
-                $tableRow.append($('<td>').text(employee['email']));
                 $tableRow.append($('<td>').text(employee['company']));
+                $tableRow.append($('<td>').text(employee['position']));
                 $tableRow.append($(`<td class="btn-col"><a href="/employees/${employee['id']}" 
                                             class="btn btn-outline-secondary btn-sm">View Details</a></td>`));
 

@@ -95,6 +95,7 @@
                 $tableRow.append($('<td>').text(company['name'] || 'n/a'));
                 $tableRow.append($('<td>').text(company['industry'] || 'n/a'));
                 $tableRow.append($('<td>').text(company['employeesCount'] || 'n/a'));
+                $tableRow.append($('<td>').text(company['yearFound'] || 'n/a'));
                 $tableRow.append($('<td>')
                     .append($(`<a href="https://${company['website']}">${company['website']}</a>`)));
 
