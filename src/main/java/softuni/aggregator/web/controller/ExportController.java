@@ -10,8 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.entities.User;
-import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
-import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
@@ -52,7 +51,7 @@ public class ExportController {
 
     @PostMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Callable<Integer> exportEmployees(EmployeesFilterDataModel filterData
+    public Callable<Integer> exportEmployees(FilterDataModel filterData
             , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
 
         return () -> {
@@ -66,7 +65,7 @@ public class ExportController {
 
     @PostMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Callable<Integer> exportCompanies(CompaniesFilterDataModel filterData
+    public Callable<Integer> exportCompanies(FilterDataModel filterData
             , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
         return () -> exportService.exportCompanies(loggedUser, exportModel, filterData);
     }

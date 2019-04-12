@@ -11,6 +11,7 @@ public class CompanyListVO {
 
     private Long id;
     private String name;
+    private Long employeesCount;
     private String website;
     private String industry;
 

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.SubIndustry;
-import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.CompanyDetailsVO;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.repository.CompanyRepository;
@@ -37,25 +37,54 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<ExcelExportDto> getCompaniesForExport(CompaniesFilterDataModel filterData) {
+    @SuppressWarnings("Duplicates")
+    public List<ExcelExportDto> getCompaniesForExport(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        return companyRepository.getFilteredCompanies(industries).stream()
+        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
+        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
+        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
+        Integer yearFound = filterData.getYearFound();
+        String city = filterData.getCity();
+        String country = filterData.getCountry();
+
+        return companyRepository.getFilteredCompanies(industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city)
+                .stream()
                 .map(CompanyExportDto::new)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<CompanyListVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData) {
+    @SuppressWarnings("Duplicates")
+    public List<CompanyListVO> getCompaniesPage(Pageable pageable, FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        return companyRepository.getFilteredCompaniesPage(pageable, industries).stream()
+        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
+        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
+        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
+        Integer yearFound = filterData.getYearFound();
+        String city = filterData.getCity();
+        String country = filterData.getCountry();
+
+        return companyRepository.getFilteredCompaniesPage(pageable, industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city)
+                .stream()
                 .map(c -> mapper.map(c, CompanyListVO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public long getFilteredCompaniesCount(CompaniesFilterDataModel filterData) {
+    @SuppressWarnings("Duplicates")
+    public long getFilteredCompaniesCount(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        return companyRepository.getFilteredCompaniesCount(industries);
+        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
+        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
+        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
+        Integer yearFound = filterData.getYearFound();
+        String city = filterData.getCity();
+        String country = filterData.getCountry();
+
+        return companyRepository.getFilteredCompaniesCount(industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city);
     }
 
     @Override

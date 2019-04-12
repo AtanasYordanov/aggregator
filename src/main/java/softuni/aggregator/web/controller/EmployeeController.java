@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
 import softuni.aggregator.domain.model.vo.EmployeeListVO;
 import softuni.aggregator.domain.model.vo.page.EmployeesPageVO;
@@ -46,7 +46,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EmployeesPageVO> getEmployeesData(Pageable pageable, EmployeesFilterDataModel filterData) {
+    public ResponseEntity<EmployeesPageVO> getEmployeesData(Pageable pageable, FilterDataModel filterData) {
         List<EmployeeListVO> employees = employeeService.getEmployeesPage(pageable, filterData);
         List<String> subIndustries = subIndustryService.getAllIndustryNames();
         List<String> mainIndustries = mainIndustryService.getAllIndustryNames();
@@ -62,7 +62,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EmployeesPageVO> getEmployeesPage(Pageable pageable, EmployeesFilterDataModel filterData) {
+    public ResponseEntity<EmployeesPageVO> getEmployeesPage(Pageable pageable, FilterDataModel filterData) {
         List<EmployeeListVO> employees = employeeService.getEmployeesPage(pageable, filterData);
         long employeesCount = employeeService.getFilteredEmployeesCount(filterData);
 

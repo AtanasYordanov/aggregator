@@ -14,27 +14,7 @@
 
             <div class="container-fluid section-header">
                 <h2 class="container-fluid text-center mb-4">Employees Catalog</h2>
-                <form class="row">
-                    <div class="form-row col-lg-4">
-                        <div class="form-group col-lg-12">
-                            <label for="industry-select"> </label>
-                            <select id="industry-select" class="form-control">
-                                <option value="all">All Industries</option>
-                                <optgroup id="main-industries" label="________ Main Industries________">
-                                </optgroup>
-                                <optgroup id="sub-industries" label="________ Sub Industries________">
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4"></div>
-                    <div class="btn-wrapper col-lg-2"></div>
-                    <div class="btn-wrapper col-lg-2">
-                        <button id="export-btn" class="btn btn-success" type="button">
-                            <span class="btn-text">EXPORT</span>
-                        </button>
-                    </div>
-                </form>
+                <div th:replace="~{fragments/catalog-filters}"></div>
             </div>
 
             <div th:replace="~{fragments/pagination}"></div>

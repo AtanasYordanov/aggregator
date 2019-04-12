@@ -6,24 +6,46 @@
         const $tableBody = $('#employees-table tbody');
         const $spinner = $('.table-spinner-wrapper');
         const $exportBtn = $('#export-btn');
+        const $filterBtn = $('#filter-btn');
+
+        const $industrySelect = $('#industry-select');
+        const $minEmployeesCountField = $('#min-employee-count');
+        const $maxEmployeesCountField = $('#max-employee-count');
+        const $includeCompaniesWithNoDataSelect = $('#include-companies-with-no-data-select');
+        const $yearFoundField = $('#year-found-input');
+        const $countryField = $('#country-input');
+        const $cityField = $('#city-input');
 
         let totalEmployees;
         let currentPage = 0;
-        let selectedIndustry = 'all';
 
         attachEvents();
         fetchData();
 
         function attachEvents() {
-            $('#industry-select').on('change', (e) => {
-                selectedIndustry = e.target.value;
-                fetchEmployees(currentPage);
-            });
-            $exportBtn.on('click', displayExportModal)
+            $industrySelect.on('change', () => fetchEmployees(currentPage));
+            $includeCompaniesWithNoDataSelect.on('change', () => fetchEmployees(currentPage));
+            attachOnEnterPressEvent($minEmployeesCountField);
+            attachOnEnterPressEvent($maxEmployeesCountField);
+            attachOnEnterPressEvent($yearFoundField);
+            attachOnEnterPressEvent($countryField);
+            attachOnEnterPressEvent($cityField);
+
+            $exportBtn.on('click', displayExportModal);
+            $filterBtn.on('click', () => fetchEmployees(currentPage));
+
+            function attachOnEnterPressEvent($input) {
+                $input.keypress(function (event) {
+                    const keycode = (event.keyCode ? event.keyCode : event.which);
+                    if (keycode === 13) {
+                        fetchEmployees(currentPage);
+                    }
+                });
+            }
         }
 
         function fetchData() {
-            http.get(`/employees/data?page=0&size=${itemsPerPage}&industry=${selectedIndustry}`
+            http.get(`/employees/data` + buildQueryString()
                 , (data) => {
                     $spinner.hide();
                     renderMainIndustries(data['mainIndustries']);
@@ -40,7 +62,7 @@
             $tableBody.empty();
             $spinner.show();
 
-            http.get(`/employees/page?page=${page}&size=${itemsPerPage}&industry=${selectedIndustry}`
+            http.get(`/employees/page` + buildQueryString()
                 , (data) => {
                     $spinner.hide();
                     renderEmployees(data['employees']);
@@ -99,7 +121,7 @@
                     </div>`);
 
             const $exportNameInput = $exportNameImport.find('#export-name');
-            $exportNameInput.val(CustomUtils.buildExportName(selectedIndustry));
+            $exportNameInput.val(CustomUtils.buildExportName($industrySelect.val()));
 
             $modal.find('#confirm-btn').on('click', () => exportEmployees($modal, $exportNameInput, $includeCompaniesSelect));
 
@@ -119,7 +141,8 @@
             const exportName = $exportNameInput.val();
             const includeCompanies = $includeCompaniesSelect.find('#include-companies-select').prop("checked");
 
-            http.post(`/exports/employees?industry=${selectedIndustry}`, {exportName, includeCompanies}
+            http.post(`/exports/employees` + buildQueryString()
+                , {exportName, includeCompanies}
                 , (count) => {
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
@@ -134,6 +157,22 @@
 
             $modal.modal('hide');
             $modal.detach();
+        }
+
+        function buildQueryString() {
+            const industry = $industrySelect.val();
+            const minEmployeesCount = $minEmployeesCountField.val();
+            const maxEmployeesCount = $maxEmployeesCountField.val();
+            const yearFound = $yearFoundField.val();
+            const includeCompaniesWithNoEmployeeData = $includeCompaniesWithNoDataSelect.prop("checked");
+            const country = $countryField.val();
+            const city = $cityField.val();
+
+            let url = `?page=${currentPage}&size=${itemsPerPage}`;
+            url += `&industry=${industry}&minEmployeesCount=${minEmployeesCount}&maxEmployeesCount=${maxEmployeesCount}`;
+            url += `&includeCompaniesWithNoEmployeeData=${includeCompaniesWithNoEmployeeData}&yearFound=${yearFound}`;
+            url += `&country=${country}&city=${city}`;
+            return url;
         }
     });
 })();

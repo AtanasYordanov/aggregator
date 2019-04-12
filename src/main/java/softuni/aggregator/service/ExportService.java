@@ -2,8 +2,7 @@ package softuni.aggregator.service;
 
 import org.springframework.data.domain.Pageable;
 import softuni.aggregator.domain.entities.User;
-import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
-import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
 
@@ -13,9 +12,9 @@ import java.util.List;
 
 public interface ExportService {
 
-    int exportEmployees(User user, ExportBindingModel exportModel, EmployeesFilterDataModel filterData) throws FileNotFoundException;
+    int exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData) throws FileNotFoundException;
 
-    int exportCompanies(User user, ExportBindingModel exportModel, CompaniesFilterDataModel filterData);
+    int exportCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData);
 
     byte[] getExport(HttpServletResponse response, Long exportId);
 
@@ -25,5 +24,5 @@ public interface ExportService {
 
     void deleteOldExports();
 
-    int exportEmployeesWithCompanies(User loggedUser, ExportBindingModel exportModel, EmployeesFilterDataModel filterData);
+    int exportEmployeesWithCompanies(User loggedUser, ExportBindingModel exportModel, FilterDataModel filterData);
 }

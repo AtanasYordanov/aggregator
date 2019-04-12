@@ -11,6 +11,7 @@ body {
 
 .bg-custom {
     background-color: $dark-blue !important;
+    border-color: $dark-blue !important;
 }
 
 .btn {
@@ -63,6 +64,16 @@ body {
 .btn-success:hover {
     background-color: $green-button-hover-color !important;
     border-color: $green-button-hover-color !important;
+}
+
+.btn-primary {
+    background-color: #3e63a0 !important;
+    border-color: #3e63a0 !important;
+}
+
+.btn-primary:hover {
+    background-color: #295399 !important;
+    border-color: #295399 !important;
 }
 
 .btn-danger {
@@ -128,6 +139,10 @@ main {
             .btn {
                 width: 100%;
             }
+        }
+
+        #include-companies-with-no-data-select-box {
+            padding: 2.5rem 0 0 2rem;
         }
     }
 
@@ -212,4 +227,5 @@ main {
             }
         }
     }
+
 }

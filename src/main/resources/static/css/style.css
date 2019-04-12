@@ -3,7 +3,8 @@ body {
   background-color: #F3F6FA !important; }
 
 .bg-custom {
-  background-color: #495A67 !important; }
+  background-color: #495A67 !important;
+  border-color: #495A67 !important; }
 
 .btn {
   width: 100%; }
@@ -45,6 +46,14 @@ body {
   background-color: #6fba23 !important;
   border-color: #6fba23 !important; }
 
+.btn-primary {
+  background-color: #3e63a0 !important;
+  border-color: #3e63a0 !important; }
+
+.btn-primary:hover {
+  background-color: #295399 !important;
+  border-color: #295399 !important; }
+
 .btn-danger {
   background-color: #C92100 !important;
   border-color: #C92100 !important; }
@@ -85,6 +94,8 @@ main {
     padding-bottom: 1rem !important; }
     main .section-header .btn-wrapper .btn {
       width: 100%; }
+  main .section-header #include-companies-with-no-data-select-box {
+    padding: 2.5rem 0 0 2rem; }
   main .table-wrapper {
     position: relative; }
     main .table-wrapper .table {

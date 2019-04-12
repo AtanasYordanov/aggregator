@@ -23,15 +23,30 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByEmailIn(List<String> emails);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE (e.company.industry IN :industries OR :industries IS NULL)")
-    List<Employee> getFilteredEmployeesPage(Pageable pageable, List<SubIndustry> industries);
+            "WHERE (e.company.industry IN :industries OR :industries IS NULL) " +
+            "AND ((:includeCompaniesWithNoEmployeeData = TRUE AND e.company.employeesCount IS NULL) OR (e.company.employeesCount >= :minEmployees AND e.company.employeesCount <= :maxEmployees)) " +
+            "AND (:yearFound IS NULL OR e.company.yearFound = :yearFound) " +
+            "AND (:country IS NULL OR :country = '' OR LOWER(e.company.country) = LOWER(:country)) " +
+            "AND (:city IS NULL OR :city = '' OR LOWER(e.company.city) = LOWER(:city))")
+    List<Employee> getFilteredEmployeesPage(Pageable pageable, List<SubIndustry> industries, Integer minEmployees, Integer maxEmployees,
+                                            Boolean includeCompaniesWithNoEmployeeData, Integer yearFound, String country, String city);
 
     @Query("SELECT COUNT(e.id) FROM Employee e " +
-            "WHERE (e.company.industry IN :industries  OR :industries IS NULL)")
-    long getFilteredEmployeesCount(List<SubIndustry> industries);
+            "WHERE (e.company.industry IN :industries OR :industries IS NULL) " +
+            "AND ((:includeCompaniesWithNoEmployeeData = TRUE AND e.company.employeesCount IS NULL) OR (e.company.employeesCount >= :minEmployees AND e.company.employeesCount <= :maxEmployees)) " +
+            "AND (:yearFound IS NULL OR e.company.yearFound = :yearFound) " +
+            "AND (:country IS NULL OR :country = '' OR LOWER(e.company.country) = LOWER(:country)) " +
+            "AND (:city IS NULL OR :city = '' OR LOWER(e.company.city) = LOWER(:city))")
+    long getFilteredEmployeesCount(List<SubIndustry> industries, Integer minEmployees, Integer maxEmployees,
+                                   Boolean includeCompaniesWithNoEmployeeData, Integer yearFound, String country, String city);
 
     @EntityGraph(attributePaths = {"company", "company.industry", "company.companyEmails"})
-    @Query("SELECT e FROM Employee e WHERE " +
-            "(e.company.industry IN :industries OR :industries IS NULL)")
-    List<Employee> getFilteredEmployees(List<SubIndustry> industries);
+    @Query("SELECT e FROM Employee e " +
+            "WHERE (e.company.industry IN :industries OR :industries IS NULL) " +
+            "AND ((:includeCompaniesWithNoEmployeeData = TRUE AND e.company.employeesCount IS NULL) OR (e.company.employeesCount >= :minEmployees AND e.company.employeesCount <= :maxEmployees)) " +
+            "AND (:yearFound IS NULL OR e.company.yearFound = :yearFound) " +
+            "AND (:country IS NULL OR :country = '' OR LOWER(e.company.country) = LOWER(:country)) " +
+            "AND (:city IS NULL OR :city = '' OR LOWER(e.company.city) = LOWER(:city))")
+    List<Employee> getFilteredEmployees(List<SubIndustry> industries, Integer minEmployees, Integer maxEmployees,
+                                        Boolean includeCompaniesWithNoEmployeeData, Integer yearFound, String country, String city);
 }

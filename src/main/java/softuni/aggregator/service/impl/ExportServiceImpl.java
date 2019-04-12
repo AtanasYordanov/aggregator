@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.domain.entities.Export;
 import softuni.aggregator.domain.entities.User;
-import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
-import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
 import softuni.aggregator.domain.repository.ExportRepository;
@@ -54,7 +53,7 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public int exportEmployees(User user, ExportBindingModel exportModel, EmployeesFilterDataModel filterData) {
+    public int exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
         PerformanceUtils.startTimer("asdasdadasd");
         List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport(filterData);
         PerformanceUtils.stopTimer("asdasdadasd");
@@ -67,7 +66,7 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public int exportCompanies(User user, ExportBindingModel exportModel, CompaniesFilterDataModel filterData) {
+    public int exportCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
         List<ExcelExportDto> companies = companyService.getCompaniesForExport(filterData);
         File file = excelWriter.writeExcel(companies, ExportType.COMPANIES);
         int itemsCount = companies.size();
@@ -77,7 +76,7 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public int exportEmployeesWithCompanies(User user, ExportBindingModel exportModel, EmployeesFilterDataModel filterData) {
+    public int exportEmployeesWithCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
         List<ExcelExportDto> data = employeeService.getEmployeesWithCompaniesForExport(filterData);
         File file = excelWriter.writeExcel(data, ExportType.MIXED);
         int itemsCount = data.size();

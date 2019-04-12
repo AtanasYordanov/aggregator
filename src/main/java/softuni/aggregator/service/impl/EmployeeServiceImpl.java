@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Employee;
 import softuni.aggregator.domain.entities.SubIndustry;
-import softuni.aggregator.domain.model.binding.EmployeesFilterDataModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
 import softuni.aggregator.domain.model.vo.EmployeeListVO;
 import softuni.aggregator.domain.repository.EmployeeRepository;
@@ -40,33 +40,72 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<ExcelExportDto> getEmployeesForExport(EmployeesFilterDataModel filterData) {
+    @SuppressWarnings("Duplicates")
+    public List<ExcelExportDto> getEmployeesForExport(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        return employeeRepository.getFilteredEmployees(industries).stream()
+        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
+        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
+        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
+        Integer yearFound = filterData.getYearFound();
+        String city = filterData.getCity();
+        String country = filterData.getCountry();
+
+        return employeeRepository.getFilteredEmployees(industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city)
+                .stream()
                 .map(EmployeeExportDto::new)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ExcelExportDto> getEmployeesWithCompaniesForExport(EmployeesFilterDataModel filterData) {
+    @SuppressWarnings("Duplicates")
+    public List<ExcelExportDto> getEmployeesWithCompaniesForExport(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        return employeeRepository.getFilteredEmployees(industries).stream()
+        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
+        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
+        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
+        Integer yearFound = filterData.getYearFound();
+        String city = filterData.getCity();
+        String country = filterData.getCountry();
+
+        return employeeRepository.getFilteredEmployees(industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city)
+                .stream()
                 .map(this::mapToEmployeeWithCompanyDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<EmployeeListVO> getEmployeesPage(Pageable pageable, EmployeesFilterDataModel filterData) {
+    @SuppressWarnings("Duplicates")
+    public List<EmployeeListVO> getEmployeesPage(Pageable pageable, FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        return employeeRepository.getFilteredEmployeesPage(pageable, industries).stream()
+        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
+        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
+        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
+        Integer yearFound = filterData.getYearFound();
+        String city = filterData.getCity();
+        String country = filterData.getCountry();
+
+        return employeeRepository.getFilteredEmployeesPage(pageable, industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city)
+                .stream()
                 .map(e -> mapper.map(e, EmployeeListVO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public long getFilteredEmployeesCount(EmployeesFilterDataModel filterData) {
+    @SuppressWarnings("Duplicates")
+    public long getFilteredEmployeesCount(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        return employeeRepository.getFilteredEmployeesCount(industries);
+        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
+        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
+        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
+        Integer yearFound = filterData.getYearFound();
+        String city = filterData.getCity();
+        String country = filterData.getCountry();
+
+        return employeeRepository.getFilteredEmployeesCount(industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city);
     }
 
     @Override

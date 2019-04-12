@@ -8,7 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.aggregator.domain.model.binding.CompaniesFilterDataModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.CompanyDetailsVO;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
 import softuni.aggregator.domain.model.vo.page.CompaniesPageVO;
@@ -43,7 +43,7 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CompaniesPageVO> getCompaniesData(Pageable pageable, CompaniesFilterDataModel filterData) {
+    public ResponseEntity<CompaniesPageVO> getCompaniesData(Pageable pageable, FilterDataModel filterData) {
         List<CompanyListVO> companies = companyService.getCompaniesPage(pageable, filterData);
         List<String> subIndustries = subIndustryService.getAllIndustryNames();
         List<String> mainIndustries = mainIndustryService.getAllIndustryNames();
@@ -59,7 +59,7 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CompaniesPageVO> getCompaniesPage(Pageable pageable, CompaniesFilterDataModel filterData) {
+    public ResponseEntity<CompaniesPageVO> getCompaniesPage(Pageable pageable, FilterDataModel filterData) {
         List<CompanyListVO> companies = companyService.getCompaniesPage(pageable, filterData);
         long companiesCount = companyService.getFilteredCompaniesCount(filterData);
 
