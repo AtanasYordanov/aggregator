@@ -4,7 +4,7 @@ body {
 
 .bg-custom {
   background-color: #495A67 !important;
-  border-color: #495A67 !important; }
+  border-color: #495A67; }
 
 .btn {
   width: 100%; }
@@ -69,7 +69,7 @@ body {
     max-width: 35px; }
 .navbar .dropdown-menu {
   background-color: inherit;
-  border: 1px solid #61717D;
+  border: 1px solid #61717D !important;
   min-width: 8.5rem; }
 .navbar .active {
   font-weight: 600; }

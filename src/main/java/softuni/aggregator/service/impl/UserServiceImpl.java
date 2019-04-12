@@ -7,10 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import softuni.aggregator.domain.entities.Role;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.enums.UserStatus;
 import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
+import softuni.aggregator.domain.model.binding.UserChangePasswordBindingModel;
+import softuni.aggregator.domain.model.binding.UserEditProfileBindingModel;
 import softuni.aggregator.domain.model.binding.UserRegisterBindingModel;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
 import softuni.aggregator.domain.model.vo.UserListVO;
@@ -67,6 +71,23 @@ public class UserServiceImpl implements UserService {
         authorities.add(role);
         user.setAuthorities(authorities);
 
+        saveUser(user);
+    }
+
+    @Override
+    public void updateProfile(User user, UserEditProfileBindingModel bindingModel) {
+        mapper.map(bindingModel, user);
+        saveUser(user);
+    }
+
+    @Override
+    public void updatePassword(User user, UserChangePasswordBindingModel bindingModel, BindingResult bindingResult) {
+        if (!passwordEncoder.matches(bindingModel.getOldPassword(), user.getPassword())) {
+            bindingResult.addError(new FieldError("bindingModel", "oldPassword", "Wrong password provided"));
+            return;
+        }
+
+        user.setPassword(passwordEncoder.encode(bindingModel.getNewPassword()));
         saveUser(user);
     }
 

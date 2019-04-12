@@ -14,7 +14,7 @@
         <div class="row my-4">
 
             <div class="container-fluid section-header">
-                <h2 class="container-fluid text-center mb-4">User Details</h2>
+                <h2 class="container-fluid text-center mb-4">Profile</h2>
             </div>
 
             <div class="container-fluid text-center table-wrapper align-middle mt-4 w-75">
@@ -32,32 +32,17 @@
                             <td>Email</td>
                             <td th:text="${user.email}"></td>
                         </tr>
-                        <tr>
-                            <td>Role</td>
-                            <td th:text="${user.role}"></td>
-                        </tr>
-                        <tr>
-                            <td>Imports</td>
-                            <td th:text="${user.importsCount}"></td>
-                        </tr>
-                        <tr >
-                            <td>Exports</td>
-                            <td th:text="${user.exportsCount}"></td>
-                        </tr>
-                        <tr>
-                            <td>Last Login</td>
-                            <td th:text="${#temporals.format(user.lastLogin, 'dd-MM-yyyy HH:mm')}"></td>
-                        </tr>
-                        <tr>
-                            <td>Status</td>
-                            <td class="status" th:classappend="${#strings.toLowerCase(user.status)}" th:text="${user.status}"></td>
-                        </tr>
                     </tbody>
                 </table>
-                <div class="row">
-                    <a class="btn btn-outline-secondary col-lg-3 mx-auto mt-4" th:href="@{/admin/users}">
-                        Back to Users
-                    </a>
+                <div>
+                    <div class="mx-auto">
+                        <a class="btn btn-outline-secondary mt-4 w-25 mr-2" th:href="@{/profile/edit}">
+                            Edit Profile
+                        </a>
+                        <a class="btn btn-outline-secondary mt-4 w-25 ml-2" th:href="@{/profile/password}">
+                            Change Password
+                        </a>
+                    </div>
                 </div>
             </div>
 

@@ -11,7 +11,7 @@ body {
 
 .bg-custom {
     background-color: $dark-blue !important;
-    border-color: $dark-blue !important;
+    border-color: $dark-blue;
 }
 
 .btn {
@@ -99,7 +99,7 @@ body {
 
     .dropdown-menu {
         background-color: inherit;
-        border: 1px solid #61717D;
+        border: 1px solid #61717D !important;
         min-width: 8.5rem;
     }
 

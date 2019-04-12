@@ -62,15 +62,15 @@
                             ADMIN
                         </a>
                         <div class="dropdown-menu bg-custom" aria-labelledby="admin-dropdown">
-                            <a class="nav-link text-white" th:href="@{/admin/users}"
+                            <a class="nav-link text-white pt-1 pb-1 pl-1 mb-0" th:href="@{/admin/users}"
                                th:classappend="${#httpServletRequest.requestURI.contains('admin/users') ? 'active' : ''}">
                                 Users
                             </a>
-                            <a class="nav-link text-white" th:href="@{/admin/exports}"
+                            <a class="nav-link text-white pt-1 pb-1 pl-1 mb-0" th:href="@{/admin/exports}"
                                th:classappend="${#httpServletRequest.requestURI.contains('admin/exports') ? 'active' : ''}">
                                 All Exports
                             </a>
-                            <a class="nav-link text-white" th:href="@{/admin/imports}"
+                            <a class="nav-link text-white pt-1 pb-1 pl-1 mb-0" th:href="@{/admin/imports}"
                                th:classappend="${#httpServletRequest.requestURI.contains('admin/imports') ? 'active' : ''}">
                                 All Imports
                             </a>
@@ -83,6 +83,10 @@
                         </a>
                         <div class="dropdown-menu bg-custom p-1" aria-labelledby="user-dropdown">
                             <h6 class="nav-item text-white pt-1 pb-1 pl-1 mb-0" th:text="${loggedUser.role}"></h6>
+                            <a class="nav-link text-white pt-1 pb-1 pl-1 mb-0" th:href="@{/profile}"
+                               th:classappend="${#httpServletRequest.requestURI.contains('profile') ? 'active' : ''}">
+                                 Profile
+                            </a>
                             <div class="nav-item">
                                 <form th:action="@{/logout}" method="post">
                                     <button class="nav-link text-white pt-1 pb-1 pl-1" type="submit">
