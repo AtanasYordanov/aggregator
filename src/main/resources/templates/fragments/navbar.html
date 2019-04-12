@@ -39,13 +39,15 @@
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link text-white" th:href="@{/exports}"
-                       th:classappend="${#httpServletRequest.requestURI.contains('exports') ? 'active' : ''}">
+                       th:classappend="${#httpServletRequest.requestURI.contains('exports')
+                       && !#httpServletRequest.requestURI.contains('admin') ? 'active' : ''}">
                         EXPORTS
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ROOT_ADMIN', 'ADMIN', 'MODERATOR')">
                     <a class="nav-link text-white" th:href="@{/imports}"
-                       th:classappend="${#httpServletRequest.requestURI.contains('imports') ? 'active' : ''}">
+                       th:classappend="${#httpServletRequest.requestURI.contains('imports')
+                       && !#httpServletRequest.requestURI.contains('admin') ? 'active' : ''}">
                         IMPORTS
                     </a>
                 </li>
@@ -63,6 +65,14 @@
                             <a class="nav-link text-white" th:href="@{/admin/users}"
                                th:classappend="${#httpServletRequest.requestURI.contains('admin/users') ? 'active' : ''}">
                                 Users
+                            </a>
+                            <a class="nav-link text-white" th:href="@{/admin/exports}"
+                               th:classappend="${#httpServletRequest.requestURI.contains('admin/exports') ? 'active' : ''}">
+                                All Exports
+                            </a>
+                            <a class="nav-link text-white" th:href="@{/admin/imports}"
+                               th:classappend="${#httpServletRequest.requestURI.contains('admin/imports') ? 'active' : ''}">
+                                All Imports
                             </a>
                         </div>
                     </li>

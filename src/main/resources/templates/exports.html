@@ -13,7 +13,8 @@
         <div class="row my-4">
 
             <div class="container-fluid section-header">
-                <h2 class="container-fluid text-center mb-4">Exports</h2>
+                <h2 class="container-fluid text-center mb-4"
+                    th:text="${#httpServletRequest.requestURI.contains('admin')} ? 'All Exports' : 'Exports'"></h2>
             </div>
 
             <div th:replace="~{fragments/pagination}"></div>
@@ -27,6 +28,7 @@
                         <th scope="col">Type</th>
                         <th scope="col">Items count</th>
                         <th scope="col">Generated on</th>
+                        <th scope="col" th:if="${#httpServletRequest.requestURI.contains('admin')}">User email</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>

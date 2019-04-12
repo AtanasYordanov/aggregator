@@ -101,8 +101,24 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public long getExportsCount(User user) {
+    public List<ExportListVO> getAllExportsPage(Pageable pageable) {
+        return exportRepository.findAll(pageable).stream()
+                .map(e -> {
+                    ExportListVO exportVO = mapper.map(e, ExportListVO.class);
+                    exportVO.setUserEmail(e.getUser().getEmail());
+                    return exportVO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public long getExportsCountForUser(User user) {
         return exportRepository.countByUser(user);
+    }
+
+    @Override
+    public long getAllExportsCount() {
+        return exportRepository.count();
     }
 
     @Override

@@ -10,9 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.enums.UserRole;
 import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
+import softuni.aggregator.domain.model.vo.ExportListVO;
+import softuni.aggregator.domain.model.vo.ImportListVO;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
 import softuni.aggregator.domain.model.vo.UserListVO;
+import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
+import softuni.aggregator.domain.model.vo.page.ImportsPageVO;
 import softuni.aggregator.domain.model.vo.page.UsersPageVO;
+import softuni.aggregator.service.ExportService;
+import softuni.aggregator.service.ImportService;
 import softuni.aggregator.service.UserService;
 
 import java.util.ArrayList;
@@ -25,10 +31,14 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private final UserService userService;
+    private final ExportService exportService;
+    private final ImportService importService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, ExportService exportService, ImportService importService) {
         this.userService = userService;
+        this.exportService = exportService;
+        this.importService = importService;
     }
 
     @GetMapping("/users")
@@ -71,5 +81,41 @@ public class AdminController {
     public ResponseEntity<?> changeUserRole(@RequestBody ChangeUserRoleBindingModel bindingModel) {
         userService.updateRole(bindingModel);
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+    }
+
+    @GetMapping("/exports")
+    public ModelAndView allExports(ModelAndView model) {
+        model.setViewName("exports");
+        return model;
+    }
+
+    @GetMapping(value = "/exports/page", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ExportsPageVO> getAllExports(Pageable pageable) {
+        List<ExportListVO> exports = exportService.getAllExportsPage(pageable);
+        long exportsCount = exportService.getAllExportsCount();
+
+        ExportsPageVO exportsPageVO = new ExportsPageVO();
+        exportsPageVO.setExports(exports);
+        exportsPageVO.setTotalItemsCount(exportsCount);
+
+        return new ResponseEntity<>(exportsPageVO, HttpStatus.OK);
+    }
+
+    @GetMapping("/imports")
+    public ModelAndView allImports(ModelAndView model) {
+        model.setViewName("imports");
+        return model;
+    }
+
+    @GetMapping("/imports/page")
+    public ResponseEntity<ImportsPageVO> getAllImports(Pageable pageable) {
+        List<ImportListVO> imports = importService.getAllImportsPage(pageable);
+        long importsCount = importService.getAllImportsCount();
+
+        ImportsPageVO importsPageVO = new ImportsPageVO();
+        importsPageVO.setImports(imports);
+        importsPageVO.setTotalItemsCount(importsCount);
+
+        return new ResponseEntity<>(importsPageVO, HttpStatus.OK);
     }
 }

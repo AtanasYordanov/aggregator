@@ -20,9 +20,13 @@ public interface ExportService {
 
     List<ExportListVO> getExportsPage(Pageable pageable, User user);
 
-    long getExportsCount(User user);
+    long getExportsCountForUser(User user);
 
     void deleteOldExports();
 
     int exportEmployeesWithCompanies(User loggedUser, ExportBindingModel exportModel, FilterDataModel filterData);
+
+    List<ExportListVO> getAllExportsPage(Pageable pageable);
+
+    long getAllExportsCount();
 }

@@ -25,7 +25,7 @@ let CustomUtils = (() => {
         if (selectedIndustry === 'all') {
             name = 'All_Industries'
         } else {
-            name = selectedIndustry.substring(4);
+            name = selectedIndustry.substring(selectedIndustry.indexOf(':') + 1);
             while(name.includes(" ")) {
                 name = name.replace(/\s+/, "_");
             }

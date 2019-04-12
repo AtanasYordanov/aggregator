@@ -43,7 +43,7 @@ public class ImportController {
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ImportsPageVO> getImportsPage(Pageable pageable, @AuthenticationPrincipal User loggedUser) {
         List<ImportListVO> imports = importService.getImportsPage(pageable, loggedUser);
-        long importsCount = importService.getImportsCount(loggedUser);
+        long importsCount = importService.getImportsCountForUser(loggedUser);
 
         ImportsPageVO importsPageVO = new ImportsPageVO();
         importsPageVO.setImports(imports);

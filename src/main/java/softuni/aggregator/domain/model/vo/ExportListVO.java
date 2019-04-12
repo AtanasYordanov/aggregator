@@ -14,4 +14,5 @@ public class ExportListVO {
     private LocalDateTime generatedOn;
     private String type;
     private int itemsCount;
+    private String userEmail;
 }

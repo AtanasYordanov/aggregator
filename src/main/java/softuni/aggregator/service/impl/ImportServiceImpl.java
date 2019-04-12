@@ -58,6 +58,13 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public List<ImportListVO> getImportsPage(Pageable pageable, User user) {
         return importRepository.findAllByUser(user, pageable).stream()
+                .map(i -> mapper.map(i, ImportListVO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ImportListVO> getAllImportsPage(Pageable pageable) {
+        return importRepository.findAll(pageable).stream()
                 .map(i -> {
                     ImportListVO importVO = mapper.map(i, ImportListVO.class);
                     importVO.setUserEmail(i.getUser().getEmail());
@@ -67,8 +74,13 @@ public class ImportServiceImpl implements ImportService {
     }
 
     @Override
-    public long getImportsCount(User user) {
+    public long getImportsCountForUser(User user) {
         return importRepository.countByUser(user);
+    }
+
+    @Override
+    public long getAllImportsCount() {
+        return importRepository.count();
     }
 
     @Override

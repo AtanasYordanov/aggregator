@@ -11,11 +11,15 @@ public interface ImportService {
 
     List<ImportListVO> getImportsPage(Pageable pageable, User user);
 
-    long getImportsCount(User user);
+    long getImportsCountForUser(User user);
 
     int importCompaniesFromXing(User user, MultipartFile file);
 
     int importCompaniesFromOrbis(User user, MultipartFile file);
 
     int importEmployees(User user, MultipartFile file);
+
+    List<ImportListVO> getAllImportsPage(Pageable pageable);
+
+    long getAllImportsCount();
 }

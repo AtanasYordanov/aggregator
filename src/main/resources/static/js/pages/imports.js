@@ -10,6 +10,8 @@
         let totalImports;
         let currentPage = 0;
 
+        const inAllExports = window.location.href.includes('admin');
+
         attachEvents();
         fetchImports(currentPage);
 
@@ -22,7 +24,10 @@
             $tableBody.empty();
             $spinner.show();
 
-            http.get(`/imports/page?page=${page}&size=${itemsPerPage}&sort=date,desc`
+            let url = `/imports/page?page=${page}&size=${itemsPerPage}&sort=date,desc`;
+            url = inAllExports ? `/admin` + url : url;
+
+            http.get(url
                 , (data) => {
                     $spinner.hide();
                     renderImports(data['imports']);
@@ -42,6 +47,10 @@
                 $tableRow.append($('<td>').text(exp['totalItemsCount']));
                 $tableRow.append($('<td>').text(exp['newEntriesCount']));
                 $tableRow.append($('<td>').text(dateString));
+
+                if (inAllExports) {
+                    $tableRow.append($('<td>').text(exp['userEmail']));
+                }
 
                 $tableBody.append($tableRow);
             });

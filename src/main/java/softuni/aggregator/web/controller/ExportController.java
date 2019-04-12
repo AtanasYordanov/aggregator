@@ -40,7 +40,7 @@ public class ExportController {
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExportsPageVO> getExportsPage(Pageable pageable, @AuthenticationPrincipal User loggedUser) {
         List<ExportListVO> exports = exportService.getExportsPage(pageable, loggedUser);
-        long exportsCount = exportService.getExportsCount(loggedUser);
+        long exportsCount = exportService.getExportsCountForUser(loggedUser);
 
         ExportsPageVO exportsPageVO = new ExportsPageVO();
         exportsPageVO.setExports(exports);
