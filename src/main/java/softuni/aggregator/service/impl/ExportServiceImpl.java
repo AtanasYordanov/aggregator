@@ -90,7 +90,7 @@ public class ExportServiceImpl implements ExportService {
     public byte[] getExport(HttpServletResponse response, Long exportId) {
         Export export = exportRepository.findById(exportId)
                 .orElseThrow(() -> new NotFoundException("No such export."));
-        File file = new File(ExcelConstants.EXPORT_BASE_PATH + export.getFileName());
+        File file = new File(export.getFileName());
         return getBytes(response, file, export.getExportName());
     }
 
