@@ -35,7 +35,9 @@ public class ExcelWriterImpl implements ExcelWriter {
 
         String fileName = UUID.randomUUID().toString();
         String filePath = ExcelConstants.EXPORT_BASE_PATH + fileName + ExcelConstants.EXPORT_FILE_EXTENSION;
-
+        log.info("______________________________________________________");
+        log.info(filePath);
+        log.info("______________________________________________________");
         WriteExcelColumn[] columns = exportType.getColumns();
 
         try (FileOutputStream fileOut = new FileOutputStream(filePath);
