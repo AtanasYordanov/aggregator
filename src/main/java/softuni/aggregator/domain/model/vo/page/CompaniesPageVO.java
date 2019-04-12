@@ -8,9 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CompaniesPageVO extends BasePageVO {
+public class CompaniesPageVO extends FilterPageVO {
 
     private List<CompanyListVO> companies;
-    private List<String> subIndustries;
-    private List<String> mainIndustries;
 }

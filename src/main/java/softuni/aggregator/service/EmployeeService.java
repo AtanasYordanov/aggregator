@@ -4,7 +4,7 @@ import org.springframework.data.domain.Pageable;
 import softuni.aggregator.domain.entities.Employee;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
-import softuni.aggregator.domain.model.vo.EmployeeListVO;
+import softuni.aggregator.domain.model.vo.page.EmployeesPageVO;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
 import java.util.Collection;
@@ -17,7 +17,7 @@ public interface EmployeeService {
 
     List<ExcelExportDto> getEmployeesWithCompaniesForExport(FilterDataModel filterData);
 
-    List<EmployeeListVO> getEmployeesPage(Pageable pageable, FilterDataModel filterData);
+    EmployeesPageVO getEmployeesPage(Pageable pageable, FilterDataModel filterData);
 
     long getFilteredEmployeesCount(FilterDataModel filterData);
 

@@ -12,12 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
-import softuni.aggregator.domain.model.vo.ExportListVO;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.service.ExportService;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 @Controller
@@ -39,13 +37,7 @@ public class ExportController {
 
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExportsPageVO> getExportsPage(Pageable pageable, @AuthenticationPrincipal User loggedUser) {
-        List<ExportListVO> exports = exportService.getExportsPage(pageable, loggedUser);
-        long exportsCount = exportService.getExportsCountForUser(loggedUser);
-
-        ExportsPageVO exportsPageVO = new ExportsPageVO();
-        exportsPageVO.setExports(exports);
-        exportsPageVO.setTotalItemsCount(exportsCount);
-
+        ExportsPageVO exportsPageVO = exportService.getExportsPage(pageable, loggedUser);
         return new ResponseEntity<>(exportsPageVO, HttpStatus.OK);
     }
 

@@ -3,13 +3,13 @@ package softuni.aggregator.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import softuni.aggregator.domain.entities.User;
-import softuni.aggregator.domain.model.vo.ImportListVO;
+import softuni.aggregator.domain.model.vo.page.ImportsPageVO;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ImportService {
 
-    List<ImportListVO> getImportsPage(Pageable pageable, User user);
+    ImportsPageVO getImportsPage(Pageable pageable, User user);
 
     long getImportsCountForUser(User user);
 
@@ -19,7 +19,9 @@ public interface ImportService {
 
     int importEmployees(User user, MultipartFile file);
 
-    List<ImportListVO> getAllImportsPage(Pageable pageable);
+    ImportsPageVO getAllImportsPage(Pageable pageable);
 
     long getAllImportsCount();
+
+    Map<String, String> getImportTypes();
 }

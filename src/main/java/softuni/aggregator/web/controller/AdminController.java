@@ -8,35 +8,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.aggregator.domain.enums.UserRole;
 import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
-import softuni.aggregator.domain.model.vo.ExportListVO;
-import softuni.aggregator.domain.model.vo.ImportListVO;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
-import softuni.aggregator.domain.model.vo.UserListVO;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.domain.model.vo.page.ImportsPageVO;
 import softuni.aggregator.domain.model.vo.page.UsersPageVO;
 import softuni.aggregator.service.ExportService;
 import softuni.aggregator.service.ImportService;
+import softuni.aggregator.service.RoleService;
 import softuni.aggregator.service.UserService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
     private final UserService userService;
+    private final RoleService roleService;
     private final ExportService exportService;
     private final ImportService importService;
 
     @Autowired
-    public AdminController(UserService userService, ExportService exportService, ImportService importService) {
+    public AdminController(UserService userService, RoleService roleService,
+                           ExportService exportService, ImportService importService) {
         this.userService = userService;
+        this.roleService = roleService;
         this.exportService = exportService;
         this.importService = importService;
     }
@@ -49,13 +47,7 @@ public class AdminController {
 
     @GetMapping(value = "/users/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsersPageVO> getUsersPage(Pageable pageable) {
-        List<UserListVO> users = userService.getUsersPage(pageable);
-        long usersCount = userService.getTotalUsersCount();
-
-        UsersPageVO usersPageVO = new UsersPageVO();
-        usersPageVO.setUsers(users);
-        usersPageVO.setTotalItemsCount(usersCount);
-
+        UsersPageVO usersPageVO = userService.getUsersPage(pageable);
         return new ResponseEntity<>(usersPageVO, HttpStatus.OK);
     }
 
@@ -69,11 +61,7 @@ public class AdminController {
 
     @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getModifiableRoles() {
-        List<String> roles = Arrays.stream(UserRole.values())
-                .filter(role -> !role.equals(UserRole.ROLE_ROOT_ADMIN))
-                .map(UserRole::getName)
-                .collect(Collectors.toList());
-
+        List<String> roles = roleService.getModifiableRoles();
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
@@ -91,13 +79,7 @@ public class AdminController {
 
     @GetMapping(value = "/exports/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExportsPageVO> getAllExports(Pageable pageable) {
-        List<ExportListVO> exports = exportService.getAllExportsPage(pageable);
-        long exportsCount = exportService.getAllExportsCount();
-
-        ExportsPageVO exportsPageVO = new ExportsPageVO();
-        exportsPageVO.setExports(exports);
-        exportsPageVO.setTotalItemsCount(exportsCount);
-
+        ExportsPageVO exportsPageVO = exportService.getAllExportsPage(pageable);
         return new ResponseEntity<>(exportsPageVO, HttpStatus.OK);
     }
 
@@ -109,13 +91,7 @@ public class AdminController {
 
     @GetMapping("/imports/page")
     public ResponseEntity<ImportsPageVO> getAllImports(Pageable pageable) {
-        List<ImportListVO> imports = importService.getAllImportsPage(pageable);
-        long importsCount = importService.getAllImportsCount();
-
-        ImportsPageVO importsPageVO = new ImportsPageVO();
-        importsPageVO.setImports(imports);
-        importsPageVO.setTotalItemsCount(importsCount);
-
+        ImportsPageVO importsPageVO = importService.getAllImportsPage(pageable);
         return new ResponseEntity<>(importsPageVO, HttpStatus.OK);
     }
 

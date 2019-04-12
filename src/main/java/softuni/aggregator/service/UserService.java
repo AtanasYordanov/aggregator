@@ -9,9 +9,7 @@ import softuni.aggregator.domain.model.binding.UserChangePasswordBindingModel;
 import softuni.aggregator.domain.model.binding.UserEditProfileBindingModel;
 import softuni.aggregator.domain.model.binding.UserRegisterBindingModel;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
-import softuni.aggregator.domain.model.vo.UserListVO;
-
-import java.util.List;
+import softuni.aggregator.domain.model.vo.page.UsersPageVO;
 
 public interface UserService extends UserDetailsService {
 
@@ -23,7 +21,7 @@ public interface UserService extends UserDetailsService {
 
     void updateUserStatus();
 
-    List<UserListVO> getUsersPage(Pageable pageable);
+    UsersPageVO getUsersPage(Pageable pageable);
 
     long getTotalUsersCount();
 

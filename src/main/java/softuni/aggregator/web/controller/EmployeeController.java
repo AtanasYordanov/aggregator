@@ -14,28 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
-import softuni.aggregator.domain.model.vo.EmployeeListVO;
 import softuni.aggregator.domain.model.vo.page.EmployeesPageVO;
 import softuni.aggregator.service.EmployeeService;
 import softuni.aggregator.service.MainIndustryService;
-import softuni.aggregator.service.SubIndustryService;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final SubIndustryService subIndustryService;
     private final MainIndustryService mainIndustryService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService,
-                              SubIndustryService subIndustryService,
-                              MainIndustryService mainIndustryService) {
+    public EmployeeController(EmployeeService employeeService, MainIndustryService mainIndustryService) {
         this.employeeService = employeeService;
-        this.subIndustryService = subIndustryService;
         this.mainIndustryService = mainIndustryService;
     }
 
@@ -47,29 +39,14 @@ public class EmployeeController {
 
     @GetMapping(value = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmployeesPageVO> getEmployeesData(Pageable pageable, FilterDataModel filterData) {
-        List<EmployeeListVO> employees = employeeService.getEmployeesPage(pageable, filterData);
-        List<String> subIndustries = subIndustryService.getAllIndustryNames();
-        List<String> mainIndustries = mainIndustryService.getAllIndustryNames();
-        long employeesCount = employeeService.getFilteredEmployeesCount(filterData);
-
-        EmployeesPageVO employeesPageVO = new EmployeesPageVO();
-        employeesPageVO.setEmployees(employees);
-        employeesPageVO.setSubIndustries(subIndustries);
-        employeesPageVO.setMainIndustries(mainIndustries);
-        employeesPageVO.setTotalItemsCount(employeesCount);
-
+        EmployeesPageVO employeesPageVO = employeeService.getEmployeesPage(pageable, filterData);
+        mainIndustryService.fillFilterPageVO(employeesPageVO);
         return new ResponseEntity<>(employeesPageVO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmployeesPageVO> getEmployeesPage(Pageable pageable, FilterDataModel filterData) {
-        List<EmployeeListVO> employees = employeeService.getEmployeesPage(pageable, filterData);
-        long employeesCount = employeeService.getFilteredEmployeesCount(filterData);
-
-        EmployeesPageVO employeesPageVO = new EmployeesPageVO();
-        employeesPageVO.setEmployees(employees);
-        employeesPageVO.setTotalItemsCount(employeesCount);
-
+        EmployeesPageVO employeesPageVO = employeeService.getEmployeesPage(pageable, filterData);
         return new ResponseEntity<>(employeesPageVO, HttpStatus.OK);
     }
 

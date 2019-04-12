@@ -12,6 +12,7 @@ import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
+import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.domain.repository.ExportRepository;
 import softuni.aggregator.service.CompanyService;
 import softuni.aggregator.service.EmployeeService;
@@ -94,21 +95,37 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public List<ExportListVO> getExportsPage(Pageable pageable, User user) {
-        return exportRepository.findAllByUser(user, pageable).stream()
+    public ExportsPageVO getExportsPage(Pageable pageable, User user) {
+        List<ExportListVO> exports = exportRepository.findAllByUser(user, pageable).stream()
                 .map(e -> mapper.map(e, ExportListVO.class))
                 .collect(Collectors.toList());
+
+        long exportsCount = getExportsCountForUser(user);
+
+        ExportsPageVO exportsPageVO = new ExportsPageVO();
+        exportsPageVO.setExports(exports);
+        exportsPageVO.setTotalItemsCount(exportsCount);
+
+        return exportsPageVO;
     }
 
     @Override
-    public List<ExportListVO> getAllExportsPage(Pageable pageable) {
-        return exportRepository.findAll(pageable).stream()
+    public ExportsPageVO getAllExportsPage(Pageable pageable) {
+        List<ExportListVO> exports = exportRepository.findAll(pageable).stream()
                 .map(e -> {
                     ExportListVO exportVO = mapper.map(e, ExportListVO.class);
                     exportVO.setUserEmail(e.getUser().getEmail());
                     return exportVO;
                 })
                 .collect(Collectors.toList());
+
+        long exportsCount = getAllExportsCount();
+
+        ExportsPageVO exportsPageVO = new ExportsPageVO();
+        exportsPageVO.setExports(exports);
+        exportsPageVO.setTotalItemsCount(exportsCount);
+
+        return exportsPageVO;
     }
 
     @Override

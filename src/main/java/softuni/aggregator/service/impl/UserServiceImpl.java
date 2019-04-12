@@ -18,6 +18,7 @@ import softuni.aggregator.domain.model.binding.UserEditProfileBindingModel;
 import softuni.aggregator.domain.model.binding.UserRegisterBindingModel;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
 import softuni.aggregator.domain.model.vo.UserListVO;
+import softuni.aggregator.domain.model.vo.page.UsersPageVO;
 import softuni.aggregator.domain.repository.UserRepository;
 import softuni.aggregator.domain.enums.UserRole;
 import softuni.aggregator.service.RoleService;
@@ -133,14 +134,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserListVO> getUsersPage(Pageable pageable) {
-        return userRepository.findAll(pageable).stream()
+    public UsersPageVO getUsersPage(Pageable pageable) {
+        List<UserListVO> users = userRepository.findAll(pageable).stream()
                 .map(u -> {
                     UserListVO userVO = mapper.map(u, UserListVO.class);
                     userVO.setRole(CustomStringUtils.getUserRole(u));
                     return userVO;
                 })
                 .collect(Collectors.toList());
+
+        long usersCount = getTotalUsersCount();
+
+        UsersPageVO usersPageVO = new UsersPageVO();
+        usersPageVO.setUsers(users);
+        usersPageVO.setTotalItemsCount(usersCount);
+
+        return usersPageVO;
     }
 
     @Override

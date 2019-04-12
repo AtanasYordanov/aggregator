@@ -9,6 +9,7 @@ import softuni.aggregator.domain.entities.SubIndustry;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.EmployeeDetailsVO;
 import softuni.aggregator.domain.model.vo.EmployeeListVO;
+import softuni.aggregator.domain.model.vo.page.EmployeesPageVO;
 import softuni.aggregator.domain.repository.EmployeeRepository;
 import softuni.aggregator.service.EmployeeService;
 import softuni.aggregator.service.SubIndustryService;
@@ -77,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public List<EmployeeListVO> getEmployeesPage(Pageable pageable, FilterDataModel filterData) {
+    public EmployeesPageVO getEmployeesPage(Pageable pageable, FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
         Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
         Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
@@ -86,11 +87,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         String city = filterData.getCity();
         String country = filterData.getCountry();
 
-        return employeeRepository.getFilteredEmployeesPage(pageable, industries, minEmployees, maxEmployees,
+        List<EmployeeListVO> employees = employeeRepository.getFilteredEmployeesPage(pageable, industries, minEmployees, maxEmployees,
                 includeCompaniesWithNoEmployeeData, yearFound, country, city)
                 .stream()
                 .map(e -> mapper.map(e, EmployeeListVO.class))
                 .collect(Collectors.toList());
+
+        long employeesCount = getFilteredEmployeesCount(filterData);
+
+        EmployeesPageVO employeesPageVO = new EmployeesPageVO();
+        employeesPageVO.setEmployees(employees);
+        employeesPageVO.setTotalItemsCount(employeesCount);
+        return employeesPageVO;
     }
 
     @Override

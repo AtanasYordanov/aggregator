@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.web.exceptions.NotFoundException;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,6 +29,14 @@ public class RoleServiceImpl implements RoleService {
     public Role getRoleByName(String name) {
         return roleRepository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("No such role."));
+    }
+
+    @Override
+    public List<String> getModifiableRoles() {
+        return Arrays.stream(UserRole.values())
+                .filter(role -> !role.equals(UserRole.ROLE_ROOT_ADMIN))
+                .map(UserRole::getName)
+                .collect(Collectors.toList());
     }
 
     @PostConstruct

@@ -9,6 +9,7 @@ import softuni.aggregator.domain.entities.SubIndustry;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.CompanyDetailsVO;
 import softuni.aggregator.domain.model.vo.CompanyListVO;
+import softuni.aggregator.domain.model.vo.page.CompaniesPageVO;
 import softuni.aggregator.domain.repository.CompanyRepository;
 import softuni.aggregator.service.CompanyService;
 import softuni.aggregator.service.SubIndustryService;
@@ -56,7 +57,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public List<CompanyListVO> getCompaniesPage(Pageable pageable, FilterDataModel filterData) {
+    public CompaniesPageVO getCompaniesPage(Pageable pageable, FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
         Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
         Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
@@ -65,11 +66,19 @@ public class CompanyServiceImpl implements CompanyService {
         String city = filterData.getCity();
         String country = filterData.getCountry();
 
-        return companyRepository.getFilteredCompaniesPage(pageable, industries, minEmployees, maxEmployees,
+        List<CompanyListVO> companies = companyRepository.getFilteredCompaniesPage(pageable, industries, minEmployees, maxEmployees,
                 includeCompaniesWithNoEmployeeData, yearFound, country, city)
                 .stream()
                 .map(c -> mapper.map(c, CompanyListVO.class))
                 .collect(Collectors.toList());
+
+        long companiesCount = getFilteredCompaniesCount(filterData);
+
+        CompaniesPageVO companiesPageVO = new CompaniesPageVO();
+        companiesPageVO.setCompanies(companies);
+        companiesPageVO.setTotalItemsCount(companiesCount);
+
+        return companiesPageVO;
     }
 
     @Override

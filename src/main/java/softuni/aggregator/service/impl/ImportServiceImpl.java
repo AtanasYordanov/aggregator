@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import softuni.aggregator.domain.entities.*;
 import softuni.aggregator.domain.model.vo.ImportListVO;
+import softuni.aggregator.domain.model.vo.page.ImportsPageVO;
 import softuni.aggregator.domain.repository.*;
 import softuni.aggregator.service.*;
 import softuni.aggregator.service.excel.reader.ExcelReader;
@@ -56,21 +57,37 @@ public class ImportServiceImpl implements ImportService {
     }
 
     @Override
-    public List<ImportListVO> getImportsPage(Pageable pageable, User user) {
-        return importRepository.findAllByUser(user, pageable).stream()
+    public ImportsPageVO getImportsPage(Pageable pageable, User user) {
+        List<ImportListVO> imports = importRepository.findAllByUser(user, pageable).stream()
                 .map(i -> mapper.map(i, ImportListVO.class))
                 .collect(Collectors.toList());
+
+        long importsCount = getImportsCountForUser(user);
+
+        ImportsPageVO importsPageVO = new ImportsPageVO();
+        importsPageVO.setImports(imports);
+        importsPageVO.setTotalItemsCount(importsCount);
+
+        return importsPageVO;
     }
 
     @Override
-    public List<ImportListVO> getAllImportsPage(Pageable pageable) {
-        return importRepository.findAll(pageable).stream()
+    public ImportsPageVO getAllImportsPage(Pageable pageable) {
+        List<ImportListVO> imports = importRepository.findAll(pageable).stream()
                 .map(i -> {
                     ImportListVO importVO = mapper.map(i, ImportListVO.class);
                     importVO.setUserEmail(i.getUser().getEmail());
                     return importVO;
                 })
                 .collect(Collectors.toList());
+
+        long importsCount = getAllImportsCount();
+
+        ImportsPageVO importsPageVO = new ImportsPageVO();
+        importsPageVO.setImports(imports);
+        importsPageVO.setTotalItemsCount(importsCount);
+
+        return importsPageVO;
     }
 
     @Override
@@ -81,6 +98,17 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public long getAllImportsCount() {
         return importRepository.count();
+    }
+
+    @Override
+    public Map<String, String> getImportTypes() {
+        return Arrays.stream(ImportType.values())
+                .collect(Collectors.toMap(
+                        ImportType::getEndpoint
+                        , ImportType::toString
+                        , (u, v) -> {
+                            throw new IllegalStateException(String.format("Duplicate key %s", u));
+                        }, LinkedHashMap::new));
     }
 
     @Override

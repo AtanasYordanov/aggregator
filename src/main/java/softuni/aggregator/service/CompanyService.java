@@ -4,7 +4,7 @@ import org.springframework.data.domain.Pageable;
 import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.CompanyDetailsVO;
-import softuni.aggregator.domain.model.vo.CompanyListVO;
+import softuni.aggregator.domain.model.vo.page.CompaniesPageVO;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
 
 import java.util.Collection;
@@ -15,7 +15,7 @@ public interface CompanyService {
 
     List<ExcelExportDto> getCompaniesForExport(FilterDataModel filterData);
 
-    List<CompanyListVO> getCompaniesPage(Pageable pageable, FilterDataModel filterData);
+    CompaniesPageVO getCompaniesPage(Pageable pageable, FilterDataModel filterData);
 
     long getFilteredCompaniesCount(FilterDataModel filterData);
 
