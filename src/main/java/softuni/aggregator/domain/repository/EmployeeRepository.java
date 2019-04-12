@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    @EntityGraph(attributePaths = "company")
+    @EntityGraph(attributePaths = {"company", "company.industry", "company.companyEmails"})
     @Query("SELECT e FROM Employee AS e WHERE e.id = :id")
     Optional<Employee> findByIdEager(@Param("id") Long id);
 
@@ -30,7 +30,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "WHERE (e.company.industry IN :industries  OR :industries IS NULL)")
     long getFilteredEmployeesCount(List<SubIndustry> industries);
 
-    @EntityGraph(attributePaths = {"company"})
+    @EntityGraph(attributePaths = {"company", "company.industry", "company.companyEmails"})
     @Query("SELECT e FROM Employee e WHERE " +
             "(e.company.industry IN :industries OR :industries IS NULL)")
     List<Employee> getFilteredEmployees(List<SubIndustry> industries);

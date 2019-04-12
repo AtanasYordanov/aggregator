@@ -8,11 +8,9 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.web.exceptions.ForbiddenActionException;
 import softuni.aggregator.web.exceptions.NotFoundException;
 import softuni.aggregator.web.exceptions.ServiceException;
@@ -23,15 +21,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public String handleNotFoundException(HttpServletRequest request, Exception ex) {
-        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.warn("User {} tried to access non-existing resource: {}", principal.getEmail(), request.getRequestURL());
+        log.warn("User tried to access non-existing resource: {}", request.getRequestURL());
         return "error/404";
     }
 
     @ExceptionHandler(ForbiddenActionException.class)
     public String handleForbiddenException(HttpServletRequest request, Exception ex) {
-        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.warn("User tried to access forbidden page: {}", principal.getEmail() , request.getRequestURL());
+        log.warn("User tried to access forbidden page: {}" , request.getRequestURL());
         return "error/403";
     }
 
