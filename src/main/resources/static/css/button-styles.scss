@@ -1,0 +1,89 @@
+$green-button-color: #85C81A;
+$green-button-hover-color: #61a81a;
+$red-button-color: #C92100;
+$red-button-hover-color: #A32100;
+$dark-blue: #3e6ea0;
+$dark-blue-hover: #295399;
+$matted-blue-button: #7e96bc;
+
+.btn {
+    width: 100%;
+}
+
+.btn-spinner {
+    margin-bottom: 2px;
+    margin-right: 2px;
+}
+
+.btn-success {
+    background-color: $green-button-color !important;
+    border-color: $green-button-color !important;
+}
+
+.btn-success:hover {
+    background-color: $green-button-hover-color !important;
+    border-color: $green-button-hover-color !important;
+}
+
+.btn-outline-success {
+    color: $green-button-hover-color !important;
+    border-color: $green-button-hover-color !important;
+}
+
+.btn-outline-success:hover {
+    color: #fff !important;
+    background-color: $green-button-hover-color !important;
+    border-color: $green-button-hover-color !important;
+}
+
+.btn-primary {
+    background-color: $dark-blue !important;
+    border-color: $dark-blue !important;
+}
+
+.btn-primary:hover {
+    background-color: $dark-blue-hover !important;
+    border-color: $dark-blue-hover !important;
+}
+
+.btn-outline-primary {
+    color: $dark-blue !important;
+    border-color: $dark-blue !important;
+}
+
+.btn-outline-primary:hover {
+    color: #fff !important;
+    background-color: $dark-blue !important;
+    border-color: $dark-blue !important;
+}
+
+.btn-danger {
+    background-color: $red-button-color !important;
+    border-color: $red-button-color !important;
+}
+
+.btn-danger:hover {
+    background-color: $red-button-hover-color !important;
+    border-color: $red-button-hover-color !important;
+}
+.btn-outline-danger {
+    color: $red-button-hover-color !important;
+    border-color: $red-button-hover-color !important;
+}
+
+.btn-outline-danger:hover {
+    color: #fff !important;
+    background-color: $red-button-hover-color !important;
+    border-color: $red-button-hover-color !important;
+}
+
+.btn-outline-secondary {
+    color: $matted-blue-button !important;
+    border-color: $matted-blue-button !important;
+}
+
+.btn-outline-secondary:hover {
+    color: #fff !important;
+    background-color: $matted-blue-button !important;
+    border-color: $matted-blue-button !important;
+}

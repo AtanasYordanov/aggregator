@@ -15,8 +15,8 @@
             <div class="container-fluid section-header">
                 <h2 class="container-fluid text-center mb-4">Employee Details</h2>
                 <div class="row" sec:authorize="hasAnyRole('ROOT_ADMIN', 'ADMIN', 'MODERATOR')">
-                    <div class="btn-wrapper col-lg-10"></div>
-                    <div class="btn-wrapper col-lg-2">
+                    <div class="btn-wrapper col-xl-10 col-lg-9 col-md-8"></div>
+                    <div class="btn-wrapper col-xl-2 col-lg-3 col-md-4 p-0">
                         <button id="remove-btn" class="btn btn-danger" type="button">
                             <span class="btn-text">REMOVE</span>
                         </button>
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="container-fluid text-center table-wrapper align-middle mt-4">
+            <div class="container-fluid text-center table-wrapper align-middle mt-4 table-responsive">
                 <table class="table details-table">
                     <tbody>
                         <tr>
@@ -50,7 +50,7 @@
                     </tbody>
                 </table>
                 <div class="row" th:if="${employee.company != null}">
-                    <a class="btn btn-outline-secondary col-lg-3 mx-auto mt-4" th:href="@{'/companies/' + ${employee.company.id}}">
+                    <a class="btn btn-outline-secondary col-lg-3 col-md-4 mx-auto mt-4" th:href="@{'/companies/' + ${employee.company.id}}">
                         View Company Details
                     </a>
                 </div>

@@ -25,17 +25,15 @@ body {
   width: 98% !important;
   max-width: 1400px !important;
   margin: 1rem auto;
-  padding: 4rem 4rem !important; }
+  padding: calc(1.5rem + 2.5%) calc(1rem + 3%) !important; }
 
 main {
   max-width: 1240px !important; }
   main .section-header .btn-wrapper {
-    padding-top: 1.5rem !important;
+    margin-top: -0.5rem;
     padding-bottom: 1rem !important; }
-    main .section-header .btn-wrapper .btn {
-      width: 100%; }
   main .section-header #include-companies-with-no-data-select-box {
-    padding: 2.5rem 0 0 2rem; }
+    padding: 0.5rem 0 0 2.3rem; }
   main .table-wrapper {
     position: relative; }
     main .table-wrapper .table {
@@ -81,13 +79,6 @@ main {
   background-color: #495A67 !important;
   border-color: #495A67; }
 
-.btn {
-  width: 100%; }
-
-.btn-spinner {
-  margin-bottom: 2px;
-  margin-right: 2px; }
-
 .rounded-form {
   border-radius: 10px; }
 
@@ -112,59 +103,15 @@ main {
 .suspended {
   color: red; }
 
-.btn-spinner {
-  margin-bottom: 2px;
-  margin-right: 2px; }
+.container-fluid .container-fluid {
+  padding-left: 0 !important;
+  padding-right: 0 !important; }
 
-.btn-success {
-  background-color: #85C81A !important;
-  border-color: #85C81A !important; }
-
-.btn-success:hover {
-  background-color: #6fba23 !important;
-  border-color: #6fba23 !important; }
-
-.btn-outline-success {
-  color: #6fba23 !important;
-  border-color: #6fba23 !important; }
-
-.btn-outline-success:hover {
-  color: #fff !important;
-  background-color: #6fba23 !important;
-  border-color: #6fba23 !important; }
-
-.btn-primary {
-  background-color: #3e6ea0 !important;
-  border-color: #3e6ea0 !important; }
-
-.btn-primary:hover {
-  background-color: #3e6ea0 !important;
-  border-color: #3e6ea0 !important; }
-
-.btn-outline-primary {
-  color: #3e6ea0 !important;
-  border-color: #3e6ea0 !important; }
-
-.btn-outline-primary:hover {
-  color: #fff !important;
-  background-color: #3e6ea0 !important;
-  border-color: #3e6ea0 !important; }
-
-.btn-danger {
-  background-color: #C92100 !important;
-  border-color: #C92100 !important; }
-
-.btn-danger:hover {
-  background-color: #A32100 !important;
-  border-color: #A32100 !important; }
-
-.btn-outline-danger {
-  color: #A32100 !important;
-  border-color: #A32100 !important; }
-
-.btn-outline-danger:hover {
-  color: #fff !important;
-  background-color: #A32100 !important;
-  border-color: #A32100 !important; }
+@media all and (max-width: 991px) {
+  main .section-header #include-companies-with-no-data-select-box {
+    margin-bottom: 2rem; } }
+@media all and (max-width: 920px) {
+  main .table-wrapper .details-table tbody tr td:first-child {
+    min-width: auto; } }
 
 /*# sourceMappingURL=style.css.map */

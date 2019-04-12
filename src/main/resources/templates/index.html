@@ -16,14 +16,14 @@
             <hr class="my-4">
             <p>We have accumulated information about more than 20 000 companies. Check out our rich catalog.</p>
             <div class="row mt-5">
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-3 mt-2">
                     <a class="btn btn-success btn-lg" th:href="@{/companies/catalog}" role="button">Companies</a>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-3 mt-2">
                     <a class="btn btn-success btn-lg" th:href="@{/employees/catalog}" role="button">Employees</a>
                 </div>
-                <div class="col-lg-2" sec:authorize="isAuthenticated()">
-                    <a class="btn btn-success btn-lg" th:href="@{/exports}" role="button">My Exports</a>
+                <div class="col-xl-2 col-lg-3 mt-2" sec:authorize="isAuthenticated()">
+                    <a class="btn btn-success btn-lg" th:href="@{/exports}" role="button">Exports</a>
                 </div>
             </div>
         </div>

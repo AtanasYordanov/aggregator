@@ -1,9 +1,4 @@
 $dark-blue-matted: #495A67;
-$green-button-color: #85C81A;
-$green-button-hover-color: #6fba23;
-$red-button-color: #C92100;
-$red-button-hover-color: #A32100;
-$dark-blue: #3e6ea0;
 
 body {
     font-family: 'Montserrat', sans-serif !important;
@@ -47,7 +42,7 @@ body {
     width: 98% !important;
     max-width: 1400px !important;
     margin: 1rem auto;
-    padding: 4rem 4rem !important;
+    padding: calc(1.5rem + 2.5%) calc(1rem + 3%) !important;
 }
 
 main {
@@ -57,16 +52,12 @@ main {
     .section-header {
 
         .btn-wrapper {
-            padding-top: 1.5rem !important;
+            margin-top: -0.5rem;
             padding-bottom: 1rem !important;
-
-            .btn {
-                width: 100%;
-            }
         }
 
         #include-companies-with-no-data-select-box {
-            padding: 2.5rem 0 0 2rem;
+            padding: 0.5rem 0 0 2.3rem;
         }
     }
 
@@ -158,15 +149,6 @@ main {
     border-color: $dark-blue-matted;
 }
 
-.btn {
-    width: 100%;
-}
-
-.btn-spinner {
-    margin-bottom: 2px;
-    margin-right: 2px;
-}
-
 .rounded-form {
     border-radius: 10px;
 }
@@ -199,70 +181,29 @@ main {
     color: red;
 }
 
-.btn-spinner {
-    margin-bottom: 2px;
-    margin-right: 2px;
+.container-fluid .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
-.btn-success {
-    background-color: $green-button-color !important;
-    border-color: $green-button-color !important;
+@media all and (max-width: 991px) {
+    main {
+        .section-header {
+            #include-companies-with-no-data-select-box {
+                margin-bottom: 2rem;
+            }
+        }
+    }
 }
 
-.btn-success:hover {
-    background-color: $green-button-hover-color !important;
-    border-color: $green-button-hover-color !important;
-}
-
-.btn-outline-success {
-    color: $green-button-hover-color !important;
-    border-color: $green-button-hover-color !important;
-}
-
-.btn-outline-success:hover {
-    color: #fff !important;
-    background-color: $green-button-hover-color !important;
-    border-color: $green-button-hover-color !important;
-}
-
-.btn-primary {
-    background-color: $dark-blue !important;
-    border-color: $dark-blue !important;
-}
-
-.btn-primary:hover {
-    background-color: $dark-blue !important;
-    border-color: $dark-blue !important;
-}
-
-.btn-outline-primary {
-    color: $dark-blue !important;
-    border-color: $dark-blue !important;
-}
-
-.btn-outline-primary:hover {
-    color: #fff !important;
-    background-color: $dark-blue !important;
-    border-color: $dark-blue !important;
-}
-
-.btn-danger {
-    background-color: $red-button-color !important;
-    border-color: $red-button-color !important;
-}
-
-.btn-danger:hover {
-    background-color: $red-button-hover-color !important;
-    border-color: $red-button-hover-color !important;
-}
-
-.btn-outline-danger {
-    color: $red-button-hover-color !important;
-    border-color: $red-button-hover-color !important;
-}
-
-.btn-outline-danger:hover {
-    color: #fff !important;
-    background-color: $red-button-hover-color !important;
-    border-color: $red-button-hover-color !important;
+@media all and (max-width: 920px) {
+    main {
+        .table-wrapper {
+            .details-table {
+                tbody tr td:first-child {
+                    min-width: auto;
+                }
+            }
+        }
+    }
 }

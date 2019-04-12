@@ -16,8 +16,8 @@
                 <h2 class="container-fluid text-center mb-4"
                     th:text="${#httpServletRequest.requestURI.contains('admin')} ? 'All Imports' : 'Imports'"></h2>
                 <form class="row">
-                    <div class="btn-wrapper col-lg-10"></div>
-                    <div class="btn-wrapper col-lg-2">
+                    <div class="btn-wrapper col-xl-10 col-lg-9 col-md-8"></div>
+                    <div class="btn-wrapper col-xl-2 col-lg-3 col-md-4 p-0">
                         <button id="import-btn" class="btn btn-success" type="button">
                             <span class="btn-text">NEW IMPORT</span>
                         </button>
@@ -27,7 +27,7 @@
 
             <div th:replace="~{fragments/pagination}"></div>
 
-            <div class="container-fluid text-center table-wrapper align-middle">
+            <div class="container-fluid text-center table-wrapper align-middle table-responsive">
                 <table id="imports-table" class="table">
                     <thead>
                     <tr>

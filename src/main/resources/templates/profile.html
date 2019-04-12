@@ -17,32 +17,32 @@
                 <h2 class="container-fluid text-center mb-4">Profile</h2>
             </div>
 
-            <div class="container-fluid text-center table-wrapper align-middle mt-4 w-75">
+            <div class="container-fluid text-center table-wrapper align-middle table-responsive mt-4 col-lg-9">
                 <table id="user-details-table" class="table details-table">
                     <tbody>
-                        <tr>
-                            <td>First Name</td>
-                            <td th:text="${user.firstName}"></td>
-                        </tr>
-                        <tr>
-                            <td>Last Name</td>
-                            <td th:text="${user.lastName}"></td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td th:text="${user.email}"></td>
-                        </tr>
+                    <tr>
+                        <td>First Name</td>
+                        <td th:text="${user.firstName}"></td>
+                    </tr>
+                    <tr>
+                        <td>Last Name</td>
+                        <td th:text="${user.lastName}"></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td th:text="${user.email}"></td>
+                    </tr>
                     </tbody>
                 </table>
-                <div>
-                    <div class="mx-auto">
-                        <a class="btn btn-outline-secondary mt-4 w-25 mr-2" th:href="@{/profile/edit}">
-                            Edit Profile
-                        </a>
-                        <a class="btn btn-outline-secondary mt-4 w-25 ml-2" th:href="@{/profile/password}">
-                            Change Password
-                        </a>
-                    </div>
+                <div class="row">
+                    <div class="col-xl-3 col-lg-2"></div>
+                    <a class="btn btn-outline-primary mt-4 col-xl-3 col-lg-4 mx-2" th:href="@{/profile/edit}">
+                        Edit Profile
+                    </a>
+                    <a class="btn btn-outline-primary mt-4 col-xl-3 col-lg-4 mx-2" th:href="@{/profile/password}">
+                        Change Password
+                    </a>
+                    <div class="col-xl-3 col-lg-2"></div>
                 </div>
             </div>
 

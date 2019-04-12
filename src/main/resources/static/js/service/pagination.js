@@ -17,10 +17,14 @@ let pagination = (() => {
         renderFirstPageButton(fetchFunction);
         renderPreviousPageButton(fetchFunction);
 
-        let from = Math.max(0, currentPage - 3);
-        let to = Math.min(totalPages - 1, currentPage + 3);
-        to = to - from < 6 ? Math.min(from + 6, totalPages - 1) : to;
-        from = to - from < 6 ? Math.max(to - 6, 0) : from;
+        const screenWidth = $(document).width();
+        let additionLinksShown = screenWidth > 800 ? 6
+            : screenWidth > 550 ? 4 : 2;
+
+        let from = Math.max(0, currentPage - additionLinksShown / 2);
+        let to = Math.min(totalPages - 1, currentPage + additionLinksShown / 2);
+        to = to - from < additionLinksShown ? Math.min(from + additionLinksShown, totalPages - 1) : to;
+        from = to - from < additionLinksShown ? Math.max(to - additionLinksShown, 0) : from;
 
         for (let i = from; i <= to; i++) {
             renderPageLink(i, fetchFunction);

@@ -13,6 +13,7 @@ public class EmployeeListVO {
     private String fullName;
     private String position;
     private String company;
+    private String email;
 
     public void setFullName(String fullName) {
         this.fullName = CustomStringUtils.truncate(fullName, 30);
@@ -24,5 +25,9 @@ public class EmployeeListVO {
 
     public void setCompany(Company company) {
         this.company = company != null ? CustomStringUtils.truncate(company.getName(), 30) : "n/a";
+    }
+
+    public void setEmail(String email) {
+        this.email = CustomStringUtils.truncate(email, 30);
     }
 }
