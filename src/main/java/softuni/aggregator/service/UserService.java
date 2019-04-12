@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.BindingResult;
 import softuni.aggregator.domain.entities.User;
+import softuni.aggregator.domain.enums.UserStatus;
 import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
 import softuni.aggregator.domain.model.binding.UserChangePasswordBindingModel;
 import softuni.aggregator.domain.model.binding.UserEditProfileBindingModel;
@@ -33,7 +34,7 @@ public interface UserService extends UserDetailsService {
 
     void suspendUser(Long userId);
 
-    void activateUser(Long userId);
+    UserStatus activateUser(Long userId);
 
     void processUserLogin(User user);
 }

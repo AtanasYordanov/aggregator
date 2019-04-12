@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import softuni.aggregator.domain.enums.UserStatus;
 import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
 import softuni.aggregator.domain.model.vo.UserDetailsVO;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
@@ -102,8 +103,8 @@ public class AdminController {
     }
 
     @PutMapping(value = "/activate/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activateUser(@PathVariable Long userId) {
-        userService.activateUser(userId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserStatus> activateUser(@PathVariable Long userId) {
+        UserStatus newStatus = userService.activateUser(userId);
+        return new ResponseEntity<>(newStatus, HttpStatus.OK);
     }
 }

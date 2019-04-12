@@ -100,10 +100,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void activateUser(Long userId) {
+    public UserStatus activateUser(Long userId) {
         User user = getUser(userId);
-        user.setStatus(userIsInactive(user) ? UserStatus.INACTIVE : UserStatus.ACTIVE);
+        UserStatus status = userIsInactive(user) ? UserStatus.INACTIVE : UserStatus.ACTIVE;
+        user.setStatus(status);
         userRepository.save(user);
+        return status;
     }
 
     @Override
@@ -173,6 +175,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserStatus() {
         log.info("Updating user status...");
+
         List<User> users = userRepository.findAll().stream()
                 .filter(this::userIsInactive)
                 .filter(u -> u.getStatus().equals(UserStatus.ACTIVE))
@@ -183,7 +186,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean userIsInactive(User user) {
-        return user.getLastLogin() == null || user.getLastLogin().isBefore(LocalDateTime.now().minusDays(1));
+        return user.getLastLogin() == null || user.getLastLogin().isBefore(LocalDateTime.now().minusMonths(1));
     }
 
     private boolean userIsRootAdmin(User user) {

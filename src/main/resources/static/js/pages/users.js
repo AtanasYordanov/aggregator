@@ -90,13 +90,13 @@
 
         function activateUser(user, $btnGroup, $tableRow, $activateBtn) {
             http.put(`/admin/activate/${user['id']}`, {},
-                () => {
+                (status) => {
                     const $statusField = $tableRow.find('.status');
-                    $statusField.text('ACTIVE');
+                    $statusField.text(status);
                     $statusField.removeClass(user['status'].toLowerCase());
-                    $statusField.addClass('active');
+                    $statusField.addClass(status.toLowerCase());
                     $activateBtn.remove();
-                    user['status'] = 'ACTIVE';
+                    user['status'] = status;
                     appendSuspendButton(user, $btnGroup, $tableRow)
                 });
         }
