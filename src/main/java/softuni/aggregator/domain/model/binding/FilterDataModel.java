@@ -1,10 +1,12 @@
 package softuni.aggregator.domain.model.binding;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class FilterDataModel {
 
     private String industry;

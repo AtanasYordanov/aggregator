@@ -2,6 +2,7 @@ package softuni.aggregator.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.domain.entities.Employee;
@@ -42,6 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @SuppressWarnings("Duplicates")
+    @Cacheable("employees")
     public List<ExcelExportDto> getEmployeesForExport(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
         Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
@@ -60,6 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @SuppressWarnings("Duplicates")
+    @Cacheable("employees")
     public List<ExcelExportDto> getEmployeesWithCompaniesForExport(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
         Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
@@ -78,6 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @SuppressWarnings("Duplicates")
+    @Cacheable("employees")
     public EmployeesPageVO getEmployeesPage(Pageable pageable, FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
         Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
@@ -103,6 +107,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @SuppressWarnings("Duplicates")
+    @Cacheable("employees")
     public long getFilteredEmployeesCount(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
         Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
