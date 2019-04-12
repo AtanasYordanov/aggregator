@@ -55,7 +55,7 @@ public class ExcelWriterImpl implements ExcelWriter {
             File file = new File(filePath);
 
             log.info("______________________________________________________");
-            log.error("FINAL"+ file.getName());
+            log.error("FINAL"+ file.getCanonicalPath());
             log.info("______________________________________________________");
             return new File(filePath);
         } catch (IOException e) {
