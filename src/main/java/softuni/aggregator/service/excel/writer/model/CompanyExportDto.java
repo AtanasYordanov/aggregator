@@ -1,5 +1,6 @@
 package softuni.aggregator.service.excel.writer.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import softuni.aggregator.domain.entities.Company;
@@ -8,6 +9,8 @@ import softuni.aggregator.domain.entities.SubIndustry;
 
 @Getter
 @Setter
+@EqualsAndHashCode
+
 public class CompanyExportDto extends ExcelExportDto {
 
     private String name;

@@ -3,6 +3,7 @@ package softuni.aggregator.service.excel.writer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import softuni.aggregator.service.excel.constants.ExcelConstants;
 import softuni.aggregator.service.excel.writer.columns.WriteExcelColumn;
@@ -24,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class ExcelWriterImpl implements ExcelWriter {
 
     @Override
+    @Cacheable("excel")
     public File writeExcel(List<ExcelExportDto> excelDtos, ExportType exportType) {
         if (excelDtos.isEmpty()) {
             throw new IllegalArgumentException("Zero items selected.");

@@ -1,6 +1,7 @@
 package softuni.aggregator.service.excel.writer.exports;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import softuni.aggregator.service.excel.writer.columns.CompaniesExportColumn;
 import softuni.aggregator.service.excel.writer.columns.EmployeesCompaniesExportColumn;
 import softuni.aggregator.service.excel.writer.columns.EmployeesExportColumn;

@@ -2,6 +2,7 @@ package softuni.aggregator.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -108,6 +109,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"excel", "companies", "employees"}, allEntries = true)
     public void saveCompanies(Collection<Company> companies) {
         companyRepository.saveAll(companies);
     }
