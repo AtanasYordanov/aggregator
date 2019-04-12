@@ -124,7 +124,7 @@ public class ExcelWriterImpl implements ExcelWriter {
     private void createDirectoryIfNotExists() {
         File dir = new File(ExcelConstants.EXPORT_BASE_PATH);
         if (!dir.exists()) {
-            if (!dir.mkdirs()) {
+            if (!dir.mkdir()) {
                 log.error("Failed to create directory: {}!", dir.getPath());
                 throw new ServiceException("Failed to write excel file!");
             }
