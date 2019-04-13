@@ -127,6 +127,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"excel", "companies", "employees"}, allEntries = true)
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }

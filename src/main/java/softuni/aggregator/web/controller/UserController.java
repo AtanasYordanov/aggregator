@@ -85,7 +85,7 @@ public class UserController {
 
     @PutMapping("/profile/edit")
     public ModelAndView processEditProfile(@AuthenticationPrincipal User loggedUser,
-                                    @ModelAttribute(name = "bindingModel") UserEditProfileBindingModel bindingModel,
+                                    @Valid @ModelAttribute(name = "bindingModel") UserEditProfileBindingModel bindingModel,
                                            BindingResult bindingResult, ModelAndView model) {
 
         if (bindingResult.hasErrors()) {

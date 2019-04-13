@@ -107,6 +107,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"excel", "companies", "employees"}, allEntries = true)
     public void deleteCompany(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("No such company."));

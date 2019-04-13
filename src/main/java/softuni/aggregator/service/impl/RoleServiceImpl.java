@@ -42,15 +42,11 @@ public class RoleServiceImpl implements RoleService {
     @PostConstruct
     private void seedRoles() {
         if (roleRepository.count() == 0) {
-            Role rootAdminRole = new Role(UserRole.ROLE_ROOT_ADMIN.toString());
-            Role adminRole = new Role(UserRole.ROLE_ADMIN.toString());
-            Role moderatorRole = new Role(UserRole.ROLE_MODERATOR.toString());
-            Role userRole = new Role(UserRole.ROLE_USER.toString());
+            List<Role> roles = Arrays.stream(UserRole.values())
+                    .map(ur -> new Role(ur.toString()))
+                    .collect(Collectors.toList());
 
-            roleRepository.save(rootAdminRole);
-            roleRepository.save(adminRole);
-            roleRepository.save(moderatorRole);
-            roleRepository.save(userRole);
+            roleRepository.saveAll(roles);
         }
     }
 }
