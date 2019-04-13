@@ -71,7 +71,7 @@ public class ImportControllerTests {
     @Test
     @WithMockUser(roles = "MODERATOR")
     public void getImportTypes_moderator_shouldReturnCorrectView() throws Exception {
-        mockMvc.perform(post("/imports/types")
+        mockMvc.perform(get("/imports/types")
                 .with(user(TestUtils.getLoggedModerator())))
                 .andExpect(status().isOk());
     }

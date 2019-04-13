@@ -63,8 +63,11 @@ let http = (() => {
                 if (res.status >= 400) {
                     res.json().then((e) => {
                         notification.error(e.message);
-                    }).catch(() => onError());
-                    onError();
+                        onError();
+                    }).catch(() => {
+                        notification.error('Operation failed.');
+                        onError()
+                    });
                     return;
                 }
                 res.json().then((data) => {

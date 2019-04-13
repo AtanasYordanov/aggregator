@@ -86,7 +86,9 @@ public class AdminControllerTests {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void getUsersPage_admin_shouldReturnCorrectView() throws Exception {
-        Mockito.when(mockUserRepository.findAll()).thenReturn(List.of());
+        Page<User> testPage = new PageImpl<>(List.of());
+        Mockito.when(mockUserRepository.findAll((Pageable) Mockito.any()))
+                .thenReturn(testPage);
 
         mockMvc.perform(get("/admin/users/page"))
                 .andExpect(status().isOk());
@@ -192,8 +194,11 @@ public class AdminControllerTests {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void suspendUser_admin_shouldUpdateUserStatus() throws Exception {
+        User user = new User();
+        user.setAuthorities(Set.of(new Role(UserRole.ROLE_USER.toString())));
+
         Mockito.when(mockUserRepository.findById(5L))
-                .thenReturn(Optional.of(new User()));
+                .thenReturn(Optional.of(user));
 
         mockMvc.perform(put("/admin/suspend/5")
                 .contentType(MediaType.APPLICATION_JSON))

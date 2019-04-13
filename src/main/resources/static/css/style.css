@@ -101,7 +101,7 @@ main {
   color: grey; }
 
 .suspended {
-  color: red; }
+  color: #ce2b2b; }
 
 .container-fluid .container-fluid {
   padding-left: 0 !important;

@@ -89,6 +89,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void suspendUser(Long userId) {
         User user = getUser(userId);
+
+        if (userIsRootAdmin(user)) {
+            throw new ForbiddenActionException("You cannot suspend the ROOT ADMIN.");
+        }
+
         user.setStatus(UserStatus.SUSPENDED);
         userRepository.save(user);
     }

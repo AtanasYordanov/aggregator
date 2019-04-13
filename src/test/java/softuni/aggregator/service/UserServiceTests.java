@@ -128,6 +128,7 @@ public class UserServiceTests {
     public void suspendUser_validUser_shouldUpdateStatusToSuspended() {
         Long testId = 1L;
         User user = new User();
+        user.setAuthorities(Set.of(new Role(UserRole.ROLE_USER.toString())));
         Mockito.when(mockUserRepository.findById(testId)).thenReturn(Optional.of(user));
 
         userService.suspendUser(testId);
