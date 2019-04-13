@@ -19,13 +19,13 @@ public class ExcelReaderImpl implements ExcelReader {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ExcelImportDto> readExcel(String path, ImportType excelImportType) {
+    public List<ExcelImportDto> readExcel(String path, ImportType importType) {
         try (FileInputStream inputStream = new FileInputStream(new File(path));
              Workbook workbook = new XSSFWorkbook(inputStream)) {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            Map<String, ReadExcelColumn> columns = Arrays.stream(excelImportType.getColumns())
+            Map<String, ReadExcelColumn> columns = Arrays.stream(importType.getColumns())
                     .collect(Collectors.toMap(ExcelColumn::getColumnName, c -> c));
 
             ReadExcelColumn[] columnsByIndex = getColumnsByIndex(sheet, columns);
@@ -36,7 +36,7 @@ public class ExcelReaderImpl implements ExcelReader {
                 if (row.getRowNum() == 0) {
                     continue;
                 }
-                ExcelImportDto dto = excelImportType.createInstance();
+                ExcelImportDto dto = importType.createInstance();
                 parseRow(row, dto, columnsByIndex);
                 data.add(dto);
             }

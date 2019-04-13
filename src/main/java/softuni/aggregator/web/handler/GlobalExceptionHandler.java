@@ -44,10 +44,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGenericException(HttpServletRequest request, Exception ex) {
+    public String handleGenericException(HttpServletRequest request, Exception ex) {
         log.warn("Error when trying to access {}", request.getRequestURL());
         ex.printStackTrace();
-        return new ResponseEntity<>(new Error("Something went wrong."), HttpStatus.INTERNAL_SERVER_ERROR);
+        return "error/generic-error";
     }
 
     @Getter

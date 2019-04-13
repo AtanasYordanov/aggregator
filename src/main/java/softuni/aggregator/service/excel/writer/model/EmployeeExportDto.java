@@ -2,12 +2,14 @@ package softuni.aggregator.service.excel.writer.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.Employee;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @EqualsAndHashCode
 public class EmployeeExportDto extends ExcelExportDto {
 

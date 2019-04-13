@@ -98,28 +98,13 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(e -> mapper.map(e, EmployeeListVO.class))
                 .collect(Collectors.toList());
 
-        long employeesCount = getFilteredEmployeesCount(filterData);
+        long employeesCount = employeeRepository.getFilteredEmployeesCount(industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city);
 
         EmployeesPageVO employeesPageVO = new EmployeesPageVO();
         employeesPageVO.setEmployees(employees);
         employeesPageVO.setTotalItemsCount(employeesCount);
         return employeesPageVO;
-    }
-
-    @Override
-    @SuppressWarnings("Duplicates")
-    @Cacheable("employees")
-    public long getFilteredEmployeesCount(FilterDataModel filterData) {
-        List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
-        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
-        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
-        Integer yearFound = filterData.getYearFound();
-        String city = filterData.getCity();
-        String country = filterData.getCountry();
-
-        return employeeRepository.getFilteredEmployeesCount(industries, minEmployees, maxEmployees,
-                includeCompaniesWithNoEmployeeData, yearFound, country, city);
     }
 
     @Override

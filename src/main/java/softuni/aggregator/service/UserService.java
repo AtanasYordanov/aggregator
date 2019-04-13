@@ -2,7 +2,6 @@ package softuni.aggregator.service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.validation.BindingResult;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.enums.UserStatus;
 import softuni.aggregator.domain.model.binding.ChangeUserRoleBindingModel;
@@ -24,17 +23,17 @@ public interface UserService extends UserDetailsService {
 
     UsersPageVO getUsersPage(Pageable pageable);
 
-    long getTotalUsersCount();
-
     UserDetailsVO getUserDetails(Long id);
 
     void updateProfile(User loggedUser, UserEditProfileBindingModel bindingModel);
 
-    void updatePassword(User loggedUser, UserChangePasswordBindingModel bindingModel, BindingResult bindingResult);
+    void updatePassword(User loggedUser, UserChangePasswordBindingModel bindingModel);
 
     void suspendUser(Long userId);
 
     UserStatus activateUser(Long userId);
 
     void processUserLogin(User user);
+
+    boolean passwordsMatch(String oldPassword, String password);
 }

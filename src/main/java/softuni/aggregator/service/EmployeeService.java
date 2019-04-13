@@ -19,8 +19,6 @@ public interface EmployeeService {
 
     EmployeesPageVO getEmployeesPage(Pageable pageable, FilterDataModel filterData);
 
-    long getFilteredEmployeesCount(FilterDataModel filterData);
-
     EmployeeDetailsVO getById(Long id);
 
     void saveEmployees(Collection<Employee> employees);

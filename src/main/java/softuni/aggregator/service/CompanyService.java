@@ -17,8 +17,6 @@ public interface CompanyService {
 
     CompaniesPageVO getCompaniesPage(Pageable pageable, FilterDataModel filterData);
 
-    long getFilteredCompaniesCount(FilterDataModel filterData);
-
     CompanyDetailsVO getById(Long id);
 
     void saveCompanies(Collection<Company> companies);

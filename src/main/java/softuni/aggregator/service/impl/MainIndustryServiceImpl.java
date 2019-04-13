@@ -30,10 +30,9 @@ public class MainIndustryServiceImpl implements MainIndustryService {
     }
 
     @Override
-    public List<String> getAllIndustryNames() {
+    public Map<String, MainIndustry> getAllIndustriesByName() {
         return mainIndustryRepository.findAll().stream()
-                .map(MainIndustry::getName)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(MainIndustry::getName, i -> i));
     }
 
     @Override
@@ -43,15 +42,12 @@ public class MainIndustryServiceImpl implements MainIndustryService {
     }
 
     @Override
-    public Map<String, MainIndustry> getAllIndustriesByName() {
-        return mainIndustryRepository.findAll().stream()
-                .collect(Collectors.toMap(MainIndustry::getName, i -> i));
-    }
-
-    @Override
     public void fillFilterPageVO(FilterPageVO filterPageVO) {
         List<String> subIndustries = subIndustryService.getAllIndustryNames();
-        List<String> mainIndustries = getAllIndustryNames();
+        List<String> mainIndustries = mainIndustryRepository.findAll().stream()
+                .map(MainIndustry::getName)
+                .collect(Collectors.toList());
+
         filterPageVO.setSubIndustries(subIndustries);
         filterPageVO.setMainIndustries(mainIndustries);
     }

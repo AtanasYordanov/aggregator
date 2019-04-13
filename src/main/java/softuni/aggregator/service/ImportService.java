@@ -11,8 +11,6 @@ public interface ImportService {
 
     ImportsPageVO getImportsPage(Pageable pageable, User user);
 
-    long getImportsCountForUser(User user);
-
     int importCompaniesFromXing(User user, MultipartFile file);
 
     int importCompaniesFromOrbis(User user, MultipartFile file);
@@ -20,8 +18,6 @@ public interface ImportService {
     int importEmployees(User user, MultipartFile file);
 
     ImportsPageVO getAllImportsPage(Pageable pageable);
-
-    long getAllImportsCount();
 
     Map<String, String> getImportTypes();
 }

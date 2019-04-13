@@ -49,7 +49,7 @@ public class ExcelWriterImpl implements ExcelWriter {
 
             return new File(filePath);
         } catch (IOException e) {
-            log.error("Failed to export %s.", exportType.getExportName());
+            log.error("Failed to export %s.", exportType.toString());
             throw new ServiceException("Export failed.");
         }
     }

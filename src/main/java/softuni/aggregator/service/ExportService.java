@@ -7,11 +7,10 @@ import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
 
 public interface ExportService {
 
-    int exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData) throws FileNotFoundException;
+    int exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData);
 
     int exportCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData);
 
@@ -19,13 +18,9 @@ public interface ExportService {
 
     ExportsPageVO getExportsPage(Pageable pageable, User user);
 
-    long getExportsCountForUser(User user);
-
     void deleteOldExports();
 
     int exportEmployeesWithCompanies(User loggedUser, ExportBindingModel exportModel, FilterDataModel filterData);
 
     ExportsPageVO getAllExportsPage(Pageable pageable);
-
-    long getAllExportsCount();
 }

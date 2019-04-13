@@ -27,13 +27,14 @@ import java.util.stream.Collectors;
 @Transactional
 public class CompanyServiceImpl implements CompanyService {
 
-    private final SubIndustryService subIndustryService;
     private final CompanyRepository companyRepository;
+    private final SubIndustryService subIndustryService;
     private final ModelMapper mapper;
 
     @Autowired
-    public CompanyServiceImpl(SubIndustryService subIndustryService,
-                              CompanyRepository companyRepository, ModelMapper mapper) {
+    public CompanyServiceImpl(CompanyRepository companyRepository,
+                              SubIndustryService subIndustryService,
+                              ModelMapper mapper) {
         this.subIndustryService = subIndustryService;
         this.companyRepository = companyRepository;
         this.mapper = mapper;
@@ -76,29 +77,14 @@ public class CompanyServiceImpl implements CompanyService {
                 .map(c -> mapper.map(c, CompanyListVO.class))
                 .collect(Collectors.toList());
 
-        long companiesCount = getFilteredCompaniesCount(filterData);
+        long companiesCount = companyRepository.getFilteredCompaniesCount(industries, minEmployees, maxEmployees,
+                includeCompaniesWithNoEmployeeData, yearFound, country, city);
 
         CompaniesPageVO companiesPageVO = new CompaniesPageVO();
         companiesPageVO.setCompanies(companies);
         companiesPageVO.setTotalItemsCount(companiesCount);
 
         return companiesPageVO;
-    }
-
-    @Override
-    @SuppressWarnings("Duplicates")
-    @Cacheable("companies")
-    public long getFilteredCompaniesCount(FilterDataModel filterData) {
-        List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
-        Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();
-        Integer maxEmployees = filterData.getMaxEmployeesCount() == null ? Integer.MAX_VALUE : filterData.getMaxEmployeesCount();
-        Boolean includeCompaniesWithNoEmployeeData = filterData.getIncludeCompaniesWithNoEmployeeData();
-        Integer yearFound = filterData.getYearFound();
-        String city = filterData.getCity();
-        String country = filterData.getCountry();
-
-        return companyRepository.getFilteredCompaniesCount(industries, minEmployees, maxEmployees,
-                includeCompaniesWithNoEmployeeData, yearFound, country, city);
     }
 
     @Override

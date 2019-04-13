@@ -18,10 +18,9 @@ import softuni.aggregator.service.CompanyService;
 import softuni.aggregator.service.EmployeeService;
 import softuni.aggregator.service.ExportService;
 import softuni.aggregator.service.excel.constants.ExcelConstants;
+import softuni.aggregator.service.excel.writer.ExcelWriter;
 import softuni.aggregator.service.excel.writer.exports.ExportType;
-import softuni.aggregator.service.excel.writer.ExcelWriterImpl;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
-import softuni.aggregator.utils.performance.PerformanceUtils;
 import softuni.aggregator.web.exceptions.NotFoundException;
 import softuni.aggregator.web.exceptions.ServiceException;
 
@@ -37,13 +36,13 @@ import java.util.stream.Collectors;
 public class ExportServiceImpl implements ExportService {
 
     private final ExportRepository exportRepository;
-    private final ExcelWriterImpl excelWriter;
+    private final ExcelWriter excelWriter;
     private final CompanyService companyService;
     private final EmployeeService employeeService;
     private final ModelMapper mapper;
 
     @Autowired
-    public ExportServiceImpl(ExportRepository exportRepository, ExcelWriterImpl excelWriter,
+    public ExportServiceImpl(ExportRepository exportRepository, ExcelWriter excelWriter,
                              EmployeeService employeesService, CompanyService companyService,
                              ModelMapper mapper) {
         this.exportRepository = exportRepository;
@@ -55,10 +54,7 @@ public class ExportServiceImpl implements ExportService {
 
     @Override
     public int exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
-        PerformanceUtils.startTimer("asdasdadasd");
         List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport(filterData);
-        PerformanceUtils.stopTimer("asdasdadasd");
-
         File file = excelWriter.writeExcel(allEmployees, ExportType.EMPLOYEES);
         int itemsCount = allEmployees.size();
         Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.EMPLOYEES, itemsCount, user);
@@ -100,7 +96,7 @@ public class ExportServiceImpl implements ExportService {
                 .map(e -> mapper.map(e, ExportListVO.class))
                 .collect(Collectors.toList());
 
-        long exportsCount = getExportsCountForUser(user);
+        long exportsCount = exportRepository.countByUser(user);
 
         ExportsPageVO exportsPageVO = new ExportsPageVO();
         exportsPageVO.setExports(exports);
@@ -119,7 +115,7 @@ public class ExportServiceImpl implements ExportService {
                 })
                 .collect(Collectors.toList());
 
-        long exportsCount = getAllExportsCount();
+        long exportsCount = exportRepository.count();
 
         ExportsPageVO exportsPageVO = new ExportsPageVO();
         exportsPageVO.setExports(exports);
@@ -129,20 +125,10 @@ public class ExportServiceImpl implements ExportService {
     }
 
     @Override
-    public long getExportsCountForUser(User user) {
-        return exportRepository.countByUser(user);
-    }
-
-    @Override
-    public long getAllExportsCount() {
-        return exportRepository.count();
-    }
-
-    @Override
     public void deleteOldExports() {
         log.info("Deleting old exports...");
-        LocalDateTime now = LocalDateTime.now().minusMonths(1);
 
+        LocalDateTime now = LocalDateTime.now().minusMonths(1);
         List<Export> exports = exportRepository.findAllByGeneratedOnBefore(now);
 
         exports.stream()

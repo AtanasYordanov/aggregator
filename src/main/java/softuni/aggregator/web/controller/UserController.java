@@ -117,13 +117,17 @@ public class UserController {
             bindingResult.addError(new FieldError("bindingModel", "confirmNewPassword", "Passwords do not match"));
         }
 
-        userService.updatePassword(loggedUser, bindingModel, bindingResult);
+        if (!userService.passwordsMatch(bindingModel.getOldPassword(), loggedUser.getPassword())) {
+            bindingResult.addError(new FieldError("bindingModel", "oldPassword", "Wrong password provided"));
+        }
 
         if (bindingResult.hasErrors()) {
             model.addObject("bindingModel", bindingModel);
             model.setViewName("change-password");
             return model;
         }
+
+        userService.updatePassword(loggedUser, bindingModel);
 
         model.setViewName("redirect:/profile");
         return model;

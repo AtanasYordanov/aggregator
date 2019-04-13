@@ -62,7 +62,7 @@ public class ImportServiceImpl implements ImportService {
                 .map(i -> mapper.map(i, ImportListVO.class))
                 .collect(Collectors.toList());
 
-        long importsCount = getImportsCountForUser(user);
+        long importsCount = importRepository.countByUser(user);
 
         ImportsPageVO importsPageVO = new ImportsPageVO();
         importsPageVO.setImports(imports);
@@ -81,23 +81,13 @@ public class ImportServiceImpl implements ImportService {
                 })
                 .collect(Collectors.toList());
 
-        long importsCount = getAllImportsCount();
+        long importsCount = importRepository.count();
 
         ImportsPageVO importsPageVO = new ImportsPageVO();
         importsPageVO.setImports(imports);
         importsPageVO.setTotalItemsCount(importsCount);
 
         return importsPageVO;
-    }
-
-    @Override
-    public long getImportsCountForUser(User user) {
-        return importRepository.countByUser(user);
-    }
-
-    @Override
-    public long getAllImportsCount() {
-        return importRepository.count();
     }
 
     @Override

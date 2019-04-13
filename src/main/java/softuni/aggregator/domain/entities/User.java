@@ -1,5 +1,6 @@
 package softuni.aggregator.domain.entities;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"password", "lastLogin", "status", "authorities", "exports", "imports"})
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {

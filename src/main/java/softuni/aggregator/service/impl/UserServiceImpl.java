@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import softuni.aggregator.domain.entities.Role;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.enums.UserStatus;
@@ -82,12 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(User user, UserChangePasswordBindingModel bindingModel, BindingResult bindingResult) {
-        if (!passwordEncoder.matches(bindingModel.getOldPassword(), user.getPassword())) {
-            bindingResult.addError(new FieldError("bindingModel", "oldPassword", "Wrong password provided"));
-            return;
-        }
-
+    public void updatePassword(User user, UserChangePasswordBindingModel bindingModel) {
         user.setPassword(passwordEncoder.encode(bindingModel.getNewPassword()));
         userRepository.save(user);
     }
@@ -113,6 +107,11 @@ public class UserServiceImpl implements UserService {
         user.setLastLogin(LocalDateTime.now());
         user.setStatus(UserStatus.ACTIVE);
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean passwordsMatch(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     @Override
@@ -145,18 +144,13 @@ public class UserServiceImpl implements UserService {
                 })
                 .collect(Collectors.toList());
 
-        long usersCount = getTotalUsersCount();
+        long usersCount = userRepository.count();
 
         UsersPageVO usersPageVO = new UsersPageVO();
         usersPageVO.setUsers(users);
         usersPageVO.setTotalItemsCount(usersCount);
 
         return usersPageVO;
-    }
-
-    @Override
-    public long getTotalUsersCount() {
-        return userRepository.count();
     }
 
     @Override

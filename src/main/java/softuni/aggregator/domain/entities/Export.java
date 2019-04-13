@@ -1,5 +1,6 @@
 package softuni.aggregator.domain.entities;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "generatedOn")
 @Entity
 @Table(name = "exports")
 public class Export extends BaseEntity {

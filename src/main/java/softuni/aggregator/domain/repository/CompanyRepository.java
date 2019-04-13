@@ -21,7 +21,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
             "AND (:yearFound IS NULL OR c.yearFound = :yearFound) " +
             "AND (:country IS NULL OR :country = '' OR LOWER(c.country) = LOWER(:country)) " +
             "AND (:city IS NULL OR :city = '' OR LOWER(c.city) = LOWER(:city))")
-    Page<Company> getFilteredCompaniesPage(Pageable pageable, List<SubIndustry> industries, Integer minEmployees, Integer maxEmployees,
+    List<Company> getFilteredCompaniesPage(Pageable pageable, List<SubIndustry> industries, Integer minEmployees, Integer maxEmployees,
                                            Boolean includeCompaniesWithNoEmployeeData, Integer yearFound, String country, String city);
 
     @Query(value = "SELECT COUNT(c.id) FROM Company c " +
