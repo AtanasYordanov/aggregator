@@ -7,8 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import softuni.aggregator.service.excel.writer.ExcelWriter;
-import softuni.aggregator.service.excel.writer.ExcelWriterImpl;
 import softuni.aggregator.service.excel.writer.exports.ExportType;
 import softuni.aggregator.service.excel.writer.model.CompanyExportDto;
 import softuni.aggregator.service.excel.writer.model.EmployeeExportDto;

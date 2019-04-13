@@ -28,8 +28,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND (:yearFound IS NULL OR e.company.yearFound = :yearFound) " +
             "AND (:country IS NULL OR :country = '' OR LOWER(e.company.country) = LOWER(:country)) " +
             "AND (:city IS NULL OR :city = '' OR LOWER(e.company.city) = LOWER(:city))")
-    List<Employee> getFilteredEmployeesPage(Pageable pageable, List<SubIndustry> industries, Integer minEmployees, Integer maxEmployees,
-                                            Boolean includeCompaniesWithNoEmployeeData, Integer yearFound, String country, String city);
+    List<Employee> getFilteredEmployeesPage(Pageable pageable, @Param("industries") List<SubIndustry> industries,
+                                            @Param("minEmployees") Integer minEmployees, @Param("maxEmployees") Integer maxEmployees,
+                                            @Param("includeCompaniesWithNoEmployeeData") Boolean includeCompaniesWithNoEmployeeData,
+                                            @Param("yearFound") Integer yearFound, @Param("country") String country,
+                                            @Param("city")String city);
 
     @Query("SELECT COUNT(e.id) FROM Employee e " +
             "WHERE (e.company.industry IN :industries OR :industries IS NULL) " +
@@ -37,8 +40,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND (:yearFound IS NULL OR e.company.yearFound = :yearFound) " +
             "AND (:country IS NULL OR :country = '' OR LOWER(e.company.country) = LOWER(:country)) " +
             "AND (:city IS NULL OR :city = '' OR LOWER(e.company.city) = LOWER(:city))")
-    long getFilteredEmployeesCount(List<SubIndustry> industries, Integer minEmployees, Integer maxEmployees,
-                                   Boolean includeCompaniesWithNoEmployeeData, Integer yearFound, String country, String city);
+    long getFilteredEmployeesCount(@Param("industries") List<SubIndustry> industries,
+                                   @Param("minEmployees") Integer minEmployees, @Param("maxEmployees") Integer maxEmployees,
+                                   @Param("includeCompaniesWithNoEmployeeData") Boolean includeCompaniesWithNoEmployeeData,
+                                   @Param("yearFound") Integer yearFound, @Param("country") String country,
+                                   @Param("city")String city);
 
     @EntityGraph(attributePaths = {"company", "company.industry", "company.companyEmails"})
     @Query("SELECT e FROM Employee e " +
@@ -47,6 +53,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND (:yearFound IS NULL OR e.company.yearFound = :yearFound) " +
             "AND (:country IS NULL OR :country = '' OR LOWER(e.company.country) = LOWER(:country)) " +
             "AND (:city IS NULL OR :city = '' OR LOWER(e.company.city) = LOWER(:city))")
-    List<Employee> getFilteredEmployees(List<SubIndustry> industries, Integer minEmployees, Integer maxEmployees,
-                                        Boolean includeCompaniesWithNoEmployeeData, Integer yearFound, String country, String city);
+    List<Employee> getFilteredEmployees(@Param("industries") List<SubIndustry> industries,
+                                        @Param("minEmployees") Integer minEmployees, @Param("maxEmployees") Integer maxEmployees,
+                                        @Param("includeCompaniesWithNoEmployeeData") Boolean includeCompaniesWithNoEmployeeData,
+                                        @Param("yearFound") Integer yearFound, @Param("country") String country,
+                                        @Param("city")String city);
 }
