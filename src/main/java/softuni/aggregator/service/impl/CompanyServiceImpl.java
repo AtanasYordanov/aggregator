@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.SubIndustry;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
@@ -17,10 +18,11 @@ import softuni.aggregator.service.CompanyService;
 import softuni.aggregator.service.SubIndustryService;
 import softuni.aggregator.service.excel.writer.model.CompanyExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
-import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.web.exceptions.NotFoundException;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,7 +97,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"excel", "companies", "employees"}, allEntries = true)
+    @CacheEvict(cacheNames = {"companies", "employees"}, allEntries = true)
     public void saveCompanies(Collection<Company> companies) {
         companyRepository.saveAll(companies);
     }
@@ -107,7 +109,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"excel", "companies", "employees"}, allEntries = true)
+    @CacheEvict(cacheNames = {"companies", "employees"}, allEntries = true)
     public void deleteCompany(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("No such company."));

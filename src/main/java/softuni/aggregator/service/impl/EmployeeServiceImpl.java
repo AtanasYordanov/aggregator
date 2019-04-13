@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.domain.entities.Employee;
 import softuni.aggregator.domain.entities.SubIndustry;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
@@ -19,7 +20,6 @@ import softuni.aggregator.service.excel.writer.model.CompanyExportDto;
 import softuni.aggregator.service.excel.writer.model.EmployeeExportDto;
 import softuni.aggregator.service.excel.writer.model.EmployeeWithCompanyExportDto;
 import softuni.aggregator.service.excel.writer.model.ExcelExportDto;
-import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.web.exceptions.NotFoundException;
 
 import java.util.Collection;
@@ -115,7 +115,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"excel", "companies", "employees"}, allEntries = true)
+    @CacheEvict(cacheNames = {"companies", "employees"}, allEntries = true)
     public void saveEmployees(Collection<Employee> employees) {
         employeeRepository.saveAll(employees);
     }
@@ -127,7 +127,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"excel", "companies", "employees"}, allEntries = true)
+    @CacheEvict(cacheNames = {"companies", "employees"}, allEntries = true)
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
