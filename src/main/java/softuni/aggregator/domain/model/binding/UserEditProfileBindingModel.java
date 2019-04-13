@@ -14,7 +14,6 @@ public class UserEditProfileBindingModel {
 
     @NotNull(message = "Invalid email!")
     @Size(min = 6, message = "Invalid email!")
-    @UniqueEmail
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9+_.-]+$", message = "Invalid email!")
     private String email;
 
