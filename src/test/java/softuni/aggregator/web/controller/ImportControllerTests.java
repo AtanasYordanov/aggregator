@@ -36,18 +36,6 @@ public class ImportControllerTests {
     @MockBean
     private ImportRepository mockImportRepository;
 
-    @MockBean
-    private EmployeeRepository mockEmployeeRepository;
-
-    @MockBean
-    private CompanyRepository mockCompanyRepository;
-
-    @MockBean
-    private ExcelReader mockExcelReader;
-
-    @MockBean
-    private ServletContext mockServletContext;
-
     @Autowired
     private MockMvc mockMvc;
 

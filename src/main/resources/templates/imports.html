@@ -15,7 +15,7 @@
             <div class="container-fluid section-header">
                 <h2 class="container-fluid text-center mb-4"
                     th:text="${#httpServletRequest.requestURI.contains('admin')} ? 'All Imports' : 'Imports'"></h2>
-                <form class="row">
+                <form class="row" th:if="${!#httpServletRequest.requestURI.contains('admin')}">
                     <div class="btn-wrapper col-xl-10 col-lg-9 col-md-8"></div>
                     <div class="btn-wrapper col-xl-2 col-lg-3 col-md-4 p-0">
                         <button id="import-btn" class="btn btn-success" type="button">
