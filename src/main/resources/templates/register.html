@@ -49,7 +49,6 @@
                             <input type="password" name="confirmPassword" class="form-control" id="confirm-password"
                                    placeholder="Confirm Password" th:field="*{confirmPassword}">
                             <small class="text-danger" th:each="error: ${#fields.errors('confirmPassword')}" th:text="${error}"></small>
-                            <small class="text-danger" th:each="error: ${#fields.errors('email')}" th:text="${error}"></small>
                         </div>
                         <button id="register-btn" type="submit" class="btn btn-success mt-2">Register</button>
                     </form>
