@@ -208,3 +208,21 @@ main {
         }
     }
 }
+
+@media all and (max-width: 520px) {
+    .container-fluid {
+        main.container {
+            padding-left: 0;
+            padding-right: 0;
+
+            .custom-form {
+                padding-left: 2%;
+                padding-right: 2%;
+
+                .rounded-form {
+                    padding: 8% !important;
+                }
+            }
+        }
+    }
+}

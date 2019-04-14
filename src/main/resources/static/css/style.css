@@ -114,5 +114,14 @@ main {
 @media all and (max-width: 920px) {
   main .table-wrapper .details-table tbody tr td:first-child {
     min-width: auto; } }
+@media all and (max-width: 520px) {
+  .container-fluid main.container {
+    padding-left: 0;
+    padding-right: 0; }
+    .container-fluid main.container .custom-form {
+      padding-left: 2%;
+      padding-right: 2%; }
+      .container-fluid main.container .custom-form .rounded-form {
+        padding: 8% !important; } }
 
 /*# sourceMappingURL=style.css.map */

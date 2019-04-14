@@ -14,7 +14,6 @@ import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.service.ExportService;
-import softuni.aggregator.service.NewsService;
 import softuni.aggregator.web.annotations.Log;
 
 import javax.servlet.http.HttpServletResponse;
