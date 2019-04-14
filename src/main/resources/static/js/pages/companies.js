@@ -25,7 +25,7 @@
         checkForExports();
 
         function checkForExports() {
-            if (news.companiesExportInProgress()) {
+            if (task.companiesExportInProgress()) {
                 const $buttonSpinner = $(`<span class="btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
                 $exportBtn.prepend($buttonSpinner);
                 $exportBtn.find('.btn-text').text('EXPORTING');

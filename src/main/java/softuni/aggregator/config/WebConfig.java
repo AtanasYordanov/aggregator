@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new PerformanceInterceptor())
-                .addPathPatterns("/imports/**", "/exports/**");
+                .addPathPatterns("/imports/xing", "/imports/orbis", "/imports/employees");
 
         registry.addInterceptor(new UserDataInterceptor())
                 .excludePathPatterns("/register", "/login");

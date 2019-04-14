@@ -1,4 +1,4 @@
-const news = (() => {
+const task = (() => {
 
     function companiesExportInProgress() {
         return !!sessionStorage.getItem('exporting-companies');
@@ -12,7 +12,7 @@ const news = (() => {
         if (sessionStorage.getItem('exporting-companies')
             || sessionStorage.getItem('exporting-employees')) {
 
-            http.get('/news'
+            http.get('/tasks'
                 , (data) => {
                     const tasks = data['finishedTasks'];
                     const runningTasks = data['runningTasks'];
@@ -24,9 +24,8 @@ const news = (() => {
 
                     if (tasks && tasks.length > 0) {
                         tasks.forEach(task => {
-                            const taskType = task['taskName'];
-
-                            if (taskType === 'companies') {
+                            const taskType = task['taskType'];
+                            if (taskType === 'COMPANIES_EXPORT') {
                                 sessionStorage.removeItem('exporting-companies');
                                 notification.success(`Successfully exported ${task['itemsCount']} companies`);
 
@@ -36,7 +35,7 @@ const news = (() => {
                                     $exportBtn.find('.btn-text').text('EXPORT');
                                     $exportBtn.attr('disabled', false);
                                 }
-                            } else if (taskType === 'employees') {
+                            } else if (taskType === 'EMPLOYEES_EXPORT') {
                                 sessionStorage.removeItem('exporting-employees');
                                 notification.success(`Successfully exported ${task['itemsCount']} employees`);
 

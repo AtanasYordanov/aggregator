@@ -51,7 +51,7 @@ public class ExportServiceTests {
     private CompanyService mockCompanyService;
 
     @Mock
-    private NewsService mockNewsService;
+    private AsyncTaskService mockAsyncTaskService;
 
     private ExportService exportService;
 
@@ -59,7 +59,7 @@ public class ExportServiceTests {
     public void init() {
         ModelMapper mapper = new ModelMapper();
         exportService = new ExportServiceImpl(mockExportRepository, mockExcelWriter,
-                mockEmployeeService, mockCompanyService, mockNewsService, mapper);
+                mockEmployeeService, mockCompanyService, mockAsyncTaskService, mapper);
     }
 
     @Test

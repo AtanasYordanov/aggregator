@@ -1,4 +1,4 @@
-package softuni.aggregator.domain.model.vo;
+package softuni.aggregator.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class NewsVO {
+public class TaskInfoVO {
 
-    List<FinishedTaskVO> finishedTasks;
+    List<AsyncTask> finishedTasks;
     boolean runningTasks;
 }

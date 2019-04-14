@@ -10,9 +10,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import softuni.aggregator.constants.ErrorMessages;
-import softuni.aggregator.constants.TaskConstants;
 import softuni.aggregator.domain.entities.Export;
 import softuni.aggregator.domain.entities.User;
+import softuni.aggregator.domain.model.AsyncTaskType;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
@@ -21,7 +21,7 @@ import softuni.aggregator.domain.repository.ExportRepository;
 import softuni.aggregator.service.CompanyService;
 import softuni.aggregator.service.EmployeeService;
 import softuni.aggregator.service.ExportService;
-import softuni.aggregator.service.NewsService;
+import softuni.aggregator.service.AsyncTaskService;
 import softuni.aggregator.service.excel.constants.ExcelConstants;
 import softuni.aggregator.service.excel.writer.ExcelWriter;
 import softuni.aggregator.service.excel.writer.exports.ExportType;
@@ -47,66 +47,70 @@ public class ExportServiceImpl implements ExportService {
     private final ExcelWriter excelWriter;
     private final CompanyService companyService;
     private final EmployeeService employeeService;
-    private final NewsService newsService;
+    private final AsyncTaskService asyncTaskService;
     private final ModelMapper mapper;
 
     @Autowired
     public ExportServiceImpl(ExportRepository exportRepository, ExcelWriter excelWriter,
                              EmployeeService employeesService, CompanyService companyService,
-                             NewsService newsService, ModelMapper mapper) {
+                             AsyncTaskService asyncTaskService, ModelMapper mapper) {
         this.exportRepository = exportRepository;
         this.employeeService = employeesService;
         this.excelWriter = excelWriter;
         this.companyService = companyService;
-        this.newsService = newsService;
+        this.asyncTaskService = asyncTaskService;
         this.mapper = mapper;
     }
 
     @Async
     @Override
     public void exportCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
-        newsService.registerTask(user.getId(), TaskConstants.COMPANIES_EXPORT_TASK);
+        asyncTaskService.registerTask(user.getId(), AsyncTaskType.COMPANIES_EXPORT);
         try {
             List<ExcelExportDto> companies = companyService.getCompaniesForExport(filterData);
             File file = excelWriter.writeExcel(companies, ExportType.COMPANIES);
             int itemsCount = companies.size();
             Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.COMPANIES, itemsCount, user);
             exportRepository.save(export);
-            newsService.markTaskAsFinished(user.getId(), TaskConstants.COMPANIES_EXPORT_TASK, itemsCount);
+            asyncTaskService.markTaskAsFinished(user.getId(), AsyncTaskType.COMPANIES_EXPORT, itemsCount);
         } catch (Throwable t) {
-            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, 0);
+            asyncTaskService.markTaskAsFinished(user.getId(), AsyncTaskType.COMPANIES_EXPORT, 0);
+            throw new ServiceException(t.getMessage());
+
         }
     }
 
     @Async
     @Override
     public void exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
-        newsService.registerTask(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK);
+        asyncTaskService.registerTask(user.getId(), AsyncTaskType.EMPLOYEES_EXPORT);
         try {
             List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport(filterData);
             File file = excelWriter.writeExcel(allEmployees, ExportType.EMPLOYEES);
             int itemsCount = allEmployees.size();
             Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.EMPLOYEES, itemsCount, user);
             exportRepository.save(export);
-            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, itemsCount);
+            asyncTaskService.markTaskAsFinished(user.getId(), AsyncTaskType.EMPLOYEES_EXPORT, itemsCount);
         } catch (Throwable t) {
-            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, 0);
+            asyncTaskService.markTaskAsFinished(user.getId(), AsyncTaskType.EMPLOYEES_EXPORT, 0);
+            throw new ServiceException(t.getMessage());
         }
     }
 
     @Async
     @Override
     public void exportEmployeesWithCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
-        newsService.registerTask(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK);
+        asyncTaskService.registerTask(user.getId(), AsyncTaskType.EMPLOYEES_EXPORT);
         try {
             List<ExcelExportDto> data = employeeService.getEmployeesWithCompaniesForExport(filterData);
             File file = excelWriter.writeExcel(data, ExportType.MIXED);
             int itemsCount = data.size();
             Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.MIXED, itemsCount, user);
             exportRepository.save(export);
-            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, itemsCount);
+            asyncTaskService.markTaskAsFinished(user.getId(), AsyncTaskType.EMPLOYEES_EXPORT, itemsCount);
         } catch (Throwable t) {
-            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, 0);
+            asyncTaskService.markTaskAsFinished(user.getId(), AsyncTaskType.EMPLOYEES_EXPORT, 0);
+            throw new ServiceException(t.getMessage());
         }
     }
 
