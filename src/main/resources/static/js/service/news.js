@@ -14,7 +14,6 @@ const news = (() => {
 
             http.get('/news'
                 , (data) => {
-                    console.log(data);
                     const tasks = data['finishedTasks'];
                     const runningTasks = data['runningTasks'];
 
