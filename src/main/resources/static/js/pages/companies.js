@@ -22,6 +22,16 @@
 
         attachEvents();
         fetchData();
+        checkForExports();
+
+        function checkForExports() {
+            if (news.companiesExportInProgress()) {
+                const $buttonSpinner = $(`<span class="btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
+                $exportBtn.prepend($buttonSpinner);
+                $exportBtn.find('.btn-text').text('EXPORTING');
+                $exportBtn.attr('disabled', true);
+            }
+        }
 
         function attachEvents() {
             $industrySelect.on('change', () => fetchCompanies(currentPage));
@@ -138,17 +148,12 @@
 
             const exportName = $exportNameInput.val();
 
+            sessionStorage.setItem('exporting-companies', 'true');
             http.post(`/exports/companies` + buildQueryString(), {exportName}
-                , (count) => {
-                    $buttonSpinner.remove();
-                    $exportBtn.find('.btn-text').text('EXPORT');
-                    $exportBtn.attr('disabled', false);
-                    notification.success(`Successfully exported ${count} companies.`);
-                }
+                , () => { }
                 , () => {
                     $buttonSpinner.remove();
-                    $exportBtn.find('.btn-text').text('EXPORT');
-                    $exportBtn.attr('disabled', false);
+                    sessionStorage.removeItem('exporting-companies');
                 });
 
             $modal.modal('hide');

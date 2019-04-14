@@ -1,4 +1,4 @@
-let notification = (() => {
+const notification = (() => {
 
     const container = $('#notification-container');
     const notificationTimeOut = 7000;

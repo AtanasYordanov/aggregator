@@ -50,13 +50,16 @@ public class ExportServiceTests {
     @Mock
     private CompanyService mockCompanyService;
 
+    @Mock
+    private NewsService mockNewsService;
+
     private ExportService exportService;
 
     @Before
     public void init() {
         ModelMapper mapper = new ModelMapper();
         exportService = new ExportServiceImpl(mockExportRepository, mockExcelWriter,
-                mockEmployeeService, mockCompanyService, mapper);
+                mockEmployeeService, mockCompanyService, mockNewsService, mapper);
     }
 
     @Test
@@ -76,10 +79,9 @@ public class ExportServiceTests {
 
         Export testExport = new Export(exportModel.getExportName(), testFile.getName(), ExportType.EMPLOYEES, employees.size(), user);
 
-        int itemsCount = exportService.exportEmployees(user, exportModel, filterData);
+        exportService.exportEmployees(user, exportModel, filterData);
 
         Mockito.verify(mockExportRepository).save(testExport);
-        Assert.assertEquals(employees.size(), itemsCount);
     }
 
     @Test
@@ -99,10 +101,9 @@ public class ExportServiceTests {
 
         Export testExport = new Export(exportModel.getExportName(), testFile.getName(), ExportType.COMPANIES, companies.size(), user);
 
-        int itemsCount = exportService.exportCompanies(user, exportModel, filterData);
+        exportService.exportCompanies(user, exportModel, filterData);
 
         Mockito.verify(mockExportRepository).save(testExport);
-        Assert.assertEquals(companies.size(), itemsCount);
     }
 
     @Test
@@ -122,16 +123,14 @@ public class ExportServiceTests {
 
         Export testExport = new Export(exportModel.getExportName(), testFile.getName(), ExportType.MIXED, employees.size(), user);
 
-        int itemsCount = exportService.exportEmployeesWithCompanies(user, exportModel, filterData);
+        exportService.exportEmployeesWithCompanies(user, exportModel, filterData);
 
         Mockito.verify(mockExportRepository).save(testExport);
-        Assert.assertEquals(employees.size(), itemsCount);
     }
 
     @Test(expected = ServiceException.class)
     public void getExport_nonexistentFile_shouldThrowServiceException() {
-        Mockito.when(mockExportRepository.findById(Mockito.any()))
-                .thenReturn(Optional.of(new Export()));
+        Mockito.when(mockExportRepository.findById(Mockito.any())).thenReturn(Optional.of(new Export()));
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 
         exportService.getExport(response, null);

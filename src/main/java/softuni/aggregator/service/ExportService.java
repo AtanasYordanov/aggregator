@@ -10,17 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface ExportService {
 
-    int exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData);
+    void exportCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData);
 
-    int exportCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData);
+    void exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData);
+
+    void exportEmployeesWithCompanies(User loggedUser, ExportBindingModel exportModel, FilterDataModel filterData);
 
     byte[] getExport(HttpServletResponse response, Long exportId);
 
     ExportsPageVO getExportsPage(Pageable pageable, User user);
 
     void deleteOldExports();
-
-    int exportEmployeesWithCompanies(User loggedUser, ExportBindingModel exportModel, FilterDataModel filterData);
 
     ExportsPageVO getAllExportsPage(Pageable pageable);
 }

@@ -10,13 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.entities.User;
-import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.service.ExportService;
+import softuni.aggregator.service.NewsService;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.concurrent.Callable;
 
 @Controller
 @RequestMapping("/exports")
@@ -43,23 +43,23 @@ public class ExportController {
 
     @PostMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Callable<Integer> exportEmployees(FilterDataModel filterData
+    public ResponseEntity<?> exportEmployees(FilterDataModel filterData
             , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
 
-        return () -> {
-            if (exportModel.getIncludeCompanies()) {
-                return exportService.exportEmployeesWithCompanies(loggedUser, exportModel, filterData);
-            } else {
-                return exportService.exportEmployees(loggedUser, exportModel, filterData);
-            }
-        };
+        if (exportModel.getIncludeCompanies()) {
+            exportService.exportEmployeesWithCompanies(loggedUser, exportModel, filterData);
+        } else {
+            exportService.exportEmployees(loggedUser, exportModel, filterData);
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Callable<Integer> exportCompanies(FilterDataModel filterData
+    public ResponseEntity<?> exportCompanies(FilterDataModel filterData
             , @RequestBody ExportBindingModel exportModel, @AuthenticationPrincipal User loggedUser) {
-        return () -> exportService.exportCompanies(loggedUser, exportModel, filterData);
+        exportService.exportCompanies(loggedUser, exportModel, filterData);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/{exportId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)

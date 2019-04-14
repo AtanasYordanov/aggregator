@@ -1,4 +1,4 @@
-let http = (() => {
+const http = (() => {
 
     function get(url, onSuccess, onError) {
         const options = {

@@ -1,4 +1,4 @@
-let modal = (() => {
+const modal = (() => {
 
     function getModalTemplate(headerText, cancellationText, confirmationText) {
         return `

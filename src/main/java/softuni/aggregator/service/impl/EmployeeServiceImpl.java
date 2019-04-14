@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @SuppressWarnings("Duplicates")
-    @Cacheable("employees")
+    @Cacheable("employees-companies")
     public List<ExcelExportDto> getEmployeesWithCompaniesForExport(FilterDataModel filterData) {
         List<SubIndustry> industries = subIndustryService.getIndustries(filterData.getIndustry());
         Integer minEmployees = filterData.getMinEmployeesCount() == null ? 0 : filterData.getMinEmployeesCount();

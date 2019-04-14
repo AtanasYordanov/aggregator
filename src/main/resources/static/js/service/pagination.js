@@ -1,4 +1,4 @@
-let pagination = (() => {
+const pagination = (() => {
 
     const $pagination = $('.pagination');
     const $matchesBox = $('.matches-box');

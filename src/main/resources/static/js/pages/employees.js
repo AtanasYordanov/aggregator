@@ -21,6 +21,16 @@
 
         attachEvents();
         fetchData();
+        checkForExports();
+
+        function checkForExports() {
+            if (news.employeesExportInProgress()) {
+                const $buttonSpinner = $(`<span class="btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
+                $exportBtn.prepend($buttonSpinner);
+                $exportBtn.find('.btn-text').text('EXPORTING');
+                $exportBtn.attr('disabled', true);
+            }
+        }
 
         function attachEvents() {
             $industrySelect.on('change', () => fetchEmployees(currentPage));
@@ -141,18 +151,15 @@
             const exportName = $exportNameInput.val();
             const includeCompanies = $includeCompaniesSelect.find('#include-companies-select').prop("checked");
 
+            sessionStorage.setItem('exporting-employees', 'true');
             http.post(`/exports/employees` + buildQueryString()
                 , {exportName, includeCompanies}
-                , (count) => {
-                    $buttonSpinner.remove();
-                    $exportBtn.find('.btn-text').text('EXPORT');
-                    $exportBtn.attr('disabled', false);
-                    notification.success(`Successfully exported ${count} employees.`);
-                }
+                , () => { }
                 , () => {
                     $buttonSpinner.remove();
                     $exportBtn.find('.btn-text').text('EXPORT');
                     $exportBtn.attr('disabled', false);
+                    sessionStorage.removeItem('exporting-employees');
                 });
 
             $modal.modal('hide');

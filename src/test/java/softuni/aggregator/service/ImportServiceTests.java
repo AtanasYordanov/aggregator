@@ -56,9 +56,6 @@ public class ImportServiceTests {
     @Mock
     private ExcelReader mockExcelReader;
 
-    @Mock
-    private User mockUser;
-
     private ImportService importService;
 
     @Before
@@ -143,13 +140,9 @@ public class ImportServiceTests {
         Mockito.when(mockSubIndustryService.getAllIndustriesByName()).thenReturn(subIndustryMap);
         Mockito.when(mockCompanyService.getCompaniesByWebsite(Mockito.any())).thenReturn(companiesMap);
 
-        int importedCompanies = importService.importCompaniesFromXing(mockUser, mockFile);
-
         Mockito.verify(mockSubIndustryService).saveAll(subIndustryMap.values());
         Mockito.verify(mockCompanyService).saveCompanies(companiesMap.values());
         Mockito.verify(mockImportRepository).save(Mockito.any());
-
-        Assert.assertEquals(importedCompanies, importedCompanies);
     }
 
     @Test
@@ -168,12 +161,8 @@ public class ImportServiceTests {
         Mockito.when(mockExcelReader.readExcel(Mockito.any(), Mockito.any())).thenReturn(data);
         Mockito.when(mockCompanyService.getCompaniesByWebsite(Mockito.any())).thenReturn(companiesMap);
 
-        int importedCompanies = importService.importCompaniesFromOrbis(mockUser, mockFile);
-
         Mockito.verify(mockCompanyService).saveCompanies(companiesMap.values());
         Mockito.verify(mockImportRepository).save(Mockito.any());
-
-        Assert.assertEquals(importedCompanies, importedCompanies);
     }
 
     @Test
@@ -203,12 +192,8 @@ public class ImportServiceTests {
         Mockito.when(mockEmployeeService.getEmployeesByEmail(Mockito.any())).thenReturn(employeesMap);
         Mockito.when(mockCompanyService.getCompaniesByWebsite(Mockito.any())).thenReturn(companiesMap);
 
-        int importedEmployees = importService.importEmployees(mockUser, mockFile);
-
         Mockito.verify(mockEmployeeService).saveEmployees(employeesMap.values());
         Mockito.verify(mockImportRepository).save(Mockito.any());
-
-        Assert.assertEquals(importedEmployees, importedEmployees);
     }
 
     private List<Import> buildImports() {
