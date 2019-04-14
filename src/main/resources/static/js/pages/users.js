@@ -48,13 +48,15 @@
 
                 const $btnGroup = $tableRow.find('.btn-group');
 
-                $btnGroup.append($('<button class="btn btn-outline-primary">Change Role</button>')
-                    .on('click', () => displayRolesModal(user['id'], $tableRow)));
+                if (user['role'] !== 'ROOT ADMIN') {
+                    $btnGroup.append($('<button class="btn btn-outline-primary">Change Role</button>')
+                        .on('click', () => displayRolesModal(user['id'], $tableRow)));
 
-                if (status !== 'SUSPENDED') {
-                    appendSuspendButton(user, $btnGroup, $tableRow);
-                } else {
-                    appendActivateButton(user, $btnGroup, $tableRow);
+                    if (status !== 'SUSPENDED') {
+                        appendSuspendButton(user, $btnGroup, $tableRow);
+                    } else {
+                        appendActivateButton(user, $btnGroup, $tableRow);
+                    }
                 }
 
                 $tableBody.append($tableRow);
