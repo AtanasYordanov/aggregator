@@ -3,6 +3,7 @@ package softuni.aggregator.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.domain.entities.MainIndustry;
 import softuni.aggregator.domain.model.vo.page.FilterPageVO;
 import softuni.aggregator.domain.repository.MainIndustryRepository;
@@ -38,7 +39,7 @@ public class MainIndustryServiceImpl implements MainIndustryService {
     @Override
     public MainIndustry getMainIndustryByName(String name) {
         return mainIndustryRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundException("No such industry."));
+                .orElseThrow(() -> new NotFoundException(ErrorMessages.INDUSTRY_NOT_FOUND));
     }
 
     @Override

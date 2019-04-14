@@ -1,5 +1,7 @@
 package softuni.aggregator.domain.model.validation;
 
+import softuni.aggregator.constants.ErrorMessages;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
@@ -11,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueEmailValidator.class)
 public @interface UniqueEmail {
-    String message() default "Email is already taken.";
+    String message() default ErrorMessages.EMAIL_ALREADY_TAKEN;
 
     Class<?>[] groups() default {};
 

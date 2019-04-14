@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "generatedOn")
+@EqualsAndHashCode(exclude = "generatedOn", callSuper = false)
 @Entity
 @Table(name = "exports")
 public class Export extends BaseEntity {

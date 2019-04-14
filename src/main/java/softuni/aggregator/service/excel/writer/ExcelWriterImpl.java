@@ -3,8 +3,8 @@ package softuni.aggregator.service.excel.writer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.service.excel.constants.ExcelConstants;
 import softuni.aggregator.service.excel.writer.columns.WriteExcelColumn;
 import softuni.aggregator.service.excel.writer.exports.ExportType;
@@ -27,7 +27,7 @@ public class ExcelWriterImpl implements ExcelWriter {
     @Override
     public File writeExcel(List<ExcelExportDto> excelDtos, ExportType exportType) {
         if (excelDtos.isEmpty()) {
-            throw new IllegalArgumentException("Zero items selected.");
+            throw new IllegalArgumentException(ErrorMessages.NO_ITEMS_SELECTED);
         }
 
         createDirectoryIfNotExists();
@@ -49,7 +49,7 @@ public class ExcelWriterImpl implements ExcelWriter {
             return new File(filePath);
         } catch (IOException e) {
             log.error("Failed to export %s.", exportType.toString());
-            throw new ServiceException("Export failed.");
+            throw new ServiceException(ErrorMessages.EXPORT_FAILED);
         }
     }
 
@@ -126,7 +126,7 @@ public class ExcelWriterImpl implements ExcelWriter {
         if (!dir.exists()) {
             if (!dir.mkdir()) {
                 log.error("Failed to create directory: {}!", dir.getPath());
-                throw new ServiceException("Failed to write excel file!");
+                throw new ServiceException(ErrorMessages.EXCEL_WRITING_FAILED);
             }
         }
     }

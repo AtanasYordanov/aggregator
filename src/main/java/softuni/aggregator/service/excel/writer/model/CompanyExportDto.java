@@ -10,7 +10,7 @@ import softuni.aggregator.domain.entities.SubIndustry;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 public class CompanyExportDto extends ExcelExportDto {
 

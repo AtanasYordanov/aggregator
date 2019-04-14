@@ -10,7 +10,7 @@ import softuni.aggregator.domain.entities.Employee;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class EmployeeExportDto extends ExcelExportDto {
 
     private String companyName;

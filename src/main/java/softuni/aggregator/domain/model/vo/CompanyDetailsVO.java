@@ -2,6 +2,7 @@ package softuni.aggregator.domain.model.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import softuni.aggregator.constants.StringConstants;
 import softuni.aggregator.domain.entities.SubIndustry;
 
 import java.util.List;
@@ -47,6 +48,6 @@ public class CompanyDetailsVO {
     }
 
     public void setCompanyEmails(List<String> companyEmails) {
-        this.companyEmails = String.join(", ", companyEmails);
+        this.companyEmails = String.join(StringConstants.EMAIL_JOIN_DELIMITER, companyEmails);
     }
 }

@@ -2,6 +2,7 @@ package softuni.aggregator.service.excel.reader.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import softuni.aggregator.service.excel.constants.ExcelConstants;
 
 @Getter
 @Setter
@@ -16,13 +17,13 @@ public abstract class CompanyImportDto extends ExcelImportDto {
     private String companyEmail;
 
     public void setWebsite(String website) {
-        if (website.startsWith("http://")) {
-            website = website.substring(7);
-        } else if (website.startsWith("https://")) {
-            website = website.substring(8);
+        if (website.startsWith(ExcelConstants.HTTP_PREFIX)) {
+            website = website.substring(ExcelConstants.HTTP_PREFIX.length());
+        } else if (website.startsWith(ExcelConstants.HTTPS_PREFIX)) {
+            website = website.substring(ExcelConstants.HTTPS_PREFIX.length());
         }
-        if (website.endsWith("/")) {
-            website = website.substring(0, website.length() - 1);
+        if (website.endsWith(ExcelConstants.SLASH_SUFFIX)) {
+            website = website.substring(0, website.length() - ExcelConstants.SLASH_SUFFIX.length());
         }
         this.website = website;
     }

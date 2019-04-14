@@ -3,6 +3,7 @@ package softuni.aggregator.service.excel.reader;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.service.excel.common.ExcelColumn;
 import softuni.aggregator.service.excel.reader.columns.ReadExcelColumn;
 import softuni.aggregator.service.excel.reader.imports.ImportType;
@@ -76,7 +77,7 @@ public class ExcelReaderImpl implements ExcelReader {
         }
 
         if (Arrays.stream(columnsByIndex).filter(Objects::isNull).count() > columnsByIndex.length / 2) {
-            throw new IllegalArgumentException("Wrong export type selected.");
+            throw new IllegalArgumentException(ErrorMessages.WRONG_EXPORT_TYPE);
         }
 
         return columnsByIndex;

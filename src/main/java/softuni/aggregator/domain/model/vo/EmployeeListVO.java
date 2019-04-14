@@ -2,6 +2,7 @@ package softuni.aggregator.domain.model.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import softuni.aggregator.constants.StringConstants;
 import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.utils.performance.CustomStringUtils;
 
@@ -24,7 +25,7 @@ public class EmployeeListVO {
     }
 
     public void setCompany(Company company) {
-        this.company = company != null ? CustomStringUtils.truncate(company.getName(), 30) : "n/a";
+        this.company = company != null ? CustomStringUtils.truncate(company.getName(), 30) : StringConstants.NO_INFORMATION_PLACEHOLDER;
     }
 
     public void setEmail(String email) {

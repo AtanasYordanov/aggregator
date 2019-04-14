@@ -97,7 +97,7 @@ public class ImportServiceImpl implements ImportService {
                         ImportType::getEndpoint
                         , ImportType::toString
                         , (u, v) -> {
-                            throw new IllegalStateException(String.format("Duplicate key %s", u));
+                            throw new IllegalStateException();
                         }, LinkedHashMap::new));
     }
 

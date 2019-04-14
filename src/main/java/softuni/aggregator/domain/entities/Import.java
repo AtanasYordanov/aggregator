@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"user", "date"})
+@EqualsAndHashCode(exclude = {"user", "date"}, callSuper = false)
 @Entity
 @Table(name = "imports")
 public class Import extends BaseEntity {

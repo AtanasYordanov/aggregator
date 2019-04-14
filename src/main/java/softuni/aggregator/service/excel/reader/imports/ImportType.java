@@ -2,6 +2,7 @@ package softuni.aggregator.service.excel.reader.imports;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import softuni.aggregator.constants.StringConstants;
 import softuni.aggregator.service.excel.reader.columns.EmployeesImportColumn;
 import softuni.aggregator.service.excel.reader.columns.OrbisImportColumn;
 import softuni.aggregator.service.excel.reader.columns.ReadExcelColumn;
@@ -37,8 +38,8 @@ public enum ImportType {
 
     @Override
     public String toString() {
-        return Arrays.stream(name().split("_"))
+        return Arrays.stream(name().split(StringConstants.ENUM_DELIMITER))
                 .map(word -> word.charAt(0) + word.substring(1).toLowerCase())
-                .collect(Collectors.joining(" "));
+                .collect(Collectors.joining(StringConstants.ENUM_JOIN_DELIMITER));
     }
 }

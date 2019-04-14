@@ -2,6 +2,7 @@ package softuni.aggregator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.domain.entities.MainIndustry;
 import softuni.aggregator.domain.entities.SubIndustry;
 import softuni.aggregator.domain.repository.SubIndustryRepository;
@@ -60,7 +61,7 @@ public class SubIndustryServiceImpl implements SubIndustryService {
         } else if (industryName.startsWith(SUB_INDUSTRY_PREFIX)) {
             industryName = industryName.substring(SUB_INDUSTRY_PREFIX.length());
             SubIndustry subIndustry = subIndustryRepository.findByName(industryName)
-                    .orElseThrow(() -> new NotFoundException("No such industry."));
+                    .orElseThrow(() -> new NotFoundException(ErrorMessages.INDUSTRY_NOT_FOUND));
             industries.add(subIndustry);
         }
         return industries;

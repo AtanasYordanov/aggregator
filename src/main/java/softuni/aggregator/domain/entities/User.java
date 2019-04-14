@@ -17,7 +17,9 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"password", "lastLogin", "status", "authorities", "exports", "imports"})
+@EqualsAndHashCode(exclude = {
+        "password", "lastLogin", "status", "authorities", "exports", "imports"
+}, callSuper = false)
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {

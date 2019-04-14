@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class EmployeeWithCompanyExportDto extends ExcelExportDto {
 
     private EmployeeExportDto employeeExportDto;

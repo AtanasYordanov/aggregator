@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.domain.entities.Employee;
 import softuni.aggregator.domain.entities.SubIndustry;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
@@ -111,7 +112,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDetailsVO getById(Long id) {
         return employeeRepository.findByIdEager(id)
                 .map(c -> mapper.map(c, EmployeeDetailsVO.class))
-                .orElseThrow(() -> new NotFoundException("No such employee."));
+                .orElseThrow(() -> new NotFoundException(ErrorMessages.EMPLOYEE_NOT_FOUND));
     }
 
     @Override

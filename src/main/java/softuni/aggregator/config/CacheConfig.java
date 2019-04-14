@@ -5,6 +5,7 @@ import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import softuni.aggregator.constants.CacheConstants;
 
 import java.util.Arrays;
 
@@ -16,9 +17,8 @@ public class CacheConfig {
     public CacheManager cacheManager() {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         cacheManager.setCaches(Arrays.asList(
-                new ConcurrentMapCache("excel"),
-                new ConcurrentMapCache("companies"),
-                new ConcurrentMapCache("employees")));
+                new ConcurrentMapCache(CacheConstants.COMPANIES),
+                new ConcurrentMapCache(CacheConstants.EMPLOYEES)));
         return cacheManager;
     }
 }

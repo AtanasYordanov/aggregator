@@ -2,6 +2,7 @@ package softuni.aggregator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.domain.entities.Role;
 import softuni.aggregator.domain.repository.RoleRepository;
 import softuni.aggregator.domain.enums.UserRole;
@@ -28,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role getRoleByName(String name) {
         return roleRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundException("No such role."));
+                .orElseThrow(() -> new NotFoundException(ErrorMessages.ROLE_NOT_FOUND));
     }
 
     @Override

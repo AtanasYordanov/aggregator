@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.domain.entities.Company;
 import softuni.aggregator.domain.entities.SubIndustry;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
@@ -93,7 +94,7 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyDetailsVO getById(Long id) {
         return companyRepository.findById(id)
                 .map(c -> mapper.map(c, CompanyDetailsVO.class))
-                .orElseThrow(() -> new NotFoundException("No such company."));
+                .orElseThrow(() -> new NotFoundException(ErrorMessages.COMPANY_NOT_FOUND));
     }
 
     @Override
@@ -112,7 +113,7 @@ public class CompanyServiceImpl implements CompanyService {
     @CacheEvict(cacheNames = {"companies", "employees"}, allEntries = true)
     public void deleteCompany(Long id) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("No such company."));
+                .orElseThrow(() -> new NotFoundException(ErrorMessages.COMPANY_NOT_FOUND));
 
         company.getEmployees().forEach(e -> e.setCompany(null));
 

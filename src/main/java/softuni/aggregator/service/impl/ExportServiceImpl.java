@@ -5,8 +5,10 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.domain.entities.Export;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.binding.FilterDataModel;
@@ -85,7 +87,7 @@ public class ExportServiceImpl implements ExportService {
     @Override
     public byte[] getExport(HttpServletResponse response, Long exportId) {
         Export export = exportRepository.findById(exportId)
-                .orElseThrow(() -> new NotFoundException("No such export."));
+                .orElseThrow(() -> new NotFoundException(ErrorMessages.EXPORT_NOT_FOUND));
         File file = new File(ExcelConstants.EXPORT_BASE_PATH + export.getFileName());
         return getBytes(response, file, export.getExportName());
     }
@@ -142,13 +144,13 @@ public class ExportServiceImpl implements ExportService {
     private byte[] getBytes(HttpServletResponse response, File file, String exportName) {
         try {
             InputStream in = new FileInputStream(file);
-            response.setContentType("text/xml");
+            response.setContentType(MediaType.TEXT_XML_VALUE);
             response.setHeader("Content-Disposition", "filename=" + exportName + ExcelConstants.EXPORT_FILE_EXTENSION);
             byte[] byteResponse = IOUtils.toByteArray(in);
             in.close();
             return byteResponse;
         } catch (IOException e) {
-            throw new ServiceException(String.format("Failed to export file: %s", file.getName()));
+            throw new ServiceException(ErrorMessages.EXPORT_FAILED);
         }
     }
 }
