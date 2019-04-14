@@ -56,7 +56,7 @@ const http = (() => {
         return execute(url, options, onSuccess, onError);
     }
 
-    function execute(url, options, onSuccess, onError) {
+    function execute(url, options, onSuccess, onError= () => {}) {
 
         return fetch(url, options)
             .then(res => {

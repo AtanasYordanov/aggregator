@@ -13,8 +13,8 @@ import softuni.aggregator.constants.ErrorMessages;
 import softuni.aggregator.constants.TaskConstants;
 import softuni.aggregator.domain.entities.Export;
 import softuni.aggregator.domain.entities.User;
-import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.binding.ExportBindingModel;
+import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.ExportListVO;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.domain.repository.ExportRepository;
@@ -30,7 +30,10 @@ import softuni.aggregator.web.exceptions.NotFoundException;
 import softuni.aggregator.web.exceptions.ServiceException;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,36 +66,48 @@ public class ExportServiceImpl implements ExportService {
     @Override
     public void exportCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
         newsService.registerTask(user.getId(), TaskConstants.COMPANIES_EXPORT_TASK);
-        List<ExcelExportDto> companies = companyService.getCompaniesForExport(filterData);
-        File file = excelWriter.writeExcel(companies, ExportType.COMPANIES);
-        int itemsCount = companies.size();
-        Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.COMPANIES, itemsCount, user);
-        exportRepository.save(export);
-        newsService.markTaskAsFinished(user.getId(), TaskConstants.COMPANIES_EXPORT_TASK, itemsCount);
+        try {
+            List<ExcelExportDto> companies = companyService.getCompaniesForExport(filterData);
+            File file = excelWriter.writeExcel(companies, ExportType.COMPANIES);
+            int itemsCount = companies.size();
+            Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.COMPANIES, itemsCount, user);
+            exportRepository.save(export);
+            newsService.markTaskAsFinished(user.getId(), TaskConstants.COMPANIES_EXPORT_TASK, itemsCount);
+        } catch (Throwable t) {
+            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, 0);
+        }
     }
 
     @Async
     @Override
     public void exportEmployees(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
         newsService.registerTask(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK);
-        List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport(filterData);
-        File file = excelWriter.writeExcel(allEmployees, ExportType.EMPLOYEES);
-        int itemsCount = allEmployees.size();
-        Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.EMPLOYEES, itemsCount, user);
-        exportRepository.save(export);
-        newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, itemsCount);
+        try {
+            List<ExcelExportDto> allEmployees = employeeService.getEmployeesForExport(filterData);
+            File file = excelWriter.writeExcel(allEmployees, ExportType.EMPLOYEES);
+            int itemsCount = allEmployees.size();
+            Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.EMPLOYEES, itemsCount, user);
+            exportRepository.save(export);
+            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, itemsCount);
+        } catch (Throwable t) {
+            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, 0);
+        }
     }
 
     @Async
     @Override
     public void exportEmployeesWithCompanies(User user, ExportBindingModel exportModel, FilterDataModel filterData) {
         newsService.registerTask(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK);
-        List<ExcelExportDto> data = employeeService.getEmployeesWithCompaniesForExport(filterData);
-        File file = excelWriter.writeExcel(data, ExportType.MIXED);
-        int itemsCount = data.size();
-        Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.MIXED, itemsCount, user);
-        exportRepository.save(export);
-        newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, itemsCount);
+        try {
+            List<ExcelExportDto> data = employeeService.getEmployeesWithCompaniesForExport(filterData);
+            File file = excelWriter.writeExcel(data, ExportType.MIXED);
+            int itemsCount = data.size();
+            Export export = new Export(exportModel.getExportName(), file.getName(), ExportType.MIXED, itemsCount, user);
+            exportRepository.save(export);
+            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, itemsCount);
+        } catch (Throwable t) {
+            newsService.markTaskAsFinished(user.getId(), TaskConstants.EMPLOYEES_EXPORT_TASK, 0);
+        }
     }
 
     @Override
