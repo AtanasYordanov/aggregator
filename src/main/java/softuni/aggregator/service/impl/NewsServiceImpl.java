@@ -39,6 +39,6 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public boolean checkForRunningTasks(Long userId) {
-        return !runningTasks.get(userId).isEmpty();
+        return runningTasks.get(userId) != null && !runningTasks.get(userId).isEmpty();
     }
 }

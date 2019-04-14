@@ -13,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import softuni.aggregator.domain.entities.User;
 import softuni.aggregator.domain.model.vo.page.ImportsPageVO;
 import softuni.aggregator.service.ImportService;
+import softuni.aggregator.web.annotations.Log;
+
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -45,18 +47,21 @@ public class ImportController {
         return new ResponseEntity<>(importTypes, HttpStatus.OK);
     }
 
+    @Log
     @PostMapping(value = "/xing", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Callable<Integer> importXingFile(@RequestPart("file") MultipartFile file, @AuthenticationPrincipal User loggedUser) {
         return () -> importService.importCompaniesFromXing(loggedUser, file);
     }
 
+    @Log
     @PostMapping(value = "/orbis", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Callable<Integer> importOrbisFile(@RequestPart("file") MultipartFile file, @AuthenticationPrincipal User loggedUser) {
         return () -> importService.importCompaniesFromOrbis(loggedUser, file);
     }
 
+    @Log
     @PostMapping(value = "/employees", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Callable<Integer> importEmployeesFile(@RequestPart("file") MultipartFile file, @AuthenticationPrincipal User loggedUser) {

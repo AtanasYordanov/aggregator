@@ -15,6 +15,7 @@ import softuni.aggregator.domain.model.binding.FilterDataModel;
 import softuni.aggregator.domain.model.vo.page.ExportsPageVO;
 import softuni.aggregator.service.ExportService;
 import softuni.aggregator.service.NewsService;
+import softuni.aggregator.web.annotations.Log;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,6 +42,7 @@ public class ExportController {
         return new ResponseEntity<>(exportsPageVO, HttpStatus.OK);
     }
 
+    @Log
     @PostMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> exportEmployees(FilterDataModel filterData
@@ -54,6 +56,7 @@ public class ExportController {
         return ResponseEntity.ok().build();
     }
 
+    @Log
     @PostMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> exportCompanies(FilterDataModel filterData
