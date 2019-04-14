@@ -62,6 +62,7 @@ main {
     main .table-wrapper #user-details-table td {
       width: 50%; }
   main .page-item.active .page-link {
+    z-index: 0;
     background-color: #495A67;
     border-color: #495A67; }
   main .page-link {

@@ -121,6 +121,7 @@ main {
     }
 
     .page-item.active .page-link {
+        z-index: 0;
         background-color: $dark-blue-matted;
         border-color: $dark-blue-matted;
     }

@@ -56,7 +56,7 @@ let http = (() => {
         return execute(url, options, onSuccess, onError);
     }
 
-    function execute(url, options, onSuccess, onError = () => notification.error('Something went wrong.')) {
+    function execute(url, options, onSuccess, onError) {
 
         return fetch(url, options)
             .then(res => {
@@ -65,8 +65,8 @@ let http = (() => {
                         notification.error(e.message);
                         onError();
                     }).catch(() => {
-                        notification.error('Operation failed.');
-                        onError()
+                        notification.error('Something went wrong.');
+                        onError();
                     });
                     return;
                 }
